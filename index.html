@@ -145,6 +145,61 @@
       background: repeating-conic-gradient(var(--desktop-a) 0% 25%, var(--desktop-b) 0% 50%) 0 0 / 6px 6px;
     }
 
+    .desktop-icons {
+      position: fixed;
+      top: calc(var(--menu-height) + 10px);
+      right: 10px;
+      z-index: 1850;
+      display: grid;
+      gap: 8px;
+    }
+
+    .desktop-icon {
+      width: 90px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #fff;
+      padding: 6px 4px;
+      text-align: center;
+      font: inherit;
+      cursor: pointer;
+      text-shadow: 1px 1px 0 #111;
+    }
+
+    .desktop-icon:focus-visible {
+      outline: 1px dotted #fff;
+      outline-offset: 2px;
+    }
+
+    .desktop-icon .icon-glyph {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .desktop-icon .icon-label {
+      display: block;
+      font-size: 11px;
+      line-height: 1.2;
+      margin-bottom: 1px;
+    }
+
+    .desktop-icon .icon-state {
+      display: block;
+      font-size: 10px;
+      opacity: 0.95;
+    }
+
+    .desktop-icon.window-open {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: #fff;
+    }
+
+    .desktop-icon.window-closed {
+      opacity: 0.9;
+    }
+
     .desktop-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -411,6 +466,18 @@
         overflow: auto;
       }
 
+      .desktop-icons {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        padding: 8px 16px 0;
+      }
+
+      .desktop-icon {
+        width: 100%;
+      }
+
       .desktop-grid {
         grid-template-columns: 1fr 1fr;
         padding: 16px;
@@ -506,6 +573,18 @@
         padding: 10px;
       }
 
+      .desktop-icons {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+        padding: 6px 10px 0;
+      }
+
+      .desktop-icon {
+        width: 100%;
+      }
+
       .window .window-pane {
         max-height: none;
       }
@@ -581,6 +660,28 @@
   </header>
 
   <main class="desktop-shell" id="desktop">
+    <aside class="desktop-icons" aria-label="Desktop icons">
+      <button class="desktop-icon" type="button" data-desktop-icon="win-about" data-focus-window="win-about">
+        <span class="icon-glyph" aria-hidden="true">📄</span>
+        <span class="icon-label">About</span>
+        <span class="icon-state" data-icon-state-for="win-about">Open</span>
+      </button>
+      <button class="desktop-icon" type="button" data-desktop-icon="win-projects" data-focus-window="win-projects">
+        <span class="icon-glyph" aria-hidden="true">📁</span>
+        <span class="icon-label">Projects</span>
+        <span class="icon-state" data-icon-state-for="win-projects">Open</span>
+      </button>
+      <button class="desktop-icon" type="button" data-desktop-icon="win-manifesto" data-focus-window="win-manifesto">
+        <span class="icon-glyph" aria-hidden="true">🗒️</span>
+        <span class="icon-label">Manifesto</span>
+        <span class="icon-state" data-icon-state-for="win-manifesto">Open</span>
+      </button>
+      <button class="desktop-icon" type="button" data-desktop-icon="win-hire" data-focus-window="win-hire">
+        <span class="icon-glyph" aria-hidden="true">💼</span>
+        <span class="icon-label">Hire Me</span>
+        <span class="icon-state" data-icon-state-for="win-hire">Open</span>
+      </button>
+    </aside>
     <section class="desktop-grid" id="desktop-grid" aria-label="Desktop windows">
       <article class="window" id="win-about" data-window="about">
         <div class="title-bar">
@@ -772,6 +873,7 @@
       var browserNote = document.getElementById("browser-note");
       var browserOpenNew = document.getElementById("browser-open-new");
       var browserDownload = document.getElementById("browser-download");
+      var desktopIcons = Array.prototype.slice.call(document.querySelectorAll("[data-desktop-icon]"));
       var highestZ = 10 + windows.length;
 
       function bringToFront(win) {
@@ -787,6 +889,7 @@
         win.classList.remove("hidden-window");
         win.setAttribute("aria-hidden", "false");
         bringToFront(win);
+        syncDesktopIcons();
         return win;
       }
 
@@ -798,6 +901,23 @@
         if (!desktopQuery.matches) {
           win.scrollIntoView({ behavior: "smooth", block: "start" });
         }
+      }
+
+      function syncDesktopIcons() {
+        desktopIcons.forEach(function (icon) {
+          var windowId = icon.getAttribute("data-desktop-icon");
+          var targetWindow = document.getElementById(windowId);
+          var isOpen = !!(targetWindow && !targetWindow.classList.contains("hidden-window"));
+          var labelNode = icon.querySelector(".icon-label");
+          var stateNode = icon.querySelector("[data-icon-state-for='" + windowId + "']");
+
+          icon.classList.toggle("window-open", isOpen);
+          icon.classList.toggle("window-closed", !isOpen);
+          icon.setAttribute("aria-label", (labelNode ? labelNode.textContent : "Window") + " " + (isOpen ? "open" : "closed"));
+          if (stateNode) {
+            stateNode.textContent = isOpen ? "Open" : "Closed";
+          }
+        });
       }
 
       function openBrowserWindow(url, title, downloadName) {
@@ -878,6 +998,7 @@
             event.stopPropagation();
             win.classList.add("hidden-window");
             win.setAttribute("aria-hidden", "true");
+            syncDesktopIcons();
           });
         }
       });
@@ -904,6 +1025,7 @@
             win.setAttribute("aria-hidden", "false");
             bringToFront(win);
           });
+          syncDesktopIcons();
         });
       });
 
@@ -1015,6 +1137,7 @@
         clockElement.textContent = clockFormatter.format(new Date());
       }
 
+      syncDesktopIcons();
       updateClock();
       window.setInterval(updateClock, 60000);
 
