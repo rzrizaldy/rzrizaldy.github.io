@@ -354,6 +354,14 @@
       line-height: 1.3;
     }
 
+    #browser-preview-image {
+      width: 100%;
+      min-height: 360px;
+      border: 1px solid #111;
+      background: #fff;
+      object-fit: cover;
+    }
+
     #browser-frame {
       width: 100%;
       min-height: 360px;
@@ -508,6 +516,10 @@
       }
 
       #browser-frame {
+        min-height: 280px;
+      }
+
+      #browser-preview-image {
         min-height: 280px;
       }
     }
@@ -725,7 +737,8 @@
             <a class="btn" id="browser-open-new" href="#" target="_blank" rel="noreferrer">Open in New Tab ↗</a>
             <a class="btn" id="browser-download" href="assets/resume.pdf" download="resume-rizaldy.pdf" hidden>Download Resume 💾</a>
           </div>
-          <p class="browser-note">If a site appears blank, it is blocking embedding. Use "Open in New Tab".</p>
+          <p class="browser-note" id="browser-note">Preview mode.</p>
+          <img id="browser-preview-image" alt="Website preview" hidden>
           <iframe id="browser-frame" title="Embedded webpage" src="about:blank" loading="lazy"></iframe>
         </div>
       </article>
@@ -754,7 +767,9 @@
       var aboutMacDialog = document.getElementById("about-mac-dialog");
       var browserWindow = document.getElementById("win-browser");
       var browserFrame = document.getElementById("browser-frame");
+      var browserPreviewImage = document.getElementById("browser-preview-image");
       var browserUrl = document.getElementById("browser-url");
+      var browserNote = document.getElementById("browser-note");
       var browserOpenNew = document.getElementById("browser-open-new");
       var browserDownload = document.getElementById("browser-download");
       var highestZ = 10 + windows.length;
@@ -790,22 +805,53 @@
           return;
         }
         var safeUrl = url || "about:blank";
+        var absoluteUrl = new URL(safeUrl, window.location.href);
+        var isExternal = /^https?:/i.test(absoluteUrl.protocol) && absoluteUrl.origin !== window.location.origin;
+        var screenshotUrl = "https://image.thum.io/get/width/1400/noanimate/" + absoluteUrl.href;
+
         restoreWindow("win-browser");
         var titleNode = browserWindow.querySelector(".title");
         if (titleNode) {
           titleNode.textContent = title || "Web Viewer";
         }
         if (browserUrl) {
-          browserUrl.textContent = safeUrl;
+          browserUrl.textContent = absoluteUrl.href;
         }
-        browserFrame.src = safeUrl;
+        if (isExternal) {
+          browserFrame.hidden = true;
+          browserFrame.src = "about:blank";
+          if (browserPreviewImage) {
+            browserPreviewImage.hidden = false;
+            browserPreviewImage.src = screenshotUrl;
+            browserPreviewImage.onerror = function () {
+              browserPreviewImage.hidden = true;
+              if (browserNote) {
+                browserNote.textContent = "Preview not available. Use Open in New Tab for live interaction.";
+              }
+            };
+          }
+          if (browserNote) {
+            browserNote.textContent = "Static preview mode for external site. Use Open in New Tab for live interaction.";
+          }
+        } else {
+          browserFrame.hidden = false;
+          browserFrame.src = absoluteUrl.href;
+          if (browserPreviewImage) {
+            browserPreviewImage.hidden = true;
+            browserPreviewImage.removeAttribute("src");
+            browserPreviewImage.onerror = null;
+          }
+          if (browserNote) {
+            browserNote.textContent = "Embedded view mode.";
+          }
+        }
         if (browserOpenNew) {
-          browserOpenNew.href = safeUrl;
+          browserOpenNew.href = absoluteUrl.href;
         }
         if (browserDownload) {
           if (downloadName) {
             browserDownload.hidden = false;
-            browserDownload.href = safeUrl;
+            browserDownload.href = absoluteUrl.href;
             browserDownload.setAttribute("download", downloadName);
           } else {
             browserDownload.hidden = true;
