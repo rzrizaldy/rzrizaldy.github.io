@@ -326,12 +326,69 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #111;
-      font-family: "Monaco", "Menlo", "Courier New", monospace;
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: 0.4px;
       line-height: 1;
+    }
+
+    .weather-icon svg {
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+
+    .todo-card {
+      border: 1px solid #111;
+      background: #fff;
+      padding: 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .todo-card .todo-title {
+      margin: 0;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .todo-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 4px;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .todo-box {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 14px;
+      border: 1px solid #111;
+      background: #fff;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .todo-item.done .todo-box {
+      background: #111;
+      color: #fff;
+    }
+
+    .todo-item.done .todo-text {
+      text-decoration: line-through;
+      opacity: 0.7;
     }
 
     .weather-card .btn {
@@ -1000,11 +1057,32 @@
           <p class="widget-date" id="desk-clock-date">---</p>
           <section class="weather-card" aria-live="polite">
             <p class="weather-title">Weather</p>
-            <p class="weather-icon" id="weather-icon" aria-hidden="true">[..]</p>
+            <p class="weather-icon" id="weather-icon" aria-hidden="true"></p>
             <p id="weather-location">Locating...</p>
             <p id="weather-main">Loading weather data...</p>
             <p id="weather-extra"></p>
             <button class="btn" id="weather-refresh" type="button">Refresh Weather</button>
+          </section>
+          <section class="todo-card" aria-live="polite">
+            <p class="todo-title">Desktop Quest</p>
+            <ul class="todo-list" id="desktop-todo">
+              <li class="todo-item" data-todo-task="resume">
+                <span class="todo-box" aria-hidden="true"></span>
+                <span class="todo-text">Open resume</span>
+              </li>
+              <li class="todo-item" data-todo-task="project">
+                <span class="todo-box" aria-hidden="true"></span>
+                <span class="todo-text">Open a project</span>
+              </li>
+              <li class="todo-item" data-todo-task="linkedin">
+                <span class="todo-box" aria-hidden="true"></span>
+                <span class="todo-text">Open LinkedIn</span>
+              </li>
+              <li class="todo-item" data-todo-task="aboutOs">
+                <span class="todo-box" aria-hidden="true"></span>
+                <span class="todo-text">Find About OS easter egg</span>
+              </li>
+            </ul>
           </section>
         </div>
       </article>
@@ -1096,12 +1174,20 @@
       var weatherExtra = document.getElementById("weather-extra");
       var weatherIcon = document.getElementById("weather-icon");
       var weatherRefresh = document.getElementById("weather-refresh");
+      var todoItems = Array.prototype.slice.call(document.querySelectorAll("[data-todo-task]"));
       var desktopIcons = Array.prototype.slice.call(document.querySelectorAll("[data-desktop-icon]"));
       var highestZ = 10 + windows.length;
       var weatherState = {
         latitude: 40.4406,
         longitude: -79.9959,
         label: "Pittsburgh, PA"
+      };
+      var todoStorageKey = "allrize.desktop.todo.v1";
+      var todoState = {
+        resume: false,
+        project: false,
+        linkedin: false,
+        aboutOs: false
       };
 
       function bringToFront(win) {
@@ -1144,12 +1230,68 @@
         });
       }
 
+      function loadTodoState() {
+        try {
+          var rawState = window.localStorage.getItem(todoStorageKey);
+          if (!rawState) {
+            return;
+          }
+          var parsed = JSON.parse(rawState);
+          Object.keys(todoState).forEach(function (taskKey) {
+            todoState[taskKey] = !!parsed[taskKey];
+          });
+        } catch (error) {
+          // Ignore malformed localStorage data and keep defaults.
+        }
+      }
+
+      function saveTodoState() {
+        try {
+          window.localStorage.setItem(todoStorageKey, JSON.stringify(todoState));
+        } catch (error) {
+          // Ignore write failures in private browsing or blocked storage modes.
+        }
+      }
+
+      function renderTodoState() {
+        todoItems.forEach(function (item) {
+          var taskKey = item.getAttribute("data-todo-task");
+          var isDone = !!todoState[taskKey];
+          var box = item.querySelector(".todo-box");
+
+          item.classList.toggle("done", isDone);
+          if (box) {
+            box.textContent = isDone ? "✓" : "";
+          }
+        });
+      }
+
+      function completeTodoTask(taskKey) {
+        if (!Object.prototype.hasOwnProperty.call(todoState, taskKey) || todoState[taskKey]) {
+          return;
+        }
+        todoState[taskKey] = true;
+        saveTodoState();
+        renderTodoState();
+      }
+
+      function trackTodoFromUrl(urlValue) {
+        var normalized = String(urlValue || "").toLowerCase();
+        if (normalized.indexOf("resume.pdf") !== -1) {
+          completeTodoTask("resume");
+        }
+        if (normalized.indexOf("linkedin.com") !== -1) {
+          completeTodoTask("linkedin");
+        }
+      }
+
       function openBrowserWindow(url, title, downloadName, previewImage) {
         if (!browserWindow || !browserFrame) {
           return;
         }
         var safeUrl = url || "about:blank";
         var absoluteUrl = new URL(safeUrl, window.location.href);
+        trackTodoFromUrl(absoluteUrl.href);
         var isExternal = /^https?:/i.test(absoluteUrl.protocol) && absoluteUrl.origin !== window.location.origin;
         var screenshotUrl = previewImage ? new URL(previewImage, window.location.href).href : "https://image.thum.io/get/width/1400/noanimate/" + absoluteUrl.href;
 
@@ -1241,29 +1383,52 @@
         return Object.prototype.hasOwnProperty.call(weatherMap, code) ? weatherMap[code] : "Unknown conditions";
       }
 
-      function weatherCodeToIcon(code) {
+      function weatherCodeToIconType(code) {
         if (code === 0) {
-          return "[*]";
+          return "clear";
         }
         if (code === 1 || code === 2) {
-          return "[~]";
+          return "partly";
         }
         if (code === 3) {
-          return "[=]";
+          return "cloudy";
         }
         if (code === 45 || code === 48) {
-          return "[::]";
+          return "fog";
         }
         if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
-          return "[//]";
+          return "rain";
         }
         if ((code >= 71 && code <= 77) || code === 85 || code === 86) {
-          return "[**]";
+          return "snow";
         }
         if (code === 95 || code === 96 || code === 99) {
-          return "[!!]";
+          return "storm";
         }
-        return "[?]";
+        return "unknown";
+      }
+
+      function weatherIconSvg(type) {
+        var icons = {
+          loading: "<svg viewBox='0 0 64 64' aria-hidden='true'><circle cx='20' cy='32' r='4' fill='#111'></circle><circle cx='32' cy='32' r='4' fill='#666'></circle><circle cx='44' cy='32' r='4' fill='#bbb'></circle></svg>",
+          clear: "<svg viewBox='0 0 64 64' aria-hidden='true'><circle cx='32' cy='32' r='10' fill='none' stroke='#111' stroke-width='4'></circle><line x1='32' y1='6' x2='32' y2='15' stroke='#111' stroke-width='4'></line><line x1='32' y1='49' x2='32' y2='58' stroke='#111' stroke-width='4'></line><line x1='6' y1='32' x2='15' y2='32' stroke='#111' stroke-width='4'></line><line x1='49' y1='32' x2='58' y2='32' stroke='#111' stroke-width='4'></line><line x1='13' y1='13' x2='19' y2='19' stroke='#111' stroke-width='4'></line><line x1='45' y1='45' x2='51' y2='51' stroke='#111' stroke-width='4'></line><line x1='13' y1='51' x2='19' y2='45' stroke='#111' stroke-width='4'></line><line x1='45' y1='19' x2='51' y2='13' stroke='#111' stroke-width='4'></line></svg>",
+          partly: "<svg viewBox='0 0 64 64' aria-hidden='true'><circle cx='21' cy='20' r='7' fill='none' stroke='#111' stroke-width='4'></circle><line x1='21' y1='7' x2='21' y2='11' stroke='#111' stroke-width='3'></line><line x1='8' y1='20' x2='12' y2='20' stroke='#111' stroke-width='3'></line><line x1='30' y1='20' x2='34' y2='20' stroke='#111' stroke-width='3'></line><path d='M13 42h34c5 0 9-4 9-9s-4-9-9-9c-2 0-4 1-6 2-2-5-7-8-13-8-8 0-14 6-14 14-4 1-7 5-7 10 0 5 4 9 6 9z' fill='none' stroke='#111' stroke-width='4' stroke-linejoin='miter'></path></svg>",
+          cloudy: "<svg viewBox='0 0 64 64' aria-hidden='true'><path d='M12 43h36c7 0 12-5 12-11 0-7-5-12-12-12-1 0-2 0-3 1-2-7-8-11-15-11-9 0-16 7-16 16-8 0-14 6-14 13s6 11 12 11z' fill='none' stroke='#111' stroke-width='4' stroke-linejoin='miter'></path></svg>",
+          fog: "<svg viewBox='0 0 64 64' aria-hidden='true'><path d='M14 31h32c6 0 10-4 10-9 0-6-4-10-10-10-1 0-2 0-3 1-2-5-7-8-13-8-8 0-14 6-14 14-6 0-10 4-10 9 0 5 4 9 8 9z' fill='none' stroke='#111' stroke-width='4' stroke-linejoin='miter'></path><line x1='10' y1='40' x2='54' y2='40' stroke='#111' stroke-width='4'></line><line x1='14' y1='48' x2='50' y2='48' stroke='#111' stroke-width='4'></line><line x1='18' y1='56' x2='46' y2='56' stroke='#111' stroke-width='4'></line></svg>",
+          rain: "<svg viewBox='0 0 64 64' aria-hidden='true'><path d='M13 36h34c6 0 10-4 10-9 0-6-4-10-10-10-1 0-2 0-3 1-2-5-7-8-13-8-8 0-14 6-14 14-6 0-10 4-10 9 0 5 4 9 6 9z' fill='none' stroke='#111' stroke-width='4' stroke-linejoin='miter'></path><line x1='20' y1='42' x2='16' y2='54' stroke='#111' stroke-width='4'></line><line x1='32' y1='42' x2='28' y2='56' stroke='#111' stroke-width='4'></line><line x1='44' y1='42' x2='40' y2='54' stroke='#111' stroke-width='4'></line></svg>",
+          snow: "<svg viewBox='0 0 64 64' aria-hidden='true'><path d='M13 36h34c6 0 10-4 10-9 0-6-4-10-10-10-1 0-2 0-3 1-2-5-7-8-13-8-8 0-14 6-14 14-6 0-10 4-10 9 0 5 4 9 6 9z' fill='none' stroke='#111' stroke-width='4' stroke-linejoin='miter'></path><g stroke='#111' stroke-width='3'><line x1='19' y1='46' x2='19' y2='56'></line><line x1='14' y1='51' x2='24' y2='51'></line><line x1='29' y1='46' x2='29' y2='56'></line><line x1='24' y1='51' x2='34' y2='51'></line><line x1='39' y1='46' x2='39' y2='56'></line><line x1='34' y1='51' x2='44' y2='51'></line></g></svg>",
+          storm: "<svg viewBox='0 0 64 64' aria-hidden='true'><path d='M13 35h34c6 0 10-4 10-9 0-6-4-10-10-10-1 0-2 0-3 1-2-5-7-8-13-8-8 0-14 6-14 14-6 0-10 4-10 9 0 5 4 9 6 9z' fill='none' stroke='#111' stroke-width='4' stroke-linejoin='miter'></path><path d='M32 39l-8 12h6l-4 10 14-16h-7l5-6z' fill='#111'></path></svg>",
+          error: "<svg viewBox='0 0 64 64' aria-hidden='true'><circle cx='32' cy='32' r='18' fill='none' stroke='#111' stroke-width='4'></circle><line x1='23' y1='23' x2='41' y2='41' stroke='#111' stroke-width='4'></line><line x1='41' y1='23' x2='23' y2='41' stroke='#111' stroke-width='4'></line></svg>",
+          unknown: "<svg viewBox='0 0 64 64' aria-hidden='true'><path d='M24 24c0-5 4-8 8-8s8 3 8 8c0 4-2 5-5 7-2 2-3 3-3 6' fill='none' stroke='#111' stroke-width='4' stroke-linecap='square' stroke-linejoin='miter'></path><circle cx='32' cy='45' r='3' fill='#111'></circle></svg>"
+        };
+        return icons[type] || icons.unknown;
+      }
+
+      function setWeatherIcon(type) {
+        if (!weatherIcon) {
+          return;
+        }
+        weatherIcon.innerHTML = weatherIconSvg(type);
       }
 
       function setAnalogHandAngle(hand, angle) {
@@ -1306,9 +1471,7 @@
 
         weatherLocation.textContent = weatherState.label;
         weatherMain.textContent = "Loading weather data...";
-        if (weatherIcon) {
-          weatherIcon.textContent = "[..]";
-        }
+        setWeatherIcon("loading");
         if (weatherExtra) {
           weatherExtra.textContent = "Fetching current conditions...";
         }
@@ -1334,23 +1497,19 @@
           var tempUnit = currentUnits.temperature_2m || "°C";
           var windUnit = currentUnits.wind_speed_10m || "km/h";
           var weatherLabel = weatherCodeToLabel(current.weather_code);
-          var weatherIconSymbol = weatherCodeToIcon(current.weather_code);
+          var weatherIconType = weatherCodeToIconType(current.weather_code);
           var tempRounded = Math.round(current.temperature_2m);
           var windRounded = Math.round(current.wind_speed_10m);
 
           weatherLocation.textContent = weatherState.label;
           weatherMain.textContent = tempRounded + tempUnit + " · " + weatherLabel;
-          if (weatherIcon) {
-            weatherIcon.textContent = weatherIconSymbol;
-          }
+          setWeatherIcon(weatherIconType);
           if (weatherExtra) {
             weatherExtra.textContent = "Wind " + windRounded + " " + windUnit;
           }
         } catch (error) {
           weatherMain.textContent = "Weather unavailable right now";
-          if (weatherIcon) {
-            weatherIcon.textContent = "[X]";
-          }
+          setWeatherIcon("error");
           if (weatherExtra) {
             weatherExtra.textContent = "Check connection and refresh.";
           }
@@ -1433,9 +1592,16 @@
         });
       });
 
+      document.querySelectorAll("#win-projects .project-card .btn").forEach(function (link) {
+        link.addEventListener("click", function () {
+          completeTodoTask("project");
+        });
+      });
+
       document.querySelectorAll("[data-action='about-mac']").forEach(function (button) {
         button.addEventListener("click", function (event) {
           event.preventDefault();
+          completeTodoTask("aboutOs");
           aboutMacDialog.hidden = false;
         });
       });
@@ -1542,6 +1708,8 @@
         clockElement.textContent = clockFormatter.format(new Date());
       }
 
+      loadTodoState();
+      renderTodoState();
       syncDesktopIcons();
       updateClock();
       window.setInterval(updateClock, 60000);
