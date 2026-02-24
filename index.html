@@ -326,7 +326,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      color: #111;
+      font-family: "Monaco", "Menlo", "Courier New", monospace;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
       line-height: 1;
     }
 
@@ -996,7 +1000,7 @@
           <p class="widget-date" id="desk-clock-date">---</p>
           <section class="weather-card" aria-live="polite">
             <p class="weather-title">Weather</p>
-            <p class="weather-icon" id="weather-icon" aria-hidden="true">⌛</p>
+            <p class="weather-icon" id="weather-icon" aria-hidden="true">[..]</p>
             <p id="weather-location">Locating...</p>
             <p id="weather-main">Loading weather data...</p>
             <p id="weather-extra"></p>
@@ -1239,27 +1243,27 @@
 
       function weatherCodeToIcon(code) {
         if (code === 0) {
-          return "☀";
+          return "[*]";
         }
         if (code === 1 || code === 2) {
-          return "⛅";
+          return "[~]";
         }
         if (code === 3) {
-          return "☁";
+          return "[=]";
         }
         if (code === 45 || code === 48) {
-          return "≋";
+          return "[::]";
         }
         if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
-          return "☂";
+          return "[//]";
         }
         if ((code >= 71 && code <= 77) || code === 85 || code === 86) {
-          return "❄";
+          return "[**]";
         }
         if (code === 95 || code === 96 || code === 99) {
-          return "⚡";
+          return "[!!]";
         }
-        return "◌";
+        return "[?]";
       }
 
       function setAnalogHandAngle(hand, angle) {
@@ -1303,7 +1307,7 @@
         weatherLocation.textContent = weatherState.label;
         weatherMain.textContent = "Loading weather data...";
         if (weatherIcon) {
-          weatherIcon.textContent = "⌛";
+          weatherIcon.textContent = "[..]";
         }
         if (weatherExtra) {
           weatherExtra.textContent = "Fetching current conditions...";
@@ -1345,7 +1349,7 @@
         } catch (error) {
           weatherMain.textContent = "Weather unavailable right now";
           if (weatherIcon) {
-            weatherIcon.textContent = "✕";
+            weatherIcon.textContent = "[X]";
           }
           if (weatherExtra) {
             weatherExtra.textContent = "Check connection and refresh.";
