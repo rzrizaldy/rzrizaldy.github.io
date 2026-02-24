@@ -201,6 +201,85 @@
       background: #f5f5f5;
     }
 
+    .widget-clock-stack {
+      display: grid;
+      gap: 8px;
+    }
+
+    .analog-clock {
+      position: relative;
+      width: 142px;
+      height: 142px;
+      margin: 0 auto;
+      border: 2px solid #111;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 2px 2px 0 #111;
+    }
+
+    .analog-marker {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2px;
+      height: 12px;
+      background: #111;
+      transform-origin: 50% 62px;
+    }
+
+    .marker-12 {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    .marker-3 {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .marker-6 {
+      transform: translate(-50%, -50%) rotate(180deg);
+    }
+
+    .marker-9 {
+      transform: translate(-50%, -50%) rotate(270deg);
+    }
+
+    .analog-hand {
+      position: absolute;
+      left: 50%;
+      bottom: 50%;
+      transform-origin: 50% 100%;
+      border-radius: 2px;
+      background: #111;
+      transform: translateX(-50%) rotate(0deg);
+    }
+
+    .hand-hour {
+      width: 4px;
+      height: 34px;
+    }
+
+    .hand-minute {
+      width: 3px;
+      height: 48px;
+    }
+
+    .hand-second {
+      width: 2px;
+      height: 56px;
+      background: #444;
+    }
+
+    .analog-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      background: #111;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
     .widget-clock {
       border: 1px solid #111;
       background: #fff;
@@ -667,6 +746,27 @@
       .widget-clock {
         font-size: 24px;
       }
+
+      .analog-clock {
+        width: 124px;
+        height: 124px;
+      }
+
+      .analog-marker {
+        transform-origin: 50% 53px;
+      }
+
+      .hand-hour {
+        height: 28px;
+      }
+
+      .hand-minute {
+        height: 42px;
+      }
+
+      .hand-second {
+        height: 48px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -881,7 +981,19 @@
         <div class="details-bar"><span>Live status</span><span id="weather-updated">Updated --:--</span></div>
         <div class="separator"></div>
         <div class="window-pane widget-pane">
-          <div class="widget-clock" id="desk-clock-time">--:--:--</div>
+          <div class="widget-clock-stack">
+            <div class="analog-clock" aria-hidden="true">
+              <span class="analog-marker marker-12"></span>
+              <span class="analog-marker marker-3"></span>
+              <span class="analog-marker marker-6"></span>
+              <span class="analog-marker marker-9"></span>
+              <span class="analog-hand hand-hour" id="hand-hour"></span>
+              <span class="analog-hand hand-minute" id="hand-minute"></span>
+              <span class="analog-hand hand-second" id="hand-second"></span>
+              <span class="analog-center"></span>
+            </div>
+            <div class="widget-clock" id="desk-clock-time">--:--:--</div>
+          </div>
           <p class="widget-date" id="desk-clock-date">---</p>
           <section class="weather-card" aria-live="polite">
             <p class="weather-title">Weather</p>
@@ -973,6 +1085,9 @@
       var browserDownload = document.getElementById("browser-download");
       var deskClockTime = document.getElementById("desk-clock-time");
       var deskClockDate = document.getElementById("desk-clock-date");
+      var deskClockHourHand = document.getElementById("hand-hour");
+      var deskClockMinuteHand = document.getElementById("hand-minute");
+      var deskClockSecondHand = document.getElementById("hand-second");
       var weatherLocation = document.getElementById("weather-location");
       var weatherMain = document.getElementById("weather-main");
       var weatherExtra = document.getElementById("weather-extra");
@@ -1149,6 +1264,13 @@
         return "◌";
       }
 
+      function setAnalogHandAngle(hand, angle) {
+        if (!hand) {
+          return;
+        }
+        hand.style.transform = "translateX(-50%) rotate(" + angle + "deg)";
+      }
+
       function updateDeskClockWidget() {
         var now = new Date();
         if (deskClockTime) {
@@ -1166,6 +1288,13 @@
             year: "numeric"
           }).format(now);
         }
+        var seconds = now.getSeconds();
+        var minutes = now.getMinutes();
+        var hours = now.getHours() % 12;
+
+        setAnalogHandAngle(deskClockHourHand, (hours + minutes / 60 + seconds / 3600) * 30);
+        setAnalogHandAngle(deskClockMinuteHand, (minutes + seconds / 60) * 6);
+        setAnalogHandAngle(deskClockSecondHand, seconds * 6);
       }
 
       async function loadWeather() {
