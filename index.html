@@ -978,7 +978,6 @@
           <h1 class="title">Desk_Clock_Weather</h1>
           <button aria-label="Resize" class="resize"></button>
         </div>
-        <div class="details-bar"><span>Live status</span><span id="weather-updated">Updated --:--</span></div>
         <div class="separator"></div>
         <div class="window-pane widget-pane">
           <div class="widget-clock-stack">
@@ -1092,7 +1091,6 @@
       var weatherMain = document.getElementById("weather-main");
       var weatherExtra = document.getElementById("weather-extra");
       var weatherIcon = document.getElementById("weather-icon");
-      var weatherUpdated = document.getElementById("weather-updated");
       var weatherRefresh = document.getElementById("weather-refresh");
       var desktopIcons = Array.prototype.slice.call(document.querySelectorAll("[data-desktop-icon]"));
       var highestZ = 10 + windows.length;
@@ -1335,7 +1333,6 @@
           var weatherIconSymbol = weatherCodeToIcon(current.weather_code);
           var tempRounded = Math.round(current.temperature_2m);
           var windRounded = Math.round(current.wind_speed_10m);
-          var updatedAt = current.time ? new Date(current.time) : new Date();
 
           weatherLocation.textContent = weatherState.label;
           weatherMain.textContent = tempRounded + tempUnit + " · " + weatherLabel;
@@ -1345,12 +1342,6 @@
           if (weatherExtra) {
             weatherExtra.textContent = "Wind " + windRounded + " " + windUnit;
           }
-          if (weatherUpdated) {
-            weatherUpdated.textContent = "Updated " + new Intl.DateTimeFormat([], {
-              hour: "numeric",
-              minute: "2-digit"
-            }).format(updatedAt);
-          }
         } catch (error) {
           weatherMain.textContent = "Weather unavailable right now";
           if (weatherIcon) {
@@ -1358,9 +1349,6 @@
           }
           if (weatherExtra) {
             weatherExtra.textContent = "Check connection and refresh.";
-          }
-          if (weatherUpdated) {
-            weatherUpdated.textContent = "Updated --:--";
           }
         }
       }
