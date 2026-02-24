@@ -237,6 +237,20 @@
       letter-spacing: 0.4px;
     }
 
+    .weather-icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto;
+      border: 1px solid #111;
+      background: #fff;
+      box-shadow: 2px 2px 0 #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      line-height: 1;
+    }
+
     .weather-card .btn {
       width: 100%;
       text-align: center;
@@ -871,6 +885,7 @@
           <p class="widget-date" id="desk-clock-date">---</p>
           <section class="weather-card" aria-live="polite">
             <p class="weather-title">Weather</p>
+            <p class="weather-icon" id="weather-icon" aria-hidden="true">⌛</p>
             <p id="weather-location">Locating...</p>
             <p id="weather-main">Loading weather data...</p>
             <p id="weather-extra"></p>
@@ -961,6 +976,7 @@
       var weatherLocation = document.getElementById("weather-location");
       var weatherMain = document.getElementById("weather-main");
       var weatherExtra = document.getElementById("weather-extra");
+      var weatherIcon = document.getElementById("weather-icon");
       var weatherUpdated = document.getElementById("weather-updated");
       var weatherRefresh = document.getElementById("weather-refresh");
       var desktopIcons = Array.prototype.slice.call(document.querySelectorAll("[data-desktop-icon]"));
@@ -1108,6 +1124,31 @@
         return Object.prototype.hasOwnProperty.call(weatherMap, code) ? weatherMap[code] : "Unknown conditions";
       }
 
+      function weatherCodeToIcon(code) {
+        if (code === 0) {
+          return "☀";
+        }
+        if (code === 1 || code === 2) {
+          return "⛅";
+        }
+        if (code === 3) {
+          return "☁";
+        }
+        if (code === 45 || code === 48) {
+          return "≋";
+        }
+        if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
+          return "☂";
+        }
+        if ((code >= 71 && code <= 77) || code === 85 || code === 86) {
+          return "❄";
+        }
+        if (code === 95 || code === 96 || code === 99) {
+          return "⚡";
+        }
+        return "◌";
+      }
+
       function updateDeskClockWidget() {
         var now = new Date();
         if (deskClockTime) {
@@ -1134,6 +1175,9 @@
 
         weatherLocation.textContent = weatherState.label;
         weatherMain.textContent = "Loading weather data...";
+        if (weatherIcon) {
+          weatherIcon.textContent = "⌛";
+        }
         if (weatherExtra) {
           weatherExtra.textContent = "Fetching current conditions...";
         }
@@ -1142,7 +1186,7 @@
           encodeURIComponent(weatherState.latitude) +
           "&longitude=" +
           encodeURIComponent(weatherState.longitude) +
-          "&current=temperature_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=auto";
+          "&current=temperature_2m,weather_code,wind_speed_10m&temperature_unit=celsius&wind_speed_unit=kmh&timezone=auto";
 
         try {
           var response = await fetch(url, { cache: "no-store" });
@@ -1156,15 +1200,19 @@
 
           var current = data.current;
           var currentUnits = data.current_units || {};
-          var tempUnit = currentUnits.temperature_2m || "°F";
-          var windUnit = currentUnits.wind_speed_10m || "mph";
+          var tempUnit = currentUnits.temperature_2m || "°C";
+          var windUnit = currentUnits.wind_speed_10m || "km/h";
           var weatherLabel = weatherCodeToLabel(current.weather_code);
+          var weatherIconSymbol = weatherCodeToIcon(current.weather_code);
           var tempRounded = Math.round(current.temperature_2m);
           var windRounded = Math.round(current.wind_speed_10m);
           var updatedAt = current.time ? new Date(current.time) : new Date();
 
           weatherLocation.textContent = weatherState.label;
           weatherMain.textContent = tempRounded + tempUnit + " · " + weatherLabel;
+          if (weatherIcon) {
+            weatherIcon.textContent = weatherIconSymbol;
+          }
           if (weatherExtra) {
             weatherExtra.textContent = "Wind " + windRounded + " " + windUnit;
           }
@@ -1176,6 +1224,9 @@
           }
         } catch (error) {
           weatherMain.textContent = "Weather unavailable right now";
+          if (weatherIcon) {
+            weatherIcon.textContent = "✕";
+          }
           if (weatherExtra) {
             weatherExtra.textContent = "Check connection and refresh.";
           }
