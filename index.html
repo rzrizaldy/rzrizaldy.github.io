@@ -786,12 +786,7 @@
         </div>
         <div class="separator"></div>
         <div class="window-pane">
-          <p>"Be a builder.<br>
-          Make information accessible.</p>
-          <p>For my sons.<br>
-          For moslems and all kindness.<br>
-          For fellow scholarship hunters.</p>
-          <p>And beyond."</p>
+          <p>"Accessible information is not a feature. It's the whole point. When machines extend what humans can do, something has to steer the direction. Let it be kindness. Not engagement metrics. Not extraction. Build for the person with no second option. Question every model, especially your own. Make technology that can be explained to the people it affects. Ship things that work. Let the impact speak."</p>
           <p style="text-align: right;">— Rizaldy, 2025</p>
         </div>
       </article>
@@ -816,7 +811,7 @@
                 <div class="hire-cta-grid">
                   <a class="btn btn-default" href="mailto:rutomo@andrew.cmu.edu">📧 Email Me</a>
                   <a class="btn" href="assets/resume.pdf" data-open-desktop data-web-title="Resume - Rizaldy" data-web-download="resume-rizaldy.pdf">💾 Resume</a>
-                  <a class="btn" href="https://linkedin.com/in/rizaldykautsar" data-open-desktop data-web-title="LinkedIn - Rizaldy">🔗 LinkedIn</a>
+                  <a class="btn" href="https://linkedin.com/in/rizaldykautsar" data-open-desktop data-web-title="LinkedIn - Rizaldy" data-web-preview="assets/linkedin-about.png">🔗 LinkedIn</a>
                   <a class="btn" href="https://github.com/rzrizaldy" target="_blank" rel="noreferrer">🐙 GitHub</a>
                 </div>
               </div>
@@ -920,14 +915,14 @@
         });
       }
 
-      function openBrowserWindow(url, title, downloadName) {
+      function openBrowserWindow(url, title, downloadName, previewImage) {
         if (!browserWindow || !browserFrame) {
           return;
         }
         var safeUrl = url || "about:blank";
         var absoluteUrl = new URL(safeUrl, window.location.href);
         var isExternal = /^https?:/i.test(absoluteUrl.protocol) && absoluteUrl.origin !== window.location.origin;
-        var screenshotUrl = "https://image.thum.io/get/width/1400/noanimate/" + absoluteUrl.href;
+        var screenshotUrl = previewImage ? new URL(previewImage, window.location.href).href : "https://image.thum.io/get/width/1400/noanimate/" + absoluteUrl.href;
 
         restoreWindow("win-browser");
         var titleNode = browserWindow.querySelector(".title");
@@ -1042,7 +1037,8 @@
           openBrowserWindow(
             link.getAttribute("href"),
             link.getAttribute("data-web-title") || "Web Viewer",
-            link.getAttribute("data-web-download")
+            link.getAttribute("data-web-download"),
+            link.getAttribute("data-web-preview")
           );
         });
       });
