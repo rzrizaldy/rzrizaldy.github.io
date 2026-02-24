@@ -331,6 +331,36 @@
       text-decoration: none;
     }
 
+    .browser-pane {
+      padding: 8px;
+      display: grid;
+      gap: 8px;
+      background: #f5f5f5;
+    }
+
+    .browser-toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .browser-toolbar .btn {
+      text-decoration: none;
+    }
+
+    .browser-note {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    #browser-frame {
+      width: 100%;
+      min-height: 360px;
+      border: 1px solid #111;
+      background: #fff;
+    }
+
     .dialog-overlay {
       position: fixed;
       inset: 0;
@@ -435,6 +465,12 @@
         width: min(500px, 40vw);
       }
 
+      #win-browser {
+        top: 44px;
+        left: 180px;
+        width: min(760px, 60vw);
+      }
+
       .project-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
@@ -469,6 +505,10 @@
       .project-grid,
       .hire-cta-grid {
         grid-template-columns: 1fr;
+      }
+
+      #browser-frame {
+        min-height: 280px;
       }
     }
 
@@ -512,6 +552,7 @@
           <li role="menu-item"><button type="button" data-restore-window="win-projects">Restore Projects Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-manifesto">Restore Manifesto Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-hire">Restore Hire Me Window</button></li>
+          <li role="menu-item"><button type="button" data-restore-window="win-browser">Restore Web Window</button></li>
         </ul>
       </li>
       <li role="menu-item" tabindex="0">
@@ -661,13 +702,31 @@
 
                 <div class="hire-cta-grid">
                   <a class="btn btn-default" href="mailto:rutomo@andrew.cmu.edu">📧 Email Me</a>
-                  <a class="btn" href="assets/resume.pdf" download="resume-rizaldy.pdf">💾 Resume</a>
-                  <a class="btn" href="https://linkedin.com/in/rizaldykautsar" target="_blank" rel="noreferrer">🔗 LinkedIn</a>
+                  <a class="btn" href="assets/resume.pdf" data-open-desktop data-web-title="Resume - Rizaldy" data-web-download="resume-rizaldy.pdf">💾 Resume</a>
+                  <a class="btn" href="https://linkedin.com/in/rizaldykautsar" data-open-desktop data-web-title="LinkedIn - Rizaldy">🔗 LinkedIn</a>
                   <a class="btn" href="https://github.com/rzrizaldy" target="_blank" rel="noreferrer">🐙 GitHub</a>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </article>
+
+      <article class="window hidden-window" id="win-browser" data-window="browser" aria-hidden="true">
+        <div class="title-bar">
+          <button aria-label="Close" class="close window-close"></button>
+          <h1 class="title">Web Viewer</h1>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="details-bar"><span id="browser-url">No page open</span><span>Embedded View</span></div>
+        <div class="separator"></div>
+        <div class="window-pane browser-pane">
+          <div class="browser-toolbar">
+            <a class="btn" id="browser-open-new" href="#" target="_blank" rel="noreferrer">Open in New Tab ↗</a>
+            <a class="btn" id="browser-download" href="assets/resume.pdf" download="resume-rizaldy.pdf" hidden>Download Resume 💾</a>
+          </div>
+          <p class="browser-note">If a site appears blank, it is blocking embedding. Use "Open in New Tab".</p>
+          <iframe id="browser-frame" title="Embedded webpage" src="about:blank" loading="lazy"></iframe>
         </div>
       </article>
     </section>
@@ -693,6 +752,11 @@
       var windows = Array.prototype.slice.call(document.querySelectorAll(".window"));
       var desktopGrid = document.getElementById("desktop-grid");
       var aboutMacDialog = document.getElementById("about-mac-dialog");
+      var browserWindow = document.getElementById("win-browser");
+      var browserFrame = document.getElementById("browser-frame");
+      var browserUrl = document.getElementById("browser-url");
+      var browserOpenNew = document.getElementById("browser-open-new");
+      var browserDownload = document.getElementById("browser-download");
       var highestZ = 10 + windows.length;
 
       function bringToFront(win) {
@@ -718,6 +782,38 @@
         }
         if (!desktopQuery.matches) {
           win.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function openBrowserWindow(url, title, downloadName) {
+        if (!browserWindow || !browserFrame) {
+          return;
+        }
+        var safeUrl = url || "about:blank";
+        restoreWindow("win-browser");
+        var titleNode = browserWindow.querySelector(".title");
+        if (titleNode) {
+          titleNode.textContent = title || "Web Viewer";
+        }
+        if (browserUrl) {
+          browserUrl.textContent = safeUrl;
+        }
+        browserFrame.src = safeUrl;
+        if (browserOpenNew) {
+          browserOpenNew.href = safeUrl;
+        }
+        if (browserDownload) {
+          if (downloadName) {
+            browserDownload.hidden = false;
+            browserDownload.href = safeUrl;
+            browserDownload.setAttribute("download", downloadName);
+          } else {
+            browserDownload.hidden = true;
+            browserDownload.removeAttribute("href");
+          }
+        }
+        if (!desktopQuery.matches) {
+          browserWindow.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
 
@@ -769,6 +865,17 @@
         button.addEventListener("click", function (event) {
           event.preventDefault();
           aboutMacDialog.hidden = false;
+        });
+      });
+
+      document.querySelectorAll("[data-open-desktop]").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          openBrowserWindow(
+            link.getAttribute("href"),
+            link.getAttribute("data-web-title") || "Web Viewer",
+            link.getAttribute("data-web-download")
+          );
         });
       });
 
