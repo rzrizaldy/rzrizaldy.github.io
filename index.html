@@ -641,14 +641,32 @@
           <li role="menu-item"><button type="button" data-restore-window="win-browser">Restore Web Window</button></li>
         </ul>
       </li>
-      <li role="menu-item" tabindex="0">
-        <button type="button" class="menu-link" data-focus-window="win-about">About</button>
+      <li role="menu-item" tabindex="0" aria-haspopup="true">
+        About
+        <ul role="menu">
+          <li role="menu-item"><button type="button" data-focus-window="win-about">Open About_Rizaldy.txt</button></li>
+          <li role="menu-item"><button type="button" data-focus-window="win-manifesto">Open Manifesto.txt</button></li>
+          <li role="menu-item"><button type="button" data-action="about-mac">About allrize.ai...</button></li>
+        </ul>
       </li>
-      <li role="menu-item" tabindex="0">
-        <button type="button" class="menu-link" data-focus-window="win-projects">Projects</button>
+      <li role="menu-item" tabindex="0" aria-haspopup="true">
+        Projects
+        <ul role="menu">
+          <li role="menu-item"><button type="button" data-focus-window="win-projects">Open Projects Window</button></li>
+          <li role="menu-item"><a href="https://bukugambar-ai.vercel.app" target="_blank" rel="noreferrer">BukuGambar.AI ↗</a></li>
+          <li role="menu-item"><a href="https://lpdp-find.vercel.app" target="_blank" rel="noreferrer">LPDP CTRL+F ↗</a></li>
+          <li role="menu-item"><a href="https://iqrava.vercel.app" target="_blank" rel="noreferrer">Iqrava ↗</a></li>
+        </ul>
       </li>
-      <li role="menu-item" tabindex="0">
-        <button type="button" class="menu-link" data-focus-window="win-hire">Contact</button>
+      <li role="menu-item" tabindex="0" aria-haspopup="true">
+        Contact
+        <ul role="menu">
+          <li role="menu-item"><button type="button" data-focus-window="win-hire">Open Hire Me Window</button></li>
+          <li role="menu-item"><a href="mailto:rutomo@andrew.cmu.edu">Email Me</a></li>
+          <li role="menu-item"><a href="assets/resume.pdf" data-open-desktop data-web-title="Resume - Rizaldy" data-web-download="resume-rizaldy.pdf">Resume (Desktop View)</a></li>
+          <li role="menu-item"><a href="https://linkedin.com/in/rizaldykautsar" data-open-desktop data-web-title="LinkedIn - Rizaldy" data-web-preview="assets/linkedin-about.png">LinkedIn (Desktop View)</a></li>
+          <li role="menu-item"><a href="https://github.com/rzrizaldy" target="_blank" rel="noreferrer">GitHub ↗</a></li>
+        </ul>
       </li>
       <li role="menu-item" class="clock-item" aria-label="Current time"><span id="menu-clock">--:--</span></li>
     </ul>
