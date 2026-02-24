@@ -147,10 +147,11 @@
 
     .desktop-icons {
       position: fixed;
-      top: calc(var(--menu-height) + 10px);
-      right: 10px;
+      right: 34px;
+      bottom: 14px;
       z-index: 1850;
       display: grid;
+      grid-template-columns: repeat(4, 90px);
       gap: 8px;
     }
 
@@ -183,12 +184,6 @@
       font-size: 11px;
       line-height: 1.2;
       margin-bottom: 1px;
-    }
-
-    .desktop-icon .icon-state {
-      display: block;
-      font-size: 10px;
-      opacity: 0.95;
     }
 
     .desktop-icon.window-open {
@@ -535,7 +530,7 @@
       }
 
       #win-hire {
-        bottom: 24px;
+        bottom: 114px;
         right: 34px;
         width: min(500px, 40vw);
       }
@@ -664,22 +659,18 @@
       <button class="desktop-icon" type="button" data-desktop-icon="win-about" data-focus-window="win-about">
         <span class="icon-glyph" aria-hidden="true">📄</span>
         <span class="icon-label">About</span>
-        <span class="icon-state" data-icon-state-for="win-about">Open</span>
       </button>
       <button class="desktop-icon" type="button" data-desktop-icon="win-projects" data-focus-window="win-projects">
         <span class="icon-glyph" aria-hidden="true">📁</span>
         <span class="icon-label">Projects</span>
-        <span class="icon-state" data-icon-state-for="win-projects">Open</span>
       </button>
       <button class="desktop-icon" type="button" data-desktop-icon="win-manifesto" data-focus-window="win-manifesto">
         <span class="icon-glyph" aria-hidden="true">🗒️</span>
         <span class="icon-label">Manifesto</span>
-        <span class="icon-state" data-icon-state-for="win-manifesto">Open</span>
       </button>
       <button class="desktop-icon" type="button" data-desktop-icon="win-hire" data-focus-window="win-hire">
         <span class="icon-glyph" aria-hidden="true">💼</span>
         <span class="icon-label">Hire Me</span>
-        <span class="icon-state" data-icon-state-for="win-hire">Open</span>
       </button>
     </aside>
     <section class="desktop-grid" id="desktop-grid" aria-label="Desktop windows">
@@ -778,7 +769,7 @@
         </div>
       </article>
 
-      <article class="window" id="win-manifesto" data-window="manifesto">
+      <article class="window hidden-window" id="win-manifesto" data-window="manifesto" aria-hidden="true">
         <div class="title-bar">
           <button aria-label="Close" class="close window-close"></button>
           <h1 class="title">Manifesto.txt</h1>
@@ -904,14 +895,10 @@
           var targetWindow = document.getElementById(windowId);
           var isOpen = !!(targetWindow && !targetWindow.classList.contains("hidden-window"));
           var labelNode = icon.querySelector(".icon-label");
-          var stateNode = icon.querySelector("[data-icon-state-for='" + windowId + "']");
 
           icon.classList.toggle("window-open", isOpen);
           icon.classList.toggle("window-closed", !isOpen);
-          icon.setAttribute("aria-label", (labelNode ? labelNode.textContent : "Window") + " " + (isOpen ? "open" : "closed"));
-          if (stateNode) {
-            stateNode.textContent = isOpen ? "Open" : "Closed";
-          }
+          icon.setAttribute("aria-label", labelNode ? labelNode.textContent : "Window");
         });
       }
 
