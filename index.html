@@ -195,6 +195,53 @@
       opacity: 0.9;
     }
 
+    .widget-pane {
+      display: grid;
+      gap: 8px;
+      background: #f5f5f5;
+    }
+
+    .widget-clock {
+      border: 1px solid #111;
+      background: #fff;
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .widget-date {
+      margin: 0;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .weather-card {
+      border: 1px solid #111;
+      background: #fff;
+      padding: 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .weather-card p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .weather-card .weather-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .weather-card .btn {
+      width: 100%;
+      text-align: center;
+    }
+
     .desktop-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -535,6 +582,12 @@
         width: min(500px, 40vw);
       }
 
+      #win-widgets {
+        top: 54px;
+        left: 560px;
+        width: min(320px, 26vw);
+      }
+
       #win-browser {
         top: 44px;
         left: 180px;
@@ -596,6 +649,10 @@
       #browser-preview-image {
         min-height: 280px;
       }
+
+      .widget-clock {
+        font-size: 24px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -638,6 +695,7 @@
           <li role="menu-item"><button type="button" data-restore-window="win-projects">Restore Projects Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-manifesto">Restore Manifesto Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-hire">Restore Hire Me Window</button></li>
+          <li role="menu-item"><button type="button" data-restore-window="win-widgets">Restore Clock & Weather Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-browser">Restore Web Window</button></li>
         </ul>
       </li>
@@ -800,6 +858,27 @@
         </div>
       </article>
 
+      <article class="window" id="win-widgets" data-window="widgets">
+        <div class="title-bar">
+          <button aria-label="Close" class="close window-close"></button>
+          <h1 class="title">Desk_Clock_Weather</h1>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="details-bar"><span>Live status</span><span id="weather-updated">Updated --:--</span></div>
+        <div class="separator"></div>
+        <div class="window-pane widget-pane">
+          <div class="widget-clock" id="desk-clock-time">--:--:--</div>
+          <p class="widget-date" id="desk-clock-date">---</p>
+          <section class="weather-card" aria-live="polite">
+            <p class="weather-title">Weather</p>
+            <p id="weather-location">Locating...</p>
+            <p id="weather-main">Loading weather data...</p>
+            <p id="weather-extra"></p>
+            <button class="btn" id="weather-refresh" type="button">Refresh Weather</button>
+          </section>
+        </div>
+      </article>
+
       <article class="window" id="win-hire" data-window="hire">
         <div class="title-bar">
           <button aria-label="Close" class="close window-close"></button>
@@ -877,8 +956,20 @@
       var browserNote = document.getElementById("browser-note");
       var browserOpenNew = document.getElementById("browser-open-new");
       var browserDownload = document.getElementById("browser-download");
+      var deskClockTime = document.getElementById("desk-clock-time");
+      var deskClockDate = document.getElementById("desk-clock-date");
+      var weatherLocation = document.getElementById("weather-location");
+      var weatherMain = document.getElementById("weather-main");
+      var weatherExtra = document.getElementById("weather-extra");
+      var weatherUpdated = document.getElementById("weather-updated");
+      var weatherRefresh = document.getElementById("weather-refresh");
       var desktopIcons = Array.prototype.slice.call(document.querySelectorAll("[data-desktop-icon]"));
       var highestZ = 10 + windows.length;
+      var weatherState = {
+        latitude: 40.4406,
+        longitude: -79.9959,
+        label: "Pittsburgh, PA"
+      };
 
       function bringToFront(win) {
         highestZ += 1;
@@ -981,6 +1072,147 @@
         if (!desktopQuery.matches) {
           browserWindow.scrollIntoView({ behavior: "smooth", block: "start" });
         }
+      }
+
+      function weatherCodeToLabel(code) {
+        var weatherMap = {
+          0: "Clear sky",
+          1: "Mostly clear",
+          2: "Partly cloudy",
+          3: "Overcast",
+          45: "Fog",
+          48: "Rime fog",
+          51: "Light drizzle",
+          53: "Drizzle",
+          55: "Heavy drizzle",
+          56: "Freezing drizzle",
+          57: "Dense freezing drizzle",
+          61: "Light rain",
+          63: "Rain",
+          65: "Heavy rain",
+          66: "Freezing rain",
+          67: "Heavy freezing rain",
+          71: "Light snow",
+          73: "Snow",
+          75: "Heavy snow",
+          77: "Snow grains",
+          80: "Rain showers",
+          81: "Heavy rain showers",
+          82: "Violent rain showers",
+          85: "Snow showers",
+          86: "Heavy snow showers",
+          95: "Thunderstorm",
+          96: "Thunderstorm + hail",
+          99: "Severe thunderstorm + hail"
+        };
+        return Object.prototype.hasOwnProperty.call(weatherMap, code) ? weatherMap[code] : "Unknown conditions";
+      }
+
+      function updateDeskClockWidget() {
+        var now = new Date();
+        if (deskClockTime) {
+          deskClockTime.textContent = new Intl.DateTimeFormat([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+          }).format(now);
+        }
+        if (deskClockDate) {
+          deskClockDate.textContent = new Intl.DateTimeFormat([], {
+            weekday: "short",
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+          }).format(now);
+        }
+      }
+
+      async function loadWeather() {
+        if (!weatherMain || !weatherLocation) {
+          return;
+        }
+
+        weatherLocation.textContent = weatherState.label;
+        weatherMain.textContent = "Loading weather data...";
+        if (weatherExtra) {
+          weatherExtra.textContent = "Fetching current conditions...";
+        }
+
+        var url = "https://api.open-meteo.com/v1/forecast?latitude=" +
+          encodeURIComponent(weatherState.latitude) +
+          "&longitude=" +
+          encodeURIComponent(weatherState.longitude) +
+          "&current=temperature_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=auto";
+
+        try {
+          var response = await fetch(url, { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error("weather-request-failed");
+          }
+          var data = await response.json();
+          if (!data.current) {
+            throw new Error("weather-payload-missing");
+          }
+
+          var current = data.current;
+          var currentUnits = data.current_units || {};
+          var tempUnit = currentUnits.temperature_2m || "°F";
+          var windUnit = currentUnits.wind_speed_10m || "mph";
+          var weatherLabel = weatherCodeToLabel(current.weather_code);
+          var tempRounded = Math.round(current.temperature_2m);
+          var windRounded = Math.round(current.wind_speed_10m);
+          var updatedAt = current.time ? new Date(current.time) : new Date();
+
+          weatherLocation.textContent = weatherState.label;
+          weatherMain.textContent = tempRounded + tempUnit + " · " + weatherLabel;
+          if (weatherExtra) {
+            weatherExtra.textContent = "Wind " + windRounded + " " + windUnit;
+          }
+          if (weatherUpdated) {
+            weatherUpdated.textContent = "Updated " + new Intl.DateTimeFormat([], {
+              hour: "numeric",
+              minute: "2-digit"
+            }).format(updatedAt);
+          }
+        } catch (error) {
+          weatherMain.textContent = "Weather unavailable right now";
+          if (weatherExtra) {
+            weatherExtra.textContent = "Check connection and refresh.";
+          }
+          if (weatherUpdated) {
+            weatherUpdated.textContent = "Updated --:--";
+          }
+        }
+      }
+
+      function initializeWeather() {
+        loadWeather();
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            weatherState.latitude = position.coords.latitude;
+            weatherState.longitude = position.coords.longitude;
+            weatherState.label = "Your location";
+            loadWeather();
+          }, function () {
+            weatherState.label = "Pittsburgh, PA";
+            loadWeather();
+          }, {
+            enableHighAccuracy: false,
+            timeout: 7000,
+            maximumAge: 900000
+          });
+        }
+
+        if (weatherRefresh) {
+          weatherRefresh.addEventListener("click", function () {
+            loadWeather();
+          });
+        }
+
+        window.setInterval(function () {
+          loadWeather();
+        }, 900000);
       }
 
       windows.forEach(function (win, index) {
@@ -1141,6 +1373,9 @@
       syncDesktopIcons();
       updateClock();
       window.setInterval(updateClock, 60000);
+      updateDeskClockWidget();
+      window.setInterval(updateDeskClockWidget, 1000);
+      initializeWeather();
 
       window.addEventListener("load", function () {
         window.setTimeout(function () {
