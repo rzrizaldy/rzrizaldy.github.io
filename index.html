@@ -286,9 +286,10 @@
       background: #fff;
       padding: 10px 8px;
       text-align: center;
-      font-size: 28px;
+      font-size: 22px;
       line-height: 1;
-      letter-spacing: 1px;
+      letter-spacing: 0.6px;
+      white-space: nowrap;
     }
 
     .widget-date {
@@ -318,8 +319,8 @@
     }
 
     .weather-icon {
-      width: 52px;
-      height: 52px;
+      width: 78px;
+      height: 78px;
       margin: 0 auto;
       border: 1px solid #111;
       background: #fff;
@@ -329,7 +330,7 @@
       justify-content: center;
       color: #111;
       font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
-      font-size: 42px;
+      font-size: 63px;
       font-weight: 400;
       line-height: 1;
     }
@@ -983,7 +984,7 @@
       }
 
       .widget-clock {
-        font-size: 24px;
+        font-size: 18px;
       }
 
       .analog-clock {
@@ -1265,6 +1266,10 @@
                 <span class="todo-box" aria-hidden="true"></span>
                 <span class="todo-text">Find About OS easter egg</span>
               </li>
+              <li class="todo-item" data-todo-task="geoLocation">
+                <span class="todo-box" aria-hidden="true"></span>
+                <span class="todo-text">Open Geo Proxy + use location</span>
+              </li>
             </ul>
           </section>
         </div>
@@ -1423,7 +1428,8 @@
         resume: false,
         project: false,
         linkedin: false,
-        aboutOs: false
+        aboutOs: false,
+        geoLocation: false
       };
 
       function bringToFront(win) {
@@ -1860,6 +1866,7 @@
           geoFocusUserButton.disabled = false;
         }
 
+        completeTodoTask("geoLocation");
         updateGeoReadout();
 
         if (!geoState.fittedOnce) {
