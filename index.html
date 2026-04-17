@@ -319,8 +319,8 @@
     }
 
     .weather-icon {
-      width: 78px;
-      height: 78px;
+      width: 110px;
+      height: 110px;
       margin: 0 auto;
       border: 1px solid #111;
       background: #fff;
@@ -328,11 +328,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+    }
+
+    .weather-icon-glyph {
+      display: inline-block;
       color: #111;
       font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
-      font-size: 63px;
+      font-size: 84px;
       font-weight: 400;
       line-height: 1;
+      transform: scale(1.4);
+      transform-origin: center;
     }
 
     .todo-card {
@@ -1241,7 +1248,7 @@
           <p class="widget-date" id="desk-clock-date">---</p>
           <section class="weather-card" aria-live="polite">
             <p class="weather-title">Weather</p>
-            <p class="weather-icon" id="weather-icon" aria-hidden="true">⌛</p>
+            <div class="weather-icon" aria-hidden="true"><span class="weather-icon-glyph" id="weather-icon">⌛</span></div>
             <p id="weather-location">Pittsburgh, PA</p>
             <p id="weather-main">Loading weather data...</p>
             <p id="weather-extra"></p>
@@ -1667,14 +1674,19 @@
         hand.style.transform = "translateX(-50%) rotate(" + angle + "deg)";
       }
 
+      function formatClockTime(now) {
+        var hours24 = now.getHours();
+        var hours12 = hours24 % 12 || 12;
+        var period = hours24 >= 12 ? "PM" : "AM";
+        return String(hours12).padStart(2, "0") + ":" +
+          String(now.getMinutes()).padStart(2, "0") + ":" +
+          String(now.getSeconds()).padStart(2, "0") + " " + period;
+      }
+
       function updateDeskClockWidget() {
         var now = new Date();
         if (deskClockTime) {
-          deskClockTime.textContent = new Intl.DateTimeFormat([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-          }).format(now);
+          deskClockTime.textContent = formatClockTime(now);
         }
         if (deskClockDate) {
           deskClockDate.textContent = new Intl.DateTimeFormat([], {
