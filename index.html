@@ -11,6 +11,7 @@
   <meta property="og:url" content="https://rzrizaldy.github.io">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <style>
     @import url("https://unpkg.com/@sakun/system.css");
 
@@ -148,10 +149,10 @@
     .desktop-icons {
       position: fixed;
       right: 34px;
-      bottom: 14px;
+      bottom: 112px;
       z-index: 1850;
       display: grid;
-      grid-template-columns: repeat(4, 90px);
+      grid-template-columns: repeat(5, 90px);
       gap: 8px;
     }
 
@@ -186,6 +187,15 @@
       margin-bottom: 1px;
     }
 
+    .desktop-svg-icon svg {
+      width: 30px;
+      height: 30px;
+      display: block;
+      margin: 0 auto;
+      fill: currentColor;
+      shape-rendering: crispEdges;
+    }
+
     .desktop-icon.window-open {
       background: rgba(255, 255, 255, 0.18);
       border-color: #fff;
@@ -193,6 +203,19 @@
 
     .desktop-icon.window-closed {
       opacity: 0.9;
+    }
+
+    .desktop-info-icon {
+      position: fixed;
+      right: 34px;
+      bottom: 14px;
+      z-index: 1860;
+      width: 90px;
+    }
+
+    .desktop-info-icon .icon-label {
+      font-size: 14px;
+      letter-spacing: 0.6px;
     }
 
     .widget-pane {
@@ -392,6 +415,189 @@
     .weather-card .btn {
       width: 100%;
       text-align: center;
+    }
+
+    .geo-pane {
+      display: grid;
+      gap: 10px;
+      background: #f5f5f5;
+    }
+
+    .geo-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .geo-toolbar .btn {
+      text-align: center;
+      text-decoration: none;
+      min-width: 0;
+      flex: 1 1 150px;
+    }
+
+    .geo-toolbar .btn[disabled] {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .geo-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .geo-card {
+      border: 1px solid #111;
+      background: #fff;
+      padding: 10px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .geo-card p {
+      margin: 0;
+    }
+
+    .geo-card-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .geo-card-value {
+      font-size: 15px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    .geo-card-meta {
+      font-size: 11px;
+      line-height: 1.35;
+      color: #444;
+    }
+
+    .geo-map {
+      width: 100%;
+      min-height: 360px;
+      border: 1px solid #111;
+      background:
+        linear-gradient(0deg, rgba(17, 17, 17, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 17, 17, 0.08) 1px, transparent 1px),
+        #f4f1e7;
+      background-size: 24px 24px;
+      overflow: hidden;
+    }
+
+    .geo-footnote {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .geo-pin {
+      width: 16px;
+      height: 16px;
+      border: 2px solid #111;
+      box-shadow: 2px 2px 0 #111;
+    }
+
+    .geo-pin-cmu {
+      background: #ff6a00;
+    }
+
+    .geo-pin-user {
+      background: #2b4cff;
+      border-radius: 50%;
+    }
+
+    .geo-map .leaflet-control-zoom a {
+      border-radius: 0;
+      color: #111;
+      box-shadow: 2px 2px 0 #111;
+    }
+
+    .geo-map .leaflet-control-zoom a,
+    .geo-map .leaflet-popup-content-wrapper,
+    .geo-map .leaflet-popup-tip {
+      border: 1px solid #111;
+    }
+
+    .geo-map .leaflet-popup-content-wrapper,
+    .geo-map .leaflet-popup-tip,
+    .geo-map .leaflet-control-zoom a {
+      background: #fff;
+    }
+
+    .geo-map .leaflet-popup-content {
+      margin: 10px 12px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .geo-map .leaflet-control-attribution {
+      font-size: 10px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .geo-legend {
+      background: #fff;
+      border: 2px solid #111;
+      box-shadow: 3px 3px 0 #111;
+      padding: 8px 10px;
+      font-size: 11px;
+      line-height: 1.3;
+      display: grid;
+      gap: 6px;
+    }
+
+    .geo-legend-title {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .geo-legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .geo-legend-chip {
+      width: 12px;
+      height: 12px;
+      border: 2px solid #111;
+      flex: 0 0 12px;
+    }
+
+    .geo-legend-chip.cmu {
+      background: #ff6a00;
+    }
+
+    .geo-legend-chip.user {
+      background: #2b4cff;
+      border-radius: 50%;
+    }
+
+    .geo-legend-chip.line {
+      width: 18px;
+      height: 0;
+      border: 0;
+      border-top: 3px dashed #2b4cff;
+      box-shadow: none;
+    }
+
+    .privacy-pane {
+      background: #fffbe8;
+      display: grid;
+      gap: 8px;
+    }
+
+    .privacy-pane p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.4;
     }
 
     .desktop-grid {
@@ -663,13 +869,19 @@
       .desktop-icons {
         position: static;
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px;
         padding: 8px 16px 0;
       }
 
       .desktop-icon {
         width: 100%;
+      }
+
+      .desktop-info-icon {
+        position: static;
+        width: 100%;
+        margin: 0 16px;
       }
 
       .desktop-grid {
@@ -684,7 +896,8 @@
       }
 
       #win-about,
-      #win-projects {
+      #win-projects,
+      #win-geo {
         grid-column: 1 / -1;
       }
 
@@ -740,6 +953,18 @@
         width: min(320px, 26vw);
       }
 
+      #win-geo {
+        top: 360px;
+        left: 320px;
+        width: min(700px, 56vw);
+      }
+
+      #win-privacy {
+        right: 34px;
+        bottom: 24px;
+        width: min(320px, 24vw);
+      }
+
       #win-browser {
         top: 44px;
         left: 180px;
@@ -776,7 +1001,7 @@
       .desktop-icons {
         position: static;
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 6px;
         padding: 6px 10px 0;
       }
@@ -785,11 +1010,18 @@
         width: 100%;
       }
 
+      .desktop-info-icon {
+        position: static;
+        width: 100%;
+        margin: 0 10px;
+      }
+
       .window .window-pane {
         max-height: none;
       }
 
       .project-grid,
+      .geo-stats,
       .hire-cta-grid {
         grid-template-columns: 1fr;
       }
@@ -868,7 +1100,9 @@
           <li role="menu-item"><button type="button" data-restore-window="win-projects">Restore Projects Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-manifesto">Restore Manifesto Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-hire">Restore Hire Me Window</button></li>
+          <li role="menu-item"><button type="button" data-restore-window="win-geo">Restore Geo Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-widgets">Restore Clock & Weather Window</button></li>
+          <li role="menu-item"><button type="button" data-restore-window="win-privacy">Restore Info Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-browser">Restore Web Window</button></li>
         </ul>
       </li>
@@ -884,6 +1118,7 @@
         Projects
         <ul role="menu">
           <li role="menu-item"><button type="button" data-focus-window="win-projects">Open Projects Window</button></li>
+          <li role="menu-item"><button type="button" data-focus-window="win-geo">Open Geo_Intel.map</button></li>
           <li role="menu-item"><a href="https://bukugambar-ai.vercel.app" target="_blank" rel="noreferrer">BukuGambar.AI ↗</a></li>
           <li role="menu-item"><a href="https://lpdp-find.vercel.app" target="_blank" rel="noreferrer">LPDP CTRL+F ↗</a></li>
           <li role="menu-item"><a href="https://iqrava.vercel.app" target="_blank" rel="noreferrer">Iqrava ↗</a></li>
@@ -913,6 +1148,10 @@
         <span class="icon-glyph" aria-hidden="true">📁</span>
         <span class="icon-label">Projects</span>
       </button>
+      <button class="desktop-icon" type="button" data-desktop-icon="win-geo" data-focus-window="win-geo">
+        <span class="icon-glyph" aria-hidden="true">🌍</span>
+        <span class="icon-label">Geo Intel</span>
+      </button>
       <button class="desktop-icon" type="button" data-desktop-icon="win-manifesto" data-focus-window="win-manifesto">
         <span class="icon-glyph" aria-hidden="true">🗒️</span>
         <span class="icon-label">Manifesto</span>
@@ -922,6 +1161,14 @@
         <span class="icon-label">Hire Me</span>
       </button>
     </aside>
+    <button class="desktop-icon desktop-info-icon" type="button" data-desktop-icon="win-privacy" data-focus-window="win-privacy" aria-label="Location info">
+      <span class="icon-glyph desktop-svg-icon" aria-hidden="true">
+        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M3 3h2v18H3V3zm16 0H5v2h14v14H5v2h16V3h-2zm-8 6h2V7h-2v2zm2 8h-2v-6h2v6z" fill="currentColor"></path>
+        </svg>
+      </span>
+      <span class="icon-label">[i]</span>
+    </button>
     <section class="desktop-grid" id="desktop-grid" aria-label="Desktop windows">
       <article class="window" id="win-about" data-window="about">
         <div class="title-bar">
@@ -1056,7 +1303,7 @@
           <section class="weather-card" aria-live="polite">
             <p class="weather-title">Weather</p>
             <p class="weather-icon" id="weather-icon" aria-hidden="true">⌛</p>
-            <p id="weather-location">Locating...</p>
+            <p id="weather-location">Pittsburgh, PA</p>
             <p id="weather-main">Loading weather data...</p>
             <p id="weather-extra"></p>
             <button class="btn" id="weather-refresh" type="button">Refresh Weather</button>
@@ -1082,6 +1329,37 @@
               </li>
             </ul>
           </section>
+        </div>
+      </article>
+
+      <article class="window" id="win-geo" data-window="geo">
+        <div class="title-bar">
+          <button aria-label="Close" class="close window-close"></button>
+          <h1 class="title">Geo_Intel.map</h1>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="details-bar"><span>Fixed anchor: Carnegie Mellon University</span><span>Leaflet distance view</span></div>
+        <div class="separator"></div>
+        <div class="window-pane geo-pane">
+          <div class="geo-toolbar">
+            <button class="btn btn-default" id="geo-use-location" type="button">Use My Location</button>
+            <button class="btn" id="geo-focus-pittsburgh" type="button">Focus Pittsburgh</button>
+            <button class="btn" id="geo-focus-user" type="button" disabled>Focus My Location</button>
+          </div>
+          <div class="geo-stats">
+            <section class="geo-card" aria-live="polite">
+              <p class="geo-card-title">Fixed Anchor</p>
+              <p class="geo-card-value">Carnegie Mellon University</p>
+              <p class="geo-card-meta">40.4438, -79.9426</p>
+            </section>
+            <section class="geo-card" aria-live="polite">
+              <p class="geo-card-title">Distance To CMU</p>
+              <p class="geo-card-value" id="geo-distance">Waiting for location</p>
+              <p class="geo-card-meta" id="geo-status">World view loaded. Use My Location to draw the line.</p>
+            </section>
+          </div>
+          <div id="geo-map" class="geo-map" aria-label="Map showing Carnegie Mellon University and your location"></div>
+          <p class="geo-footnote">Starts zoomed out, then you can jump to Pittsburgh or your own browser location.</p>
         </div>
       </article>
 
@@ -1132,6 +1410,19 @@
           <iframe id="browser-frame" title="Embedded webpage" src="about:blank" loading="lazy"></iframe>
         </div>
       </article>
+
+      <article class="window hidden-window" id="win-privacy" data-window="privacy" aria-hidden="true">
+        <div class="title-bar">
+          <button aria-label="Close" class="close window-close"></button>
+          <h1 class="title">Location_Info.txt</h1>
+          <button aria-label="Resize" class="resize"></button>
+        </div>
+        <div class="separator"></div>
+        <div class="window-pane privacy-pane">
+          <p><strong>Location notice</strong></p>
+          <p>This site uses your browser location to show distance to Carnegie Mellon University. It is not stored.</p>
+        </div>
+      </article>
     </section>
   </main>
 
@@ -1149,6 +1440,7 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script>
     (function () {
       var desktopQuery = window.matchMedia("(min-width: 1025px)");
@@ -1172,13 +1464,34 @@
       var weatherExtra = document.getElementById("weather-extra");
       var weatherIcon = document.getElementById("weather-icon");
       var weatherRefresh = document.getElementById("weather-refresh");
+      var geoMapElement = document.getElementById("geo-map");
+      var geoUseLocationButton = document.getElementById("geo-use-location");
+      var geoFocusPittsburghButton = document.getElementById("geo-focus-pittsburgh");
+      var geoFocusUserButton = document.getElementById("geo-focus-user");
+      var geoDistanceValue = document.getElementById("geo-distance");
+      var geoStatusValue = document.getElementById("geo-status");
       var todoItems = Array.prototype.slice.call(document.querySelectorAll("[data-todo-task]"));
       var desktopIcons = Array.prototype.slice.call(document.querySelectorAll("[data-desktop-icon]"));
       var highestZ = 10 + windows.length;
+      var cmuState = {
+        latitude: 40.4438387,
+        longitude: -79.942583,
+        label: "Carnegie Mellon University"
+      };
       var weatherState = {
         latitude: 40.4406,
         longitude: -79.9959,
         label: "Pittsburgh, PA"
+      };
+      var geoState = {
+        map: null,
+        cmuMarker: null,
+        userMarker: null,
+        routeLine: null,
+        userLatitude: null,
+        userLongitude: null,
+        hasUserLocation: false,
+        fittedOnce: false
       };
       var todoStorageKey = "allrize.desktop.todo.v1";
       var todoState = {
@@ -1202,6 +1515,9 @@
         win.setAttribute("aria-hidden", "false");
         bringToFront(win);
         syncDesktopIcons();
+        if (id === "win-geo") {
+          invalidateGeoMap();
+        }
         return win;
       }
 
@@ -1446,6 +1762,245 @@
         setAnalogHandAngle(deskClockSecondHand, seconds * 6);
       }
 
+      function toRadians(value) {
+        return value * Math.PI / 180;
+      }
+
+      function computeDistanceKm(lat1, lng1, lat2, lng2) {
+        var earthRadiusKm = 6371.0088;
+        var deltaLat = toRadians(lat2 - lat1);
+        var deltaLng = toRadians(lng2 - lng1);
+        var a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+          Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+          Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+        return 2 * earthRadiusKm * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      }
+
+      function formatDistance(kilometers) {
+        if (!isFinite(kilometers)) {
+          return "Waiting for location";
+        }
+        var miles = kilometers * 0.621371;
+        var kmText = kilometers >= 100 ? Math.round(kilometers).toLocaleString() + " km" : kilometers.toFixed(1) + " km";
+        var miText = miles >= 100 ? Math.round(miles).toLocaleString() + " mi" : miles.toFixed(1) + " mi";
+        return kmText + " / " + miText;
+      }
+
+      function updateGeoReadout(message) {
+        if (!geoDistanceValue || !geoStatusValue) {
+          return;
+        }
+        if (!geoState.hasUserLocation) {
+          geoDistanceValue.textContent = "Waiting for location";
+          geoStatusValue.textContent = message || "World view loaded. Use My Location to draw the line.";
+          return;
+        }
+        geoDistanceValue.textContent = formatDistance(
+          computeDistanceKm(cmuState.latitude, cmuState.longitude, geoState.userLatitude, geoState.userLongitude)
+        );
+        geoStatusValue.textContent = message || "Line drawn from your browser location to Carnegie Mellon University.";
+      }
+
+      function invalidateGeoMap() {
+        if (!geoState.map) {
+          return;
+        }
+        window.setTimeout(function () {
+          geoState.map.invalidateSize();
+        }, 120);
+      }
+
+      function focusPittsburgh() {
+        if (!geoState.map) {
+          return;
+        }
+        geoState.map.flyTo([cmuState.latitude, cmuState.longitude], 13, {
+          duration: 1.1
+        });
+      }
+
+      function focusUserLocation() {
+        if (!geoState.map || !geoState.hasUserLocation) {
+          return;
+        }
+        geoState.map.flyTo([geoState.userLatitude, geoState.userLongitude], 13, {
+          duration: 1.1
+        });
+      }
+
+      function fitGeoBounds() {
+        if (!geoState.map || !geoState.hasUserLocation) {
+          return;
+        }
+        var bounds = L.latLngBounds(
+          [cmuState.latitude, cmuState.longitude],
+          [geoState.userLatitude, geoState.userLongitude]
+        );
+        geoState.map.fitBounds(bounds.pad(0.18), {
+          animate: true,
+          duration: 1.1,
+          maxZoom: 13
+        });
+      }
+
+      function ensureGeoMap() {
+        if (geoState.map || !geoMapElement || typeof L === "undefined") {
+          return;
+        }
+
+        geoState.map = L.map("geo-map", {
+          zoomControl: true,
+          worldCopyJump: true,
+          minZoom: 2
+        }).setView([20, 0], 2);
+
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          maxZoom: 19
+        }).addTo(geoState.map);
+
+        var cmuIcon = L.divIcon({
+          className: "",
+          html: '<div class="geo-pin geo-pin-cmu"></div>',
+          iconSize: [16, 16],
+          iconAnchor: [8, 8]
+        });
+
+        geoState.userIcon = L.divIcon({
+          className: "",
+          html: '<div class="geo-pin geo-pin-user"></div>',
+          iconSize: [16, 16],
+          iconAnchor: [8, 8]
+        });
+
+        geoState.cmuMarker = L.marker([cmuState.latitude, cmuState.longitude], {
+          icon: cmuIcon
+        }).addTo(geoState.map).bindPopup("<strong>Carnegie Mellon University</strong><br>Pittsburgh, Pennsylvania");
+
+        var legend = L.control({ position: "bottomright" });
+        legend.onAdd = function () {
+          var div = L.DomUtil.create("div", "geo-legend");
+          div.innerHTML = [
+            '<div class="geo-legend-title">Map Key</div>',
+            '<div class="geo-legend-row"><span class="geo-legend-chip cmu"></span><span>CMU anchor</span></div>',
+            '<div class="geo-legend-row"><span class="geo-legend-chip user"></span><span>Your location</span></div>',
+            '<div class="geo-legend-row"><span class="geo-legend-chip line"></span><span>Distance line</span></div>'
+          ].join("");
+          return div;
+        };
+        legend.addTo(geoState.map);
+
+        updateGeoReadout();
+        invalidateGeoMap();
+      }
+
+      function applyUserLocation(position) {
+        if (!geoState.map) {
+          return;
+        }
+
+        geoState.userLatitude = position.coords.latitude;
+        geoState.userLongitude = position.coords.longitude;
+        geoState.hasUserLocation = true;
+
+        if (!geoState.userMarker) {
+          geoState.userMarker = L.marker([geoState.userLatitude, geoState.userLongitude], {
+            icon: geoState.userIcon
+          }).addTo(geoState.map);
+        } else {
+          geoState.userMarker.setLatLng([geoState.userLatitude, geoState.userLongitude]);
+        }
+
+        geoState.userMarker.bindPopup("<strong>Your browser location</strong><br>" +
+          geoState.userLatitude.toFixed(4) + ", " + geoState.userLongitude.toFixed(4));
+
+        if (!geoState.routeLine) {
+          geoState.routeLine = L.polyline([
+            [cmuState.latitude, cmuState.longitude],
+            [geoState.userLatitude, geoState.userLongitude]
+          ], {
+            color: "#2b4cff",
+            weight: 3,
+            opacity: 0.95,
+            dashArray: "7 6"
+          }).addTo(geoState.map);
+        } else {
+          geoState.routeLine.setLatLngs([
+            [cmuState.latitude, cmuState.longitude],
+            [geoState.userLatitude, geoState.userLongitude]
+          ]);
+        }
+
+        if (geoFocusUserButton) {
+          geoFocusUserButton.disabled = false;
+        }
+
+        updateGeoReadout();
+
+        if (!geoState.fittedOnce) {
+          fitGeoBounds();
+          geoState.fittedOnce = true;
+        } else {
+          focusUserLocation();
+        }
+      }
+
+      function requestUserLocation() {
+        ensureGeoMap();
+
+        if (!navigator.geolocation) {
+          updateGeoReadout("Browser geolocation is unavailable on this device.");
+          return;
+        }
+
+        if (geoUseLocationButton) {
+          geoUseLocationButton.disabled = true;
+          geoUseLocationButton.textContent = "Locating...";
+        }
+        updateGeoReadout("Waiting for browser permission...");
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+          if (geoUseLocationButton) {
+            geoUseLocationButton.disabled = false;
+            geoUseLocationButton.textContent = "Update My Location";
+          }
+          applyUserLocation(position);
+        }, function () {
+          if (geoUseLocationButton) {
+            geoUseLocationButton.disabled = false;
+            geoUseLocationButton.textContent = geoState.hasUserLocation ? "Update My Location" : "Use My Location";
+          }
+          updateGeoReadout("Location access was denied. The CMU anchor remains available.");
+        }, {
+          enableHighAccuracy: false,
+          timeout: 10000,
+          maximumAge: 300000
+        });
+      }
+
+      function initializeGeoWidget() {
+        ensureGeoMap();
+        updateGeoReadout();
+
+        if (geoUseLocationButton) {
+          geoUseLocationButton.addEventListener("click", function () {
+            requestUserLocation();
+          });
+        }
+
+        if (geoFocusPittsburghButton) {
+          geoFocusPittsburghButton.addEventListener("click", function () {
+            focusPittsburgh();
+          });
+        }
+
+        if (geoFocusUserButton) {
+          geoFocusUserButton.addEventListener("click", function () {
+            focusUserLocation();
+          });
+        }
+      }
+
       async function loadWeather() {
         if (!weatherMain || !weatherLocation) {
           return;
@@ -1500,22 +2055,6 @@
 
       function initializeWeather() {
         loadWeather();
-
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-            weatherState.latitude = position.coords.latitude;
-            weatherState.longitude = position.coords.longitude;
-            weatherState.label = "Your location";
-            loadWeather();
-          }, function () {
-            weatherState.label = "Pittsburgh, PA";
-            loadWeather();
-          }, {
-            enableHighAccuracy: false,
-            timeout: 7000,
-            maximumAge: 900000
-          });
-        }
 
         if (weatherRefresh) {
           weatherRefresh.addEventListener("click", function () {
@@ -1698,12 +2237,14 @@
       updateDeskClockWidget();
       window.setInterval(updateDeskClockWidget, 1000);
       initializeWeather();
+      initializeGeoWidget();
 
       window.addEventListener("load", function () {
         window.setTimeout(function () {
           var bootScreen = document.getElementById("boot-screen");
           bootScreen.classList.add("hidden");
           document.body.classList.remove("booting");
+          invalidateGeoMap();
         }, 1500);
       });
     })();
