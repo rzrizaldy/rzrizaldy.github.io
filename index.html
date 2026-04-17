@@ -149,7 +149,7 @@
     .desktop-icons {
       position: fixed;
       right: 34px;
-      bottom: 112px;
+      bottom: 14px;
       z-index: 1850;
       display: grid;
       grid-template-columns: repeat(5, 90px);
@@ -187,15 +187,6 @@
       margin-bottom: 1px;
     }
 
-    .desktop-svg-icon svg {
-      width: 30px;
-      height: 30px;
-      display: block;
-      margin: 0 auto;
-      fill: currentColor;
-      shape-rendering: crispEdges;
-    }
-
     .desktop-icon.window-open {
       background: rgba(255, 255, 255, 0.18);
       border-color: #fff;
@@ -203,19 +194,6 @@
 
     .desktop-icon.window-closed {
       opacity: 0.9;
-    }
-
-    .desktop-info-icon {
-      position: fixed;
-      right: 34px;
-      bottom: 14px;
-      z-index: 1860;
-      width: 90px;
-    }
-
-    .desktop-info-icon .icon-label {
-      font-size: 14px;
-      letter-spacing: 0.6px;
     }
 
     .widget-pane {
@@ -588,18 +566,6 @@
       box-shadow: none;
     }
 
-    .privacy-pane {
-      background: #fffbe8;
-      display: grid;
-      gap: 8px;
-    }
-
-    .privacy-pane p {
-      margin: 0;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
     .desktop-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -878,12 +844,6 @@
         width: 100%;
       }
 
-      .desktop-info-icon {
-        position: static;
-        width: 100%;
-        margin: 0 16px;
-      }
-
       .desktop-grid {
         grid-template-columns: 1fr 1fr;
         padding: 16px;
@@ -959,12 +919,6 @@
         width: min(700px, 56vw);
       }
 
-      #win-privacy {
-        right: 34px;
-        bottom: 24px;
-        width: min(320px, 24vw);
-      }
-
       #win-browser {
         top: 44px;
         left: 180px;
@@ -1008,12 +962,6 @@
 
       .desktop-icon {
         width: 100%;
-      }
-
-      .desktop-info-icon {
-        position: static;
-        width: 100%;
-        margin: 0 10px;
       }
 
       .window .window-pane {
@@ -1100,9 +1048,8 @@
           <li role="menu-item"><button type="button" data-restore-window="win-projects">Restore Projects Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-manifesto">Restore Manifesto Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-hire">Restore Hire Me Window</button></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-geo">Restore Geo Window</button></li>
+          <li role="menu-item"><button type="button" data-restore-window="win-geo">Restore Geo Proxy Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-widgets">Restore Clock & Weather Window</button></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-privacy">Restore Info Window</button></li>
           <li role="menu-item"><button type="button" data-restore-window="win-browser">Restore Web Window</button></li>
         </ul>
       </li>
@@ -1118,7 +1065,7 @@
         Projects
         <ul role="menu">
           <li role="menu-item"><button type="button" data-focus-window="win-projects">Open Projects Window</button></li>
-          <li role="menu-item"><button type="button" data-focus-window="win-geo">Open Geo_Intel.map</button></li>
+          <li role="menu-item"><button type="button" data-focus-window="win-geo">Open Geo_Proxy.map</button></li>
           <li role="menu-item"><a href="https://bukugambar-ai.vercel.app" target="_blank" rel="noreferrer">BukuGambar.AI ↗</a></li>
           <li role="menu-item"><a href="https://lpdp-find.vercel.app" target="_blank" rel="noreferrer">LPDP CTRL+F ↗</a></li>
           <li role="menu-item"><a href="https://iqrava.vercel.app" target="_blank" rel="noreferrer">Iqrava ↗</a></li>
@@ -1150,7 +1097,7 @@
       </button>
       <button class="desktop-icon" type="button" data-desktop-icon="win-geo" data-focus-window="win-geo">
         <span class="icon-glyph" aria-hidden="true">🌍</span>
-        <span class="icon-label">Geo Intel</span>
+        <span class="icon-label">Geo Proxy</span>
       </button>
       <button class="desktop-icon" type="button" data-desktop-icon="win-manifesto" data-focus-window="win-manifesto">
         <span class="icon-glyph" aria-hidden="true">🗒️</span>
@@ -1161,14 +1108,6 @@
         <span class="icon-label">Hire Me</span>
       </button>
     </aside>
-    <button class="desktop-icon desktop-info-icon" type="button" data-desktop-icon="win-privacy" data-focus-window="win-privacy" aria-label="Location info">
-      <span class="icon-glyph desktop-svg-icon" aria-hidden="true">
-        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M3 3h2v18H3V3zm16 0H5v2h14v14H5v2h16V3h-2zm-8 6h2V7h-2v2zm2 8h-2v-6h2v6z" fill="currentColor"></path>
-        </svg>
-      </span>
-      <span class="icon-label">[i]</span>
-    </button>
     <section class="desktop-grid" id="desktop-grid" aria-label="Desktop windows">
       <article class="window" id="win-about" data-window="about">
         <div class="title-bar">
@@ -1176,7 +1115,6 @@
           <h1 class="title">About_Rizaldy.txt</h1>
           <button aria-label="Resize" class="resize"></button>
         </div>
-        <div class="details-bar"><span>4 items</span><span>12.7 MB available</span></div>
         <div class="separator"></div>
         <div class="window-pane">
           <p>I architect responsible AI solutions for developing markets — ensuring technology helps people thrive, not just survive.</p>
@@ -1332,13 +1270,12 @@
         </div>
       </article>
 
-      <article class="window" id="win-geo" data-window="geo">
+      <article class="window hidden-window" id="win-geo" data-window="geo" aria-hidden="true">
         <div class="title-bar">
           <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">Geo_Intel.map</h1>
+          <h1 class="title">Geo_Proxy.map</h1>
           <button aria-label="Resize" class="resize"></button>
         </div>
-        <div class="details-bar"><span>Fixed anchor: Carnegie Mellon University</span><span>Leaflet distance view</span></div>
         <div class="separator"></div>
         <div class="window-pane geo-pane">
           <div class="geo-toolbar">
@@ -1348,8 +1285,8 @@
           </div>
           <div class="geo-stats">
             <section class="geo-card" aria-live="polite">
-              <p class="geo-card-title">Fixed Anchor</p>
-              <p class="geo-card-value">Carnegie Mellon University</p>
+              <p class="geo-card-title">Carnegie Mellon University</p>
+              <p class="geo-card-value">Pittsburgh, Pennsylvania</p>
               <p class="geo-card-meta">40.4438, -79.9426</p>
             </section>
             <section class="geo-card" aria-live="polite">
@@ -1359,7 +1296,7 @@
             </section>
           </div>
           <div id="geo-map" class="geo-map" aria-label="Map showing Carnegie Mellon University and your location"></div>
-          <p class="geo-footnote">Starts zoomed out, then you can jump to Pittsburgh or your own browser location.</p>
+          <p class="geo-footnote">This site uses your browser location to show distance to Carnegie Mellon University. It is not stored.</p>
         </div>
       </article>
 
@@ -1411,18 +1348,6 @@
         </div>
       </article>
 
-      <article class="window hidden-window" id="win-privacy" data-window="privacy" aria-hidden="true">
-        <div class="title-bar">
-          <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">Location_Info.txt</h1>
-          <button aria-label="Resize" class="resize"></button>
-        </div>
-        <div class="separator"></div>
-        <div class="window-pane privacy-pane">
-          <p><strong>Location notice</strong></p>
-          <p>This site uses your browser location to show distance to Carnegie Mellon University. It is not stored.</p>
-        </div>
-      </article>
     </section>
   </main>
 
