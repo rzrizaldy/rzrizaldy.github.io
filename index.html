@@ -876,61 +876,61 @@
 
     @media (min-width: 1025px) {
       body {
-        overflow: auto;
+        overflow: hidden;
       }
 
       .desktop-grid {
-        max-width: 1880px;
-        min-height: calc(100vh - var(--menu-height));
-        padding: 18px 18px 112px;
-        display: grid;
-        grid-template-columns: minmax(360px, 0.92fr) minmax(560px, 1.28fr) minmax(320px, 0.82fr);
-        grid-template-areas:
-          "about projects widgets"
-          "about geo widgets"
-          "hire geo manifesto";
-        gap: 16px;
-        align-content: start;
-        align-items: start;
+        max-width: none;
+        height: calc(100vh - var(--menu-height));
+        padding: 18px;
+        position: relative;
       }
 
       .window {
-        position: relative !important;
+        position: absolute;
         margin: 0;
-        width: 100% !important;
-        inset: auto !important;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
-        bottom: auto !important;
       }
 
       #win-about {
-        grid-area: about;
+        top: 26px;
+        left: 24px;
+        width: min(610px, 32vw);
       }
 
       #win-projects {
-        grid-area: projects;
+        top: 26px;
+        left: min(34vw, 650px);
+        width: min(820px, 43vw);
       }
 
       #win-manifesto {
-        grid-area: manifesto;
+        right: 24px;
+        bottom: 24px;
+        width: min(340px, 21vw);
       }
 
       #win-hire {
-        grid-area: hire;
+        top: clamp(500px, 55vh, 590px);
+        left: 24px;
+        width: min(610px, 32vw);
       }
 
       #win-widgets {
-        grid-area: widgets;
+        top: 26px;
+        right: 24px;
+        width: min(340px, 21vw);
       }
 
       #win-geo {
-        grid-area: geo;
+        top: clamp(360px, 40vh, 430px);
+        left: min(35vw, 670px);
+        width: min(800px, 42vw);
       }
 
       #win-browser {
-        grid-column: 1 / -1;
+        top: 44px;
+        left: 180px;
+        width: min(760px, 60vw);
       }
 
       .project-grid {
@@ -938,11 +938,11 @@
       }
 
       .window .window-pane {
-        max-height: none;
+        max-height: calc(100vh - 220px);
       }
 
       #win-about .window-pane {
-        max-height: min(52vh, 680px);
+        max-height: min(43vh, 500px);
       }
 
       #win-projects .window-pane {
@@ -950,15 +950,15 @@
       }
 
       #win-widgets .window-pane {
-        max-height: none;
+        max-height: calc(100vh - 170px);
       }
 
       #win-geo .window-pane {
-        max-height: min(62vh, 760px);
+        max-height: min(56vh, 640px);
       }
 
       #win-hire .window-pane {
-        max-height: none;
+        max-height: min(30vh, 360px);
       }
 
       #win-manifesto .window-pane {
@@ -1235,7 +1235,7 @@
         </div>
       </article>
 
-      <article class="window" id="win-manifesto" data-window="manifesto">
+      <article class="window hidden-window" id="win-manifesto" data-window="manifesto" aria-hidden="true">
         <div class="title-bar">
           <button aria-label="Close" class="close window-close"></button>
           <h1 class="title">Manifesto.txt</h1>
