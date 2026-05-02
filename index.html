@@ -761,6 +761,35 @@
       }
     }
 
+    .window-resize-grip {
+      display: none;
+    }
+
+    @media (min-width: 1025px) {
+      .window-resize-grip {
+        display: block;
+        position: absolute;
+        bottom: 1px;
+        right: 1px;
+        width: 15px;
+        height: 15px;
+        cursor: nwse-resize;
+        z-index: 100;
+        background:
+          radial-gradient(circle at 13px 13px, #888 1.5px, transparent 1.5px),
+          radial-gradient(circle at 8px 13px, #888 1.5px, transparent 1.5px),
+          radial-gradient(circle at 13px 8px, #888 1.5px, transparent 1.5px),
+          radial-gradient(circle at 3px 13px, #888 1.5px, transparent 1.5px),
+          radial-gradient(circle at 8px 8px, #888 1.5px, transparent 1.5px),
+          radial-gradient(circle at 13px 3px, #888 1.5px, transparent 1.5px);
+        opacity: 0.55;
+      }
+
+      .window.resizing {
+        user-select: none;
+      }
+    }
+
     #win-manifesto .window-pane {
       font-style: italic;
       line-height: 1.5;
@@ -2167,6 +2196,11 @@
             syncDesktopIcons();
           });
         }
+
+        var grip = document.createElement("div");
+        grip.className = "window-resize-grip";
+        grip.setAttribute("aria-hidden", "true");
+        win.appendChild(grip);
       });
 
       document.querySelectorAll("[data-focus-window]").forEach(function (button) {
@@ -2241,6 +2275,7 @@
       });
 
       var dragState = null;
+      var resizeState = null;
 
       document.addEventListener("mousedown", function (event) {
         if (!desktopQuery.matches) {
@@ -2294,12 +2329,56 @@
       });
 
       document.addEventListener("mouseup", function () {
-        if (!dragState) {
+        if (dragState) {
+          dragState.win.classList.remove("dragging");
+          dragState = null;
+        }
+        if (resizeState) {
+          resizeState.win.classList.remove("resizing");
+          resizeState = null;
+        }
+      });
+
+      document.addEventListener("mousedown", function (event) {
+        if (!desktopQuery.matches) {
           return;
         }
+        var grip = event.target.closest(".window-resize-grip");
+        if (!grip) {
+          return;
+        }
+        var win = grip.closest(".window");
+        if (!win || window.getComputedStyle(win).position !== "absolute") {
+          return;
+        }
+        bringToFront(win);
+        var pane = win.querySelector(".window-pane");
+        var nonPaneHeight = pane ? win.offsetHeight - pane.offsetHeight : 0;
+        resizeState = {
+          win: win,
+          pane: pane,
+          startX: event.clientX,
+          startY: event.clientY,
+          startWidth: win.offsetWidth,
+          startHeight: win.offsetHeight,
+          nonPaneHeight: nonPaneHeight
+        };
+        win.classList.add("resizing");
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      });
 
-        dragState.win.classList.remove("dragging");
-        dragState = null;
+      document.addEventListener("mousemove", function (event) {
+        if (!resizeState) {
+          return;
+        }
+        var newWidth = Math.max(260, resizeState.startWidth + event.clientX - resizeState.startX);
+        var newHeight = Math.max(120, resizeState.startHeight + event.clientY - resizeState.startY);
+        resizeState.win.style.width = newWidth + "px";
+        resizeState.win.style.height = newHeight + "px";
+        if (resizeState.pane) {
+          resizeState.pane.style.maxHeight = Math.max(60, newHeight - resizeState.nonPaneHeight) + "px";
+        }
       });
 
       var clockElement = document.getElementById("menu-clock");
