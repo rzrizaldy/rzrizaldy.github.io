@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>allrize.ai — Rizaldy Utomo | Builder of AI for Developing Markets</title>
-  <meta name="description" content="Portfolio of Rizaldy Al Kautsar Utomo. CMU Heinz. Builder of BukuGambar.AI, LPDP CTRL+F, and Iqrava. Seeking Summer 2026 AI internship.">
+  <meta name="description" content="Portfolio of Rizaldy Al Kautsar Utomo. CMU Heinz. Builder of AI tools for developing markets. Open to Remote Projects and Full-time 2027 in AI Safety, Geospatial Intelligence, Solution Architecture.">
   <meta property="og:title" content="allrize.ai — Rizaldy Utomo">
   <meta property="og:description" content="Classic Mac-styled portfolio. Builder of AI solutions for developing markets.">
   <meta property="og:image" content="assets/og-image.png">
@@ -717,6 +717,50 @@
       background: linear-gradient(135deg, #f0f8ef, #bfe2bf);
     }
 
+    .project-nyc .project-icon {
+      background: linear-gradient(135deg, #e8f4f8, #b8d9ef);
+    }
+
+    .project-pgh .project-icon {
+      background: linear-gradient(135deg, #fff3e8, #ffd4b0);
+    }
+
+    .project-chicago .project-icon {
+      background: linear-gradient(135deg, #fef0f0, #ffc8c8);
+    }
+
+    .project-crypto .project-icon {
+      background: linear-gradient(135deg, #f0f8e8, #c8e8b0);
+    }
+
+    .project-hackathon .project-icon {
+      background: linear-gradient(135deg, #f5f0ff, #d4b8ff);
+    }
+
+    .project-claude-build .project-icon {
+      background: linear-gradient(135deg, #fff8f0, #ffd4a0);
+    }
+
+    .project-section-label {
+      margin: 28px 0 6px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #555;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 4px;
+    }
+
+    .project-section-label:first-child {
+      margin-top: 0;
+    }
+
+    @media (min-width: 768px) {
+      .project-grid--2col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     #win-manifesto .window-pane {
       font-style: italic;
       line-height: 1.5;
@@ -1101,6 +1145,10 @@
           <li role="menu-item"><a href="https://bukugambar-ai.vercel.app" target="_blank" rel="noreferrer">BukuGambar.AI ↗</a></li>
           <li role="menu-item"><a href="https://lpdp-find.vercel.app" target="_blank" rel="noreferrer">LPDP CTRL+F ↗</a></li>
           <li role="menu-item"><a href="https://iqrava.vercel.app" target="_blank" rel="noreferrer">Iqrava ↗</a></li>
+          <li role="menu-item"><a href="https://nyc-transit-intel.netlify.app" target="_blank" rel="noreferrer">NYC Transit Intel ↗</a></li>
+          <li role="menu-item"><a href="https://rzrizaldy.github.io/pgh-transit-atlas/" target="_blank" rel="noreferrer">PGH Transit Atlas ↗</a></li>
+          <li role="menu-item"><a href="https://rzrizaldy.github.io/chicago_crash_dashboard/" target="_blank" rel="noreferrer">Chicago Crash Intel ↗</a></li>
+          <li role="menu-item"><a href="https://rzrizaldy.github.io/twin_md/" target="_blank" rel="noreferrer">twin.md ↗</a></li>
         </ul>
       </li>
       <li role="menu-item" tabindex="0" aria-haspopup="true">
@@ -1168,6 +1216,8 @@
 
           <h2>Awards</h2>
           <ul>
+            <li>Selected, Claude Build with Opus 4.7 — 500 of 20,000 applicants, $500 credit (Anthropic, 2026)</li>
+            <li>2nd Place, Pittsburgh AI Policy Hackathon — AI governance for public institutions (CMU, 2026)</li>
             <li>1st Place, Prompt-a-Thon — agentic AI ideation (Microsoft Indonesia, 2025)</li>
             <li>LPDP Scholarship Awardee — full-ride to CMU (Indonesian Endowment Fund, 2024)</li>
             <li>1st Place, AWS PRFAQ Challenge — company-wide innovation (Amazon x Telkomsel, 2023)</li>
@@ -1204,10 +1254,11 @@
           <h1 class="title">allrize.ai / projects</h1>
           <button aria-label="Resize" class="resize"></button>
         </div>
-        <div class="details-bar"><span>3 items</span><span>∞ possibilities</span></div>
+        <div class="details-bar"><span>10 items</span><span>∞ possibilities</span></div>
         <div class="separator"></div>
         <div class="window-pane">
-          <div class="project-grid">
+          <p class="project-section-label">Personal Projects</p>
+          <div class="project-grid project-grid--2col">
             <article class="project-card project-bukugambar">
               <div class="project-icon" aria-hidden="true">🎨<small>CRAYON</small></div>
               <h3>BukuGambar.AI</h3>
@@ -1230,6 +1281,68 @@
               <p>Quran tilawah tracker. Build streaks.</p>
               <p><strong>For moslems and all kindness</strong> ☪️</p>
               <a class="btn" href="https://iqrava.vercel.app" target="_blank" rel="noreferrer">Open →</a>
+            </article>
+
+            <article class="project-card project-claude-build">
+              <div class="project-icon" aria-hidden="true">🤖<small>TWIN</small></div>
+              <h3>twin.md</h3>
+              <p>Local-first Obsidian vault companion. Ask notes, save thoughts, approve desktop actions.</p>
+              <p><strong>For vault people</strong> 📓</p>
+              <a class="btn" href="https://rzrizaldy.github.io/twin_md/" target="_blank" rel="noreferrer">Open →</a>
+            </article>
+          </div>
+
+          <p class="project-section-label">CMU School Projects</p>
+          <div class="project-grid project-grid--2col">
+            <article class="project-card project-nyc">
+              <div class="project-icon" aria-hidden="true">🗺️<small>NYC</small></div>
+              <h3>NYC Transit Access Intelligence</h3>
+              <p>NLP + LLM analysis of 311 complaints &amp; NYPD crime data. Transit Desert Index across 2,327 tracts.</p>
+              <p><strong>CMU ML Final · Spring 2026</strong></p>
+              <a class="btn" href="https://nyc-transit-intel.netlify.app" target="_blank" rel="noreferrer">Open →</a>
+            </article>
+
+            <article class="project-card project-pgh">
+              <div class="project-icon" aria-hidden="true">🚌<small>PGH</small></div>
+              <h3>PGH Transit Atlas</h3>
+              <p>POGOH bikeshare + 7,075 PRT bus stops. K-Means archetypes: Commuter, Last-mile, Errand, Leisure.</p>
+              <p><strong>CMU EDA &amp; DataViz · Fall 2025</strong></p>
+              <a class="btn" href="https://rzrizaldy.github.io/pgh-transit-atlas/" target="_blank" rel="noreferrer">Open →</a>
+            </article>
+
+            <article class="project-card project-chicago">
+              <div class="project-icon" aria-hidden="true">🚦<small>CHI</small></div>
+              <h3>Chicago Crash Intelligence</h3>
+              <p>Grid-cell crash risk platform. 206 highest-risk city blocks with 5 cluster typologies.</p>
+              <p><strong>CMU ML Final · Spring 2026</strong></p>
+              <a class="btn" href="https://rzrizaldy.github.io/chicago_crash_dashboard/" target="_blank" rel="noreferrer">Open →</a>
+            </article>
+
+            <article class="project-card project-crypto">
+              <div class="project-icon" aria-hidden="true">₿<small>BTCETH</small></div>
+              <h3>Crypto Volatility Intelligence</h3>
+              <p>Real-time BTC-USD &amp; ETH-USD volatility detection. Coinbase → Kafka → FastAPI + dashboard.</p>
+              <p><strong>CMU Operationalizing AI · Spring 2026</strong></p>
+              <a class="btn" href="https://github.com/rzrizaldy/fundamental_ai_crypto_volatile" target="_blank" rel="noreferrer">Open →</a>
+            </article>
+          </div>
+
+          <p class="project-section-label">Competitions</p>
+          <div class="project-grid">
+            <article class="project-card project-hackathon">
+              <div class="project-icon" aria-hidden="true">🏛️<small>2ND</small></div>
+              <h3>Pittsburgh AI Policy Hackathon</h3>
+              <p>AI governance analysis for public safety use cases. Responsible deployment in public institutions.</p>
+              <p><strong>🥈 2nd Place · CMU, 2026</strong></p>
+              <a class="btn" href="assets/hackathon-ai-policy.pdf" data-open-desktop data-web-title="AI Policy Hackathon Slides" data-web-download="hackathon-ai-policy.pdf">View Slides →</a>
+            </article>
+
+            <article class="project-card project-claude-build">
+              <div class="project-icon" aria-hidden="true">🎯<small>OPUS</small></div>
+              <h3>Claude Build with Opus 4.7</h3>
+              <p>Selected: 500 of 20,000 applicants. $500 credit granted by Anthropic. Built twin.md.</p>
+              <p><strong>Anthropic, 2026</strong></p>
+              <a class="btn" href="https://github.com/rzrizaldy/twin_md" target="_blank" rel="noreferrer">GitHub →</a>
             </article>
           </div>
         </div>
@@ -1347,11 +1460,12 @@
           <div class="modal-dialog outer-border hire-dialog">
             <div class="inner-border center">
               <div class="modal-contents">
-                <h1 class="modal-text">⚠ SEEKING SUMMER 2026 INTERNSHIP</h1>
+                <h1 class="modal-text">🔭 OPEN TO NEW OPPORTUNITIES</h1>
                 <section class="field-row">I'm looking for:</section>
-                <section class="field-row"><strong>AI Solutions · AI Engineering · Analytics · Data Governance</strong></section>
+                <section class="field-row"><strong>AI Safety · Geospatial Intelligence · Solution Architecture</strong></section>
+                <section class="field-row">🗓️ Remote Project or Full-time 2027</section>
                 <section class="field-row">📍 Based in Pittsburgh, PA</section>
-                <section class="field-row">🇺🇸 Open to US opportunities</section>
+                <section class="field-row">🌐 Open to Remote &amp; US opportunities</section>
 
                 <div class="hire-cta-grid">
                   <a class="btn btn-default" href="mailto:rutomo@andrew.cmu.edu">📧 Email Me</a>
