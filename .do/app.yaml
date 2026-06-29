@@ -3,10 +3,8 @@ region: nyc
 domains:
   - domain: allrize.tech
     type: PRIMARY
-    zone: allrize.tech
   - domain: www.allrize.tech
     type: ALIAS
-    zone: allrize.tech
 alerts:
   - rule: DEPLOYMENT_FAILED
   - rule: DOMAIN_FAILED
