@@ -2,2417 +2,2320 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>allrize.tech — Rizaldy Utomo | Builder of AI for Developing Markets</title>
-  <meta name="description" content="Portfolio of Rizaldy Al Kautsar Utomo. CMU Heinz. Builder of AI tools for developing markets. Open to Remote Projects and Full-time 2027 in AI Safety, Geospatial Intelligence, Solution Architecture.">
-  <meta property="og:title" content="allrize.tech — Rizaldy Utomo">
-  <meta property="og:description" content="Classic Mac-styled portfolio. Builder of AI solutions for developing markets.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>allrize.tech — Rizaldy Al Kautsar Utomo</title>
+  <meta name="description" content="Rizaldy Al Kautsar Utomo: AI strategist and data scientist. 7+ years shipping machine learning and geospatial data products at Telkomsel, now at Carnegie Mellon Heinz College. Open to AI safety, geospatial intelligence and solution architecture roles.">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:title" content="allrize.tech — Rizaldy Al Kautsar Utomo">
+  <meta property="og:description" content="A tiny black-and-gold Mac desktop. AI strategist and data scientist at CMU Heinz.">
   <meta property="og:image" content="assets/og-image.png">
   <meta property="og:url" content="https://allrize.tech">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
   <style>
-    @import url("https://unpkg.com/@sakun/system.css");
+    @font-face {
+      font-family: "Chicago";
+      src: url("https://unpkg.com/@sakun/system.css@0.1.11/dist/ChicagoFLF.woff2") format("woff2"),
+           url("https://unpkg.com/@sakun/system.css@0.1.11/dist/ChicagoFLF.woff") format("woff");
+      font-display: swap;
+    }
 
     :root {
-      --menu-height: 30px;
-      --desktop-a: #65628f;
-      --desktop-b: #7572a0;
-      --ink: #111;
-      --paper: #f5f5f5;
+      --ink: #000000;
+      --paper: #ffffff;
+      --chrome: #dcdcdc;
+      --desk: #000000;
+      --gold: #ffb81c;
+      --gold-deep: #b37f00;
+      --shade: #5e5e5e;
+      --menu-h: 26px;
+      --chicago: "Chicago", "Charcoal", "Geneva", system-ui, sans-serif;
+      --body: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+      --safe-b: env(safe-area-inset-bottom, 0px);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
 
-    html,
-    body {
+    html, body {
       margin: 0;
-      min-height: 100%;
+      height: 100%;
     }
 
     body {
-      font-family: "ChicagoFLF", "Chicago", "Charcoal", "Geneva", "Helvetica", sans-serif;
+      background: var(--desk);
       color: var(--ink);
-      background: #111;
-    }
-
-    body.booting {
+      font-family: var(--body);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: none;
+      -webkit-tap-highlight-color: transparent;
       overflow: hidden;
     }
 
-    #boot-screen {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(180deg, #fcfcfc, #ebebeb);
-      z-index: 2200;
-      transition: opacity 300ms ease;
-    }
+    button { font: inherit; color: inherit; }
+    a { color: inherit; }
 
-    #boot-screen.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .boot-card {
-      border: 2px solid #111;
-      background: #fff;
-      padding: 18px 20px;
-      text-align: center;
-      min-width: 220px;
-      box-shadow: 4px 4px 0 #000;
-    }
-
-    .boot-card p {
-      margin: 10px 0 0;
-      font-size: 13px;
-    }
-
-    .menu-wrapper {
-      position: fixed;
-      inset: 0 0 auto 0;
-      z-index: 2000;
-    }
-
-    .menu-bar {
-      height: var(--menu-height);
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .menu-bar > li {
-      list-style: none;
-    }
-
-    .menu-bar > li button.menu-link {
-      border: 0;
-      background: transparent;
-      color: inherit;
-      font: inherit;
-      padding: 2px 8px;
-      cursor: pointer;
-      min-height: 22px;
-    }
-
-    .menu-bar > li button.menu-link:focus-visible {
-      outline: 1px dotted currentColor;
-      outline-offset: 1px;
-    }
-
-    [role="menu"] {
-      min-width: 180px;
-    }
-
-    [role="menu"] a,
-    [role="menu"] button {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      color: inherit;
-      font: inherit;
-      text-align: left;
-      text-decoration: none;
-      display: block;
-      padding: 3px 8px;
-      cursor: pointer;
-    }
-
-    [role="menu"] a:hover,
-    [role="menu"] button:hover,
-    [role="menu"] a:focus-visible,
-    [role="menu"] button:focus-visible {
-      background: #111;
-      color: #fff;
-      outline: none;
-    }
-
-    .clock-item {
-      margin-left: auto;
-      padding: 0 10px;
-      min-width: 80px;
-      text-align: right;
-      font-size: 12px;
-    }
-
-    .desktop-shell {
-      min-height: 100vh;
-      padding-top: var(--menu-height);
-      background: repeating-conic-gradient(var(--desktop-a) 0% 25%, var(--desktop-b) 0% 50%) 0 0 / 6px 6px;
-    }
-
-    .desktop-icons {
-      position: fixed;
-      right: 34px;
-      bottom: 14px;
-      z-index: 1850;
-      display: grid;
-      grid-template-columns: repeat(5, 90px);
-      gap: 8px;
-    }
-
-    .desktop-icon {
-      width: 90px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: #fff;
-      padding: 6px 4px;
-      text-align: center;
-      font: inherit;
-      cursor: pointer;
-      text-shadow: 1px 1px 0 #111;
-    }
-
-    .desktop-icon:focus-visible {
-      outline: 1px dotted #fff;
+    :focus-visible {
+      outline: 2px dotted var(--ink);
       outline-offset: 2px;
     }
 
-    .desktop-icon .icon-glyph {
-      display: block;
-      font-size: 24px;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
+    .chi { font-family: var(--chicago); font-weight: 400; }
 
-    .desktop-icon .icon-label {
-      display: block;
-      font-size: 11px;
-      line-height: 1.2;
-      margin-bottom: 1px;
-    }
-
-    .desktop-icon.window-open {
-      background: rgba(255, 255, 255, 0.18);
-      border-color: #fff;
-    }
-
-    .desktop-icon.window-closed {
-      opacity: 0.9;
-    }
-
-    .widget-pane {
+    /* ---------- Boot ---------- */
+    #boot {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
       display: grid;
-      gap: 8px;
-      background: #f5f5f5;
+      place-items: center;
+      background: var(--desk) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' fill='%23fff' opacity='.08'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23fff' opacity='.08'/%3E%3C/svg%3E");
+      cursor: pointer;
     }
 
-    .widget-clock-stack {
-      display: grid;
-      gap: 8px;
+    #boot[hidden] { display: none; }
+
+    .boot-card {
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      padding: 22px 30px 20px;
+      text-align: center;
+      width: min(300px, calc(100vw - 32px));
     }
 
-    .analog-clock {
-      position: relative;
-      width: 142px;
-      height: 142px;
-      margin: 0 auto;
-      border: 2px solid #111;
-      border-radius: 50%;
-      background: #fff;
-      box-shadow: 2px 2px 0 #111;
+    .boot-card p {
+      margin: 12px 0 14px;
+      font-family: var(--chicago);
+      font-size: 16px;
     }
 
-    .analog-marker {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 2px;
+    .boot-bar {
       height: 12px;
-      background: #111;
-      transform-origin: 50% 62px;
+      border: 1px solid var(--ink);
+      padding: 1px;
     }
 
-    .marker-12 {
-      transform: translate(-50%, -50%) rotate(0deg);
+    .boot-bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: repeating-linear-gradient(90deg, var(--ink) 0 6px, var(--paper) 6px 8px);
+      animation: boot-fill 1s steps(12) forwards;
     }
 
-    .marker-3 {
-      transform: translate(-50%, -50%) rotate(90deg);
-    }
+    @keyframes boot-fill { to { width: 100%; } }
 
-    .marker-6 {
-      transform: translate(-50%, -50%) rotate(180deg);
-    }
-
-    .marker-9 {
-      transform: translate(-50%, -50%) rotate(270deg);
-    }
-
-    .analog-hand {
-      position: absolute;
-      left: 50%;
-      bottom: 50%;
-      transform-origin: 50% 100%;
-      border-radius: 2px;
-      background: #111;
-      transform: translateX(-50%) rotate(0deg);
-    }
-
-    .hand-hour {
-      width: 4px;
-      height: 34px;
-    }
-
-    .hand-minute {
-      width: 3px;
-      height: 48px;
-    }
-
-    .hand-second {
-      width: 2px;
-      height: 56px;
-      background: #444;
-    }
-
-    .analog-center {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 8px;
-      height: 8px;
-      background: #111;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .widget-clock {
-      border: 1px solid #111;
-      background: #fff;
-      padding: 10px 8px;
-      text-align: center;
-      font-size: 22px;
-      line-height: 1;
-      letter-spacing: 0.6px;
-      white-space: nowrap;
-    }
-
-    .widget-date {
-      margin: 0;
-      text-align: center;
-      font-size: 12px;
-    }
-
-    .weather-card {
-      border: 1px solid #111;
-      background: #fff;
-      padding: 8px;
-      display: grid;
-      gap: 6px;
-    }
-
-    .weather-card p {
-      margin: 0;
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .weather-card .weather-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .weather-icon {
-      width: 110px;
-      height: 110px;
-      margin: 0 auto;
-      border: 1px solid #111;
-      background: #fff;
-      box-shadow: 2px 2px 0 #111;
+    /* ---------- Menu bar ---------- */
+    .menubar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--menu-h);
+      z-index: 5000;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .weather-icon-glyph {
-      display: inline-block;
-      color: #111;
-      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
-      font-size: 84px;
-      font-weight: 400;
-      line-height: 1;
-      transform: scale(1.4);
-      transform-origin: center;
-    }
-
-    .todo-card {
-      border: 1px solid #111;
-      background: #fff;
-      padding: 8px;
-      display: grid;
-      gap: 6px;
-    }
-
-    .todo-card .todo-title {
-      margin: 0;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .todo-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 4px;
-    }
-
-    .todo-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .todo-box {
-      width: 14px;
-      height: 14px;
-      flex: 0 0 14px;
-      border: 1px solid #111;
-      background: #fff;
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      line-height: 1;
-      font-weight: 700;
-    }
-
-    .todo-item.done .todo-box {
-      background: #111;
-      color: #fff;
-    }
-
-    .todo-item.done .todo-text {
-      text-decoration: line-through;
-      opacity: 0.7;
-    }
-
-    .weather-card .btn {
-      width: 100%;
-      text-align: center;
-    }
-
-    .geo-pane {
-      display: grid;
-      gap: 10px;
-      background: #f5f5f5;
-    }
-
-    .geo-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .geo-toolbar .btn {
-      text-align: center;
-      text-decoration: none;
-      min-width: 0;
-      flex: 1 1 150px;
-    }
-
-    .geo-toolbar .btn[disabled] {
-      opacity: 0.45;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-
-    .geo-stats {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .geo-card {
-      border: 1px solid #111;
-      background: #fff;
-      padding: 10px;
-      display: grid;
-      gap: 4px;
-    }
-
-    .geo-card p {
-      margin: 0;
-    }
-
-    .geo-card-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .geo-card-value {
-      font-size: 15px;
-      line-height: 1.3;
-      font-weight: 700;
-    }
-
-    .geo-card-meta {
-      font-size: 11px;
-      line-height: 1.35;
-      color: #444;
-    }
-
-    .geo-map {
-      width: 100%;
-      min-height: 360px;
-      border: 1px solid #111;
-      background:
-        linear-gradient(0deg, rgba(17, 17, 17, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(17, 17, 17, 0.08) 1px, transparent 1px),
-        #f4f1e7;
-      background-size: 24px 24px;
-      overflow: hidden;
-    }
-
-    .geo-footnote {
-      margin: 0;
-      font-size: 11px;
-      line-height: 1.35;
-    }
-
-    .geo-pin {
-      width: 16px;
-      height: 16px;
-      border: 2px solid #111;
-      box-shadow: 2px 2px 0 #111;
-    }
-
-    .geo-pin-cmu {
-      background: #ff6a00;
-    }
-
-    .geo-pin-user {
-      background: #2b4cff;
-      border-radius: 50%;
-    }
-
-    .geo-map .leaflet-control-zoom a {
-      border-radius: 0;
-      color: #111;
-      box-shadow: 2px 2px 0 #111;
-    }
-
-    .geo-map .leaflet-control-zoom a,
-    .geo-map .leaflet-popup-content-wrapper,
-    .geo-map .leaflet-popup-tip {
-      border: 1px solid #111;
-    }
-
-    .geo-map .leaflet-popup-content-wrapper,
-    .geo-map .leaflet-popup-tip,
-    .geo-map .leaflet-control-zoom a {
-      background: #fff;
-    }
-
-    .geo-map .leaflet-popup-content {
-      margin: 10px 12px;
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .geo-map .leaflet-control-attribution {
-      font-size: 10px;
-      background: rgba(255, 255, 255, 0.9);
-    }
-
-    .geo-legend {
-      background: #fff;
-      border: 2px solid #111;
-      box-shadow: 3px 3px 0 #111;
-      padding: 8px 10px;
-      font-size: 11px;
-      line-height: 1.3;
-      display: grid;
-      gap: 6px;
-    }
-
-    .geo-legend-title {
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .geo-legend-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .geo-legend-chip {
-      width: 12px;
-      height: 12px;
-      border: 2px solid #111;
-      flex: 0 0 12px;
-    }
-
-    .geo-legend-chip.cmu {
-      background: #ff6a00;
-    }
-
-    .geo-legend-chip.user {
-      background: #2b4cff;
-      border-radius: 50%;
-    }
-
-    .geo-legend-chip.line {
-      width: 18px;
-      height: 0;
-      border: 0;
-      border-top: 3px dashed #2b4cff;
-      box-shadow: none;
-    }
-
-    .desktop-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 14px 10px 16px;
-    }
-
-    .window {
-      position: relative;
-      width: 100%;
+      align-items: stretch;
+      background: var(--paper);
+      border-bottom: 1px solid var(--ink);
+      font-family: var(--chicago);
+      font-size: 14px;
+      padding: 0 6px;
       user-select: none;
     }
 
-    .window.hidden-window {
-      display: none;
-    }
+    .menu { position: relative; display: flex; }
 
-    .window.dragging {
-      opacity: 0.95;
-    }
-
-    .window .title {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .menu-title {
+      border: 0;
+      background: none;
+      padding: 0 10px;
+      font-family: var(--chicago);
       font-size: 14px;
-    }
-
-    .window .window-pane {
-      background: var(--paper);
-      max-height: 420px;
-      overflow: auto;
-      padding: 12px;
-      user-select: text;
-    }
-
-    .window .details-bar {
-      font-size: 12px;
+      cursor: default;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      padding-inline: 8px;
-    }
-
-    .window p,
-    .window li {
-      font-size: 13px;
-      line-height: 1.35;
-      margin-top: 0;
-    }
-
-    .window ul {
-      padding-left: 18px;
-      margin: 8px 0 10px;
-    }
-
-    .window h2 {
-      margin: 12px 0 6px;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
       gap: 6px;
     }
 
-    .skill-tag {
-      border: 1px solid #111;
-      padding: 2px 6px;
-      background: #fff;
-      font-size: 11px;
+    .menu.open > .menu-title {
+      background: var(--ink);
+      color: var(--paper);
     }
 
-    .project-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
+    .menu-title svg { width: 18px; height: 18px; }
+    .menu.open > .menu-title svg { filter: invert(1); }
 
-    .project-card {
-      border: 1px solid #111;
-      background: #fff;
-      padding: 8px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .project-icon {
-      min-height: 70px;
-      border: 1px solid #111;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-icon small {
+    .menu-list {
+      display: none;
       position: absolute;
-      bottom: 4px;
-      right: 6px;
-      font-size: 11px;
-      letter-spacing: 1px;
+      top: calc(var(--menu-h) - 1px);
+      left: 0;
+      min-width: 220px;
+      margin: 0;
+      padding: 2px 0;
+      list-style: none;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .menu.open .menu-list { display: block; }
+
+    .menu-list button,
+    .menu-list a {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      width: 100%;
+      padding: 3px 16px;
+      border: 0;
+      background: none;
+      text-align: left;
+      text-decoration: none;
+      font-family: var(--chicago);
+      font-size: 14px;
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    .menu-list button:hover,
+    .menu-list a:hover,
+    .menu-list button:focus-visible,
+    .menu-list a:focus-visible {
+      background: var(--ink);
+      color: var(--paper);
+      outline: none;
+    }
+
+    .menu-list kbd {
+      font-family: var(--chicago);
+      font-size: 13px;
       opacity: 0.7;
     }
 
-    .project-card h3 {
-      margin: 0;
+    .menu-list hr {
+      border: 0;
+      border-top: 1px dotted var(--ink);
+      margin: 2px 0;
+    }
+
+    .menu-list .done::before { content: "✓ "; }
+
+    .menubar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-right: 8px;
+      white-space: nowrap;
+    }
+
+    /* ---------- Desktop + wallpaper ---------- */
+    .desktop {
+      position: fixed;
+      inset: var(--menu-h) 0 0 0;
+      overflow: hidden;
+    }
+
+    .wallpaper {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .wallpaper text {
+      font-family: var(--chicago);
+      font-size: 17px;
+      fill: #cfcfcf;
+    }
+
+    .wallpaper .tag text { fill: var(--ink); }
+
+    .icons {
+      position: absolute;
+      top: 14px;
+      right: 12px;
+      bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap-reverse;
+      align-content: flex-start;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .icon {
+      width: 92px;
+      padding: 4px 2px;
+      border: 0;
+      background: none;
+      display: grid;
+      justify-items: center;
+      gap: 4px;
+      cursor: default;
+      touch-action: manipulation;
+    }
+
+    .icon svg {
+      width: 40px;
+      height: 40px;
+      shape-rendering: crispEdges;
+    }
+
+    .icon-label {
+      font-family: var(--chicago);
       font-size: 13px;
       line-height: 1.2;
+      padding: 1px 4px;
+      background: var(--paper);
+      border: 1px solid transparent;
     }
 
-    .project-card p {
-      margin: 0;
-      font-size: 12px;
-      line-height: 1.3;
+    .icon:hover .icon-label { border-color: var(--ink); }
+
+    .icon.selected .icon-label,
+    .icon:active .icon-label {
+      background: var(--ink);
+      color: var(--paper);
     }
 
-    .project-card .btn {
-      width: 100%;
-      text-align: center;
-      text-decoration: none;
+    .icon svg {
+      filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff);
     }
 
-    .project-bukugambar .project-icon {
-      background: linear-gradient(135deg, #f7f6f3, #efe3bf);
+    .icon.selected svg,
+    .icon:active svg {
+      filter: invert(1) drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff);
     }
 
-    .project-lpdp .project-icon {
-      background: linear-gradient(135deg, #ebf2ff, #b4cfff);
-    }
+    .icon-trash { margin-top: auto; }
 
-    .project-iqrava .project-icon {
-      background: linear-gradient(135deg, #f0f8ef, #bfe2bf);
-    }
-
-    .project-nyc .project-icon {
-      background: linear-gradient(135deg, #e8f4f8, #b8d9ef);
-    }
-
-    .project-pgh .project-icon {
-      background: linear-gradient(135deg, #fff3e8, #ffd4b0);
-    }
-
-    .project-chicago .project-icon {
-      background: linear-gradient(135deg, #fef0f0, #ffc8c8);
-    }
-
-    .project-crypto .project-icon {
-      background: linear-gradient(135deg, #f0f8e8, #c8e8b0);
-    }
-
-    .project-hackathon .project-icon {
-      background: linear-gradient(135deg, #f5f0ff, #d4b8ff);
-    }
-
-    .project-claude-build .project-icon {
-      background: linear-gradient(135deg, #fff8f0, #ffd4a0);
-    }
-
-    .project-section-label {
-      margin: 28px 0 6px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: #555;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 4px;
-    }
-
-    .project-section-label:first-child {
-      margin-top: 0;
-    }
-
-    @media (min-width: 768px) {
-      .project-grid--2col {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    .window-resize-grip {
-      display: none;
-    }
-
-    @media (min-width: 1025px) {
-      .window-resize-grip {
-        display: block;
-        position: absolute;
-        bottom: 1px;
-        right: 1px;
-        width: 15px;
-        height: 15px;
-        cursor: nwse-resize;
-        z-index: 100;
-        background:
-          radial-gradient(circle at 13px 13px, #888 1.5px, transparent 1.5px),
-          radial-gradient(circle at 8px 13px, #888 1.5px, transparent 1.5px),
-          radial-gradient(circle at 13px 8px, #888 1.5px, transparent 1.5px),
-          radial-gradient(circle at 3px 13px, #888 1.5px, transparent 1.5px),
-          radial-gradient(circle at 8px 8px, #888 1.5px, transparent 1.5px),
-          radial-gradient(circle at 13px 3px, #888 1.5px, transparent 1.5px);
-        opacity: 0.55;
-      }
-
-      .window.resizing {
-        user-select: none;
-      }
-    }
-
-    #win-manifesto .window-pane {
-      font-style: italic;
-      line-height: 1.5;
-      background: #fffbe8;
-    }
-
-    #win-manifesto p {
-      margin-bottom: 0;
-    }
-
-    .hire-dialog {
-      margin: 0;
-      background: #f5f5f5;
-    }
-
-    .hire-dialog .modal-contents {
-      padding: 10px;
-    }
-
-    .hire-dialog .modal-text {
-      margin-top: 0;
-      margin-bottom: 6px;
-      font-size: 15px;
-    }
-
-    .hire-dialog .field-row {
-      margin-bottom: 6px;
-      align-items: flex-start;
-    }
-
-    .hire-cta-grid {
-      margin-top: 8px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .hire-cta-grid .btn {
-      width: 100%;
-      text-align: center;
-      text-decoration: none;
-    }
-
-    .browser-pane {
-      padding: 8px;
-      display: grid;
-      gap: 8px;
-      background: #f5f5f5;
-    }
-
-    .browser-toolbar {
+    /* ---------- Windows ---------- */
+    .win {
+      position: absolute;
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      min-width: 240px;
+      max-height: calc(100% - 12px);
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      z-index: 10;
     }
 
-    .browser-toolbar .btn {
-      text-decoration: none;
-    }
+    .win[hidden] { display: none; }
 
-    .browser-note {
-      margin: 0;
-      font-size: 11px;
-      line-height: 1.3;
-    }
-
-    #browser-preview-image {
-      width: 100%;
-      min-height: 360px;
-      border: 1px solid #111;
-      background: #fff;
-      object-fit: cover;
-    }
-
-    #browser-frame {
-      width: 100%;
-      min-height: 360px;
-      border: 1px solid #111;
-      background: #fff;
-    }
-
-    .dialog-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.35);
+    .titlebar {
+      position: relative;
+      flex: none;
+      height: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 2300;
-      padding: 12px;
+      padding: 0 28px;
+      border-bottom: 1px solid var(--ink);
+      background: var(--paper);
+      user-select: none;
+      touch-action: none;
+      cursor: default;
     }
 
-    .dialog-overlay[hidden] {
-      display: none;
+    .win.active .titlebar {
+      background:
+        linear-gradient(var(--paper), var(--paper)) 0 0 / 100% 3px no-repeat,
+        linear-gradient(var(--paper), var(--paper)) 0 100% / 100% 3px no-repeat,
+        repeating-linear-gradient(180deg, var(--ink) 0 1px, var(--paper) 1px 2px);
+      background-origin: border-box;
     }
 
-    .about-mac {
-      max-width: 460px;
-      width: 100%;
+    .titlebar h2 {
       margin: 0;
+      padding: 0 8px;
+      background: var(--paper);
+      font-family: var(--chicago);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .about-mac .modal-contents {
-      padding: 12px;
-      text-align: left;
+    .win:not(.active) .titlebar h2 { color: var(--shade); }
+
+    .tb-btn {
+      position: absolute;
+      top: 50%;
+      width: 15px;
+      height: 15px;
+      margin-top: -7.5px;
+      padding: 0;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      box-shadow: 0 0 0 2px var(--paper);
+      cursor: default;
     }
 
-    .about-mac h1 {
-      margin: 0 0 8px;
+    .tb-btn::before {
+      content: "";
+      position: absolute;
+      inset: -8px;
+    }
+
+    .tb-close { left: 9px; }
+    .tb-zoom { right: 9px; }
+    .tb-zoom::after {
+      content: "";
+      position: absolute;
+      left: 1px;
+      top: 1px;
+      width: 7px;
+      height: 7px;
+      border-right: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .tb-btn:active { background: var(--ink); }
+    .win:not(.active) .tb-btn { visibility: hidden; }
+
+    .infobar {
+      flex: none;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 2px 10px;
+      border-bottom: 1px solid var(--ink);
+      font-family: var(--chicago);
+      font-size: 12px;
+    }
+
+    .infobar + .infobar-rule {
+      height: 2px;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .pane {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding: 16px 18px 18px;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .grip {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 16px;
+      height: 16px;
+      cursor: nwse-resize;
+      touch-action: none;
+      background:
+        linear-gradient(var(--ink), var(--ink)) 3px 9px / 6px 1px no-repeat,
+        linear-gradient(var(--ink), var(--ink)) 9px 3px / 1px 6px no-repeat,
+        linear-gradient(var(--ink), var(--ink)) 6px 12px / 9px 1px no-repeat,
+        linear-gradient(var(--ink), var(--ink)) 12px 6px / 1px 9px no-repeat;
+      opacity: 0.8;
+    }
+
+    /* Retro scrollbars */
+    .pane::-webkit-scrollbar { width: 16px; height: 16px; }
+    .pane::-webkit-scrollbar-track {
+      background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Crect width='1' height='1' fill='%23000' opacity='.35'/%3E%3C/svg%3E");
+      border-left: 1px solid var(--ink);
+    }
+    .pane::-webkit-scrollbar-thumb {
+      background: var(--paper);
+      border: 1px solid var(--ink);
+    }
+
+    .win.zoomed {
+      left: 6px !important;
+      top: 6px !important;
+      width: calc(100% - 118px) !important;
+      height: calc(100% - 12px) !important;
+    }
+
+    .win.dragging { opacity: 0.92; }
+
+    /* ---------- Shared content ---------- */
+    .pane h3 {
+      margin: 22px 0 8px;
+      font-family: var(--chicago);
+      font-weight: 400;
       font-size: 15px;
     }
 
-    .about-mac p {
-      margin: 0 0 10px;
+    .pane h3:first-child { margin-top: 0; }
+
+    .pane p { margin: 0 0 10px; max-width: 68ch; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 26px;
+      padding: 2px 16px;
+      border: 1px solid var(--ink);
+      border-radius: 7px;
+      background: var(--paper);
+      font-family: var(--chicago);
+      font-size: 14px;
+      text-decoration: none;
+      cursor: default;
+      white-space: nowrap;
+      touch-action: manipulation;
+    }
+
+    .btn:active, .btn.pressed { background: var(--ink); color: var(--paper); }
+
+    .btn-default {
+      box-shadow: 0 0 0 2px var(--paper), 0 0 0 5px var(--ink);
+      margin: 4px;
+    }
+
+    .btn[aria-disabled="true"] {
+      color: var(--shade);
+      border-color: var(--shade);
+      pointer-events: none;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    /* ---------- Get Info ---------- */
+    .info-head {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 14px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .info-head svg {
+      width: 56px;
+      height: 56px;
+      flex: none;
+      shape-rendering: crispEdges;
+    }
+
+    .info-head h1 {
+      margin: 0;
+      font-family: var(--chicago);
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.15;
+    }
+
+    .info-head p { margin: 4px 0 0; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 6px 12px;
+      margin: 0;
+    }
+
+    .info-grid dt {
+      font-family: var(--chicago);
+      font-size: 14px;
+      text-align: right;
+      padding-top: 1px;
+    }
+
+    .info-grid dd { margin: 0; }
+
+    .info-note {
+      margin-top: 14px;
+      padding: 8px 10px;
+      border: 1px dotted var(--ink);
+      border-left: 4px solid var(--gold);
+      font-size: 14px;
+    }
+
+    /* ---------- Resume ---------- */
+    .resume-body {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      grid-template-rows: minmax(0, 1fr);
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .resume-toc {
+      border-right: 1px solid var(--ink);
+      padding: 10px 0;
+      margin: 0;
+      list-style: none;
+      font-family: var(--chicago);
+      font-size: 14px;
+      overflow: auto;
+    }
+
+    .resume-toc a {
+      display: block;
+      padding: 3px 14px;
+      text-decoration: none;
+    }
+
+    .resume-toc a.current {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .resume-toc li:last-child {
+      margin-top: 12px;
+      padding: 0 10px;
+    }
+
+    .resume-toc .btn { width: 100%; padding: 2px 6px; }
+
+    .job {
+      margin: 0 0 18px;
+      padding-left: 14px;
+      border-left: 2px solid var(--ink);
+      position: relative;
+    }
+
+    .job::before {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 5px;
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border: 1px solid var(--ink);
+    }
+
+    .job-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0 14px;
+    }
+
+    .job-head h4 {
+      margin: 0;
+      font-family: var(--chicago);
+      font-weight: 400;
+      font-size: 15px;
+    }
+
+    .job-head time { font-size: 14px; color: var(--shade); white-space: nowrap; }
+
+    .job-org { margin: 0 0 4px; font-style: italic; }
+
+    .job ul {
+      margin: 4px 0 0;
+      padding-left: 18px;
+      max-width: 70ch;
+    }
+
+    .job li { margin-bottom: 3px; }
+
+    .job li strong { background: linear-gradient(transparent 78%, var(--gold) 78%); font-weight: 700; }
+
+    .plain-list { margin: 0; padding-left: 18px; }
+    .plain-list li { margin-bottom: 5px; max-width: 70ch; }
+
+    .skill-rows {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 6px 14px;
+      margin: 0;
+    }
+
+    .skill-rows dt { font-family: var(--chicago); font-size: 14px; }
+    .skill-rows dd { margin: 0; }
+
+    /* ---------- Finder (projects + trash) ---------- */
+    .finder-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+      gap: 10px 6px;
+      margin: 0 0 18px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .finder-group {
+      margin: 0 0 8px;
+      font-family: var(--chicago);
       font-size: 13px;
-      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    @media (min-width: 768px) and (max-width: 1024px) {
-      body {
-        overflow: auto;
-      }
-
-      .desktop-icons {
-        position: static;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-        padding: 8px 16px 0;
-      }
-
-      .desktop-icon {
-        width: 100%;
-      }
-
-      .desktop-grid {
-        grid-template-columns: 1fr 1fr;
-        padding: 16px;
-      }
-
-      .window {
-        position: relative !important;
-        width: 100% !important;
-        inset: auto !important;
-      }
-
-      #win-about,
-      #win-projects,
-      #win-geo {
-        grid-column: 1 / -1;
-      }
-
-      .project-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+    .finder-group::after {
+      content: "";
+      flex: 1;
+      border-top: 1px dotted var(--ink);
     }
 
-    @media (min-width: 1025px) {
-      body {
-        overflow: hidden;
-      }
-
-      .desktop-grid {
-        max-width: none;
-        height: calc(100vh - var(--menu-height));
-        padding: 18px;
-        position: relative;
-      }
-
-      .window {
-        position: absolute;
-        margin: 0;
-      }
-
-      #win-about {
-        top: 26px;
-        left: 24px;
-        width: min(610px, 32vw);
-      }
-
-      #win-projects {
-        top: 26px;
-        left: min(34vw, 650px);
-        width: min(820px, 43vw);
-      }
-
-      #win-manifesto {
-        right: 24px;
-        bottom: 24px;
-        width: min(340px, 21vw);
-      }
-
-      #win-hire {
-        top: clamp(500px, 55vh, 590px);
-        left: 24px;
-        width: min(610px, 32vw);
-      }
-
-      #win-widgets {
-        top: 26px;
-        right: 24px;
-        width: min(340px, 21vw);
-      }
-
-      #win-geo {
-        top: clamp(360px, 40vh, 430px);
-        left: min(35vw, 670px);
-        width: min(800px, 42vw);
-      }
-
-      #win-browser {
-        top: 44px;
-        left: 180px;
-        width: min(760px, 60vw);
-      }
-
-      .project-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .window .window-pane {
-        max-height: calc(100vh - 220px);
-      }
-
-      #win-about .window-pane {
-        max-height: min(43vh, 500px);
-      }
-
-      #win-projects .window-pane {
-        max-height: min(34vh, 430px);
-      }
-
-      #win-widgets .window-pane {
-        max-height: calc(100vh - 170px);
-      }
-
-      #win-geo .window-pane {
-        max-height: min(56vh, 640px);
-      }
-
-      #win-hire .window-pane {
-        max-height: min(30vh, 360px);
-      }
-
-      #win-manifesto .window-pane {
-        max-height: 220px;
-      }
+    .f-item {
+      width: 100%;
+      border: 0;
+      background: none;
+      padding: 4px 2px;
+      display: grid;
+      justify-items: center;
+      gap: 4px;
+      cursor: default;
+      touch-action: manipulation;
     }
+
+    .f-item svg { width: 36px; height: 36px; shape-rendering: crispEdges; }
+
+    .f-item span {
+      font-family: var(--chicago);
+      font-size: 13px;
+      line-height: 1.2;
+      text-align: center;
+      padding: 1px 3px;
+      overflow-wrap: anywhere;
+    }
+
+    .f-item[aria-pressed="true"] span { background: var(--ink); color: var(--paper); }
+    .f-item[aria-pressed="true"] svg { filter: invert(1); }
+
+    .finder-detail {
+      flex: none;
+      border-top: 1px solid var(--ink);
+      box-shadow: inset 0 1px 0 var(--paper), inset 0 2px 0 var(--ink);
+      padding: 12px 16px 14px;
+      background: var(--paper);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px 16px;
+      align-items: center;
+    }
+
+    .finder-detail h4 {
+      margin: 0;
+      font-family: var(--chicago);
+      font-weight: 400;
+      font-size: 15px;
+    }
+
+    .finder-detail .meta { margin: 0; font-size: 14px; color: var(--shade); }
+    .finder-detail .desc { margin: 2px 0 0; grid-column: 1 / -1; font-size: 15px; max-width: 70ch; }
+    .finder-detail .btn-default { grid-row: 1 / span 2; grid-column: 2; }
+
+    .trash-list { list-style: none; margin: 0; padding: 0; }
+
+    .trash-list li {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 4px 12px;
+      padding: 10px 0;
+      border-bottom: 1px dotted var(--ink);
+    }
+
+    .trash-list svg { width: 32px; height: 32px; shape-rendering: crispEdges; }
+    .trash-list b { font-family: var(--chicago); font-weight: 400; font-size: 15px; display: block; }
+    .trash-list p { margin: 0; font-size: 14px; }
+    .trash-list .crumple { animation: crumple 420ms steps(6) forwards; }
+
+    @keyframes crumple {
+      60% { transform: scale(0.6) rotate(-8deg); opacity: 1; }
+      100% { transform: scale(0) rotate(20deg); opacity: 0; }
+    }
+
+    .trash-empty {
+      text-align: center;
+      padding: 30px 10px;
+      font-family: var(--chicago);
+    }
+
+    /* ---------- Map ---------- */
+    .map-pane { display: flex; flex-direction: column; gap: 10px; }
+
+    .map-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--ink);
+    }
+
+    .map-readout div { padding: 6px 10px; }
+    .map-readout div + div { border-left: 1px solid var(--ink); }
+    .map-readout b { display: block; font-family: var(--chicago); font-weight: 400; font-size: 13px; }
+    .map-readout span { font-size: 15px; }
+
+    #geo-map {
+      flex: 1 1 auto;
+      min-height: 260px;
+      border: 1px solid var(--ink);
+      background: #e8e2cf;
+    }
+    #geo-map .leaflet-control-zoom a { border-radius: 0; color: var(--ink); font-family: var(--chicago); }
+    #geo-map .leaflet-bar { border: 1px solid var(--ink); border-radius: 0; box-shadow: 2px 2px 0 var(--ink); }
+    #geo-map .leaflet-popup-content-wrapper { border-radius: 0; border: 1px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); }
+    #geo-map .leaflet-popup-content { font-family: var(--body); font-size: 14px; margin: 8px 12px; }
+    #geo-map .leaflet-control-attribution { font-size: 10px; }
+
+    .pin {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--ink);
+      background: var(--gold);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    #geo-map .pin { border-color: #000; box-shadow: 2px 2px 0 #000; background: #000; }
+    #geo-map .pin::after { content: ""; display: block; width: 6px; height: 6px; margin: 3px; background: var(--gold); }
+    #geo-map .pin-you { border-color: var(--paper); border-radius: 50%; }
+    #geo-map .pin-you::after { background: var(--paper); border-radius: 50%; }
+
+    .map-note { margin: 0; font-size: 13px; color: var(--shade); }
+
+    /* ---------- Hire / sticky / manifesto ---------- */
+    .hire-pane { display: grid; gap: 4px; }
+    .hire-pane .big { font-family: var(--chicago); font-size: 20px; line-height: 1.25; margin-bottom: 8px; }
+
+    .hire-roles { list-style: none; margin: 4px 0 8px; padding: 0; display: grid; gap: 6px; }
+    .hire-roles li { display: flex; gap: 10px; align-items: center; }
+    .hire-roles li::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      flex: none;
+      background: var(--gold);
+      border: 1px solid var(--ink);
+    }
+
+    .win.sticky { background: #f1f1f1; border-top: 3px solid var(--gold); }
+    .win.sticky .titlebar { background: #f1f1f1; height: 18px; }
+    .win.sticky.active .titlebar {
+      background: repeating-linear-gradient(180deg, var(--ink) 0 1px, #f1f1f1 1px 2px);
+    }
+    .win.sticky .titlebar h2 { background: #f1f1f1; font-size: 12px; line-height: 14px; }
+    .win.sticky .tb-btn { width: 11px; height: 11px; margin-top: -5.5px; box-shadow: 0 0 0 2px #f1f1f1; background: #f1f1f1; }
+    .win.sticky .tb-zoom { display: none; }
+    .win.sticky .pane { padding: 12px 14px 14px; }
+
+    .quest { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 15px; }
+    .quest li { display: flex; gap: 10px; align-items: flex-start; }
+    .quest .box {
+      width: 14px;
+      height: 14px;
+      flex: none;
+      margin-top: 3px;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      line-height: 1;
+    }
+    .quest li.done .box::after { content: "✓"; }
+    .quest li.done .txt { text-decoration: line-through; }
+    .quest-meter { margin: 10px 0 0; font-family: var(--chicago); font-size: 12px; }
+
+    .manifesto-pane p { font-size: 16px; line-height: 1.6; max-width: 46ch; }
+    .manifesto-pane .sig { text-align: right; font-family: var(--chicago); font-size: 13px; }
+
+    /* ---------- Tuyul flow diagram ---------- */
+    .flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+
+    .flow > li { display: grid; justify-items: center; }
+
+    .flow > li + li::before {
+      content: "";
+      width: 2px;
+      height: 18px;
+      background: var(--ink);
+    }
+
+    .flow > li + li .node::before {
+      content: "";
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      margin-left: -6px;
+      border: 6px solid transparent;
+      border-top-color: var(--ink);
+      border-bottom: 0;
+    }
+
+    .node {
+      position: relative;
+      width: 100%;
+      border: 1px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      background: var(--paper);
+      padding: 8px 12px 10px;
+    }
+
+    .node b { display: block; font-family: var(--chicago); font-weight: 400; font-size: 15px; }
+    .node p { margin: 2px 0 0; font-size: 14px; }
+    .node.gate { border-width: 2px; border-left: 6px solid var(--gold); }
+    .node.loop { border-style: dashed; }
+
+    .node-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+    .node-row span {
+      border: 1px solid var(--ink);
+      padding: 4px 6px;
+      font-size: 13px;
+      line-height: 1.3;
+      text-align: center;
+      background: var(--chrome);
+    }
+    .node-row span em { display: block; font-style: normal; font-family: var(--chicago); font-size: 13px; }
+
+    .flow-note { margin: 14px 0 0; font-size: 14px; color: var(--shade); }
 
     @media (max-width: 767px) {
-      .menu-bar {
-        overflow-x: auto;
-        white-space: nowrap;
+      .node-row { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- Dialog ---------- */
+    .dialog-veil {
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+
+    .dialog-veil[hidden] { display: none; }
+
+    .dialog {
+      width: min(420px, 100%);
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      padding: 3px;
+    }
+
+    .dialog-inner {
+      border: 3px solid var(--ink);
+      padding: 16px 18px 14px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+    }
+
+    .dialog-inner svg { width: 40px; height: 40px; shape-rendering: crispEdges; }
+    .dialog-title { margin: 0 0 6px; font-family: var(--chicago); font-weight: 400; font-size: 16px; }
+    .dialog-text { margin: 0; font-size: 15px; }
+    .dialog-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+
+    /* ---------- Zoom rects ---------- */
+    .zoomrect {
+      position: fixed;
+      z-index: 7000;
+      border: 1px dotted var(--ink);
+      pointer-events: none;
+    }
+
+    .toast-live {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    /* ---------- Desktop layout sizes ---------- */
+    @media (min-width: 768px) {
+      #w-hello { width: 440px; }
+      #w-resume { width: 700px; height: 640px; }
+      #w-projects { width: 560px; height: 480px; }
+      #w-map { width: 580px; height: 560px; }
+      #w-hire { width: 400px; }
+      #w-manifesto { width: 380px; }
+      #w-trash { width: 460px; height: 440px; }
+      #w-tuyul { width: 600px; height: 660px; }
+      #w-quest { width: 230px; }
+
+      .hide-desk { display: none !important; }
+    }
+
+    /* ---------- Phone ---------- */
+    @media (max-width: 767px) {
+      :root { --menu-h: 32px; }
+
+      body { font-size: 16px; overflow: auto; }
+
+      .menubar { padding: 0 2px; }
+      .menu-title { padding: 0 9px; font-size: 15px; }
+      .menu-list { min-width: 0; width: max-content; max-width: calc(100vw - 12px); }
+      .menu-list button, .menu-list a { padding: 8px 16px; font-size: 15px; }
+      .menu-list kbd { display: none; }
+      .menu:nth-last-child(2) .menu-list { left: auto; right: 0; }
+      #menu-weather { display: none; }
+
+      .desktop {
+        position: relative;
+        inset: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: calc(var(--menu-h) + 14px) 16px calc(24px + var(--safe-b));
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        overflow: visible;
       }
 
-      .menu-bar > li {
-        flex: 0 0 auto;
-      }
+      .wallpaper { position: fixed; top: var(--menu-h); height: calc(100% - var(--menu-h)); }
 
-      .clock-item {
-        margin-left: 4px;
-      }
-
-      .desktop-grid {
-        padding: 10px;
-      }
-
-      .desktop-icons {
-        position: static;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 6px;
-        padding: 6px 10px 0;
-      }
-
-      .desktop-icon {
-        width: 100%;
-      }
-
-      .window .window-pane {
+      #w-hello {
+        position: relative;
+        order: 1;
+        scroll-margin-top: calc(var(--menu-h) + 12px);
+        left: auto !important;
+        top: auto !important;
+        width: auto !important;
         max-height: none;
+        z-index: 1 !important;
       }
 
-      .project-grid,
-      .geo-stats,
-      .hire-cta-grid {
-        grid-template-columns: 1fr;
+      #w-hello .tb-close, #w-hello .tb-zoom { display: none; }
+      #w-hello .pane { overflow: visible; }
+
+      .icons {
+        position: relative;
+        order: 0;
+        inset: auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px 4px;
+        padding: 12px 6px;
+        background: rgba(255, 255, 255, 0.0);
       }
 
-      #browser-frame {
-        min-height: 280px;
+      .icon { width: 100%; padding: 6px 0; }
+      .icon svg { width: 44px; height: 44px; }
+      .icon-label { font-size: 13px; }
+      .icon-trash { margin-top: 0; }
+
+      .win:not(#w-hello) {
+        position: fixed;
+        left: 0 !important;
+        top: var(--menu-h) !important;
+        width: 100% !important;
+        height: calc(100% - var(--menu-h)) !important;
+        max-height: none;
+        border-width: 0;
+        box-shadow: none;
       }
 
-      #browser-preview-image {
-        min-height: 280px;
+      .win:not(#w-hello) .pane { padding-bottom: calc(24px + var(--safe-b)); }
+
+      .win.sheet-in { animation: sheet-in 200ms steps(5) both; }
+
+      @keyframes sheet-in {
+        from { transform: translateY(24px); opacity: 0.2; }
+        to { transform: none; opacity: 1; }
       }
 
-      .widget-clock {
-        font-size: 18px;
+      .titlebar { height: 44px; padding: 0 56px; }
+      .titlebar h2 { font-size: 16px; line-height: 22px; }
+      .win.sticky .titlebar { height: 44px; }
+      .win.sticky .titlebar h2 { font-size: 15px; line-height: 20px; }
+
+      .tb-close, .win.sticky .tb-close {
+        left: 10px;
+        width: auto;
+        height: 30px;
+        margin-top: -15px;
+        padding: 0 10px 0 8px;
+        border-radius: 7px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--chicago);
+        font-size: 14px;
       }
 
-      .analog-clock {
-        width: 124px;
-        height: 124px;
+      .tb-close::after { content: "Close"; }
+      .tb-close::before { inset: -8px -6px; }
+      .tb-zoom, .grip { display: none; }
+      .win .tb-btn { visibility: visible !important; }
+
+      .resume-body { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); }
+
+      .resume-toc {
+        display: flex;
+        gap: 4px;
+        padding: 8px 10px;
+        border-right: 0;
+        border-bottom: 1px solid var(--ink);
+        overflow-x: auto;
+        scrollbar-width: none;
       }
 
-      .analog-marker {
-        transform-origin: 50% 53px;
-      }
+      .resume-toc::-webkit-scrollbar { display: none; }
+      .resume-toc a { padding: 5px 10px; white-space: nowrap; border: 1px solid transparent; }
+      .resume-toc li:last-child { margin: 0; padding: 0 0 0 6px; }
+      .resume-toc .btn { width: auto; }
 
-      .hand-hour {
-        height: 28px;
-      }
+      .finder-grid { grid-template-columns: repeat(3, 1fr); }
+      .finder-detail { grid-template-columns: 1fr; padding-bottom: calc(14px + var(--safe-b)); }
+      .finder-detail .btn-default { grid-row: auto; grid-column: 1; justify-self: start; }
 
-      .hand-minute {
-        height: 42px;
-      }
+      .info-grid { grid-template-columns: 1fr; gap: 0; }
+      .info-grid dt { text-align: left; margin-top: 8px; }
+      .info-head h1 { font-size: 20px; }
 
-      .hand-second {
-        height: 48px;
-      }
+      .skill-rows { grid-template-columns: 1fr; gap: 2px; }
+      .skill-rows dd { margin-bottom: 8px; }
+
+      .hide-phone { display: none !important; }
+
+      .zoomrect { display: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      * {
+      *, *::before, *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
         transition: none !important;
       }
     }
   </style>
 </head>
-<body class="booting">
-  <div id="boot-screen" aria-live="polite" aria-label="Boot screen">
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-mac" viewBox="0 0 32 32">
+        <path d="M7 2h18v24H7z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M10 5h12v11H10z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+        <path d="M13 8h1v3h-1zM18 8h1v3h-1zM13 13h6v1h-6z" fill="#000"/>
+        <path d="M10 20h6v2h-6z" fill="#000"/>
+        <path d="M8 26h16v4H8z" fill="#fff" stroke="#000" stroke-width="2"/>
+      </symbol>
+      <symbol id="i-me" viewBox="0 0 32 32">
+        <path d="M2 2h28v28H2z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+        <path d="M11 6h10v2h2v8h-2v2h-2v2h-6v-2h-2v-2H9V8h2z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M13 11h2v2h-2zM17 11h2v2h-2zM14 15h4v1h-4z" fill="#000"/>
+        <path d="M11 6h10v3H11z" fill="#000"/>
+        <path d="M5 30v-4h2v-2h4v-2h10v2h4v2h2v4" fill="#fff" stroke="#000" stroke-width="2"/>
+      </symbol>
+      <symbol id="i-doc" viewBox="0 0 32 32">
+        <path d="M6 2h14l7 7v21H6z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M20 2v7h7" fill="none" stroke="#000" stroke-width="2"/>
+        <path d="M10 14h13v2H10zM10 18h13v2H10zM10 22h9v2h-9z" fill="#000"/>
+      </symbol>
+      <symbol id="i-resume" viewBox="0 0 32 32">
+        <path d="M6 2h14l7 7v21H6z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M20 2v7h7" fill="none" stroke="#000" stroke-width="2"/>
+        <path d="M9 6h7v8H9z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+        <path d="M10 17h13v2H10zM10 21h13v2H10zM10 25h9v2h-9z" fill="#000"/>
+      </symbol>
+      <symbol id="i-folder" viewBox="0 0 32 32">
+        <path d="M2 8h10l3 3h15v17H2z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+        <path d="M2 13h28" stroke="#000" stroke-width="2"/>
+      </symbol>
+      <symbol id="i-map" viewBox="0 0 32 32">
+        <path d="M2 7l9-3 10 3 9-3v21l-9 3-10-3-9 3z" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="bevel"/>
+        <path d="M11 4v21M21 7v21" stroke="#000" stroke-width="2"/>
+        <path d="M3 18c4-1 6 2 9 0s5-4 8-1 6 1 9-2" fill="none" stroke="#000" stroke-width="2"/>
+        <path d="M14 9h5v5h-5z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+      </symbol>
+      <symbol id="i-case" viewBox="0 0 32 32">
+        <path d="M12 10V5h8v5" fill="none" stroke="#000" stroke-width="2"/>
+        <path d="M3 10h26v18H3z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M3 17h26" stroke="#000" stroke-width="2"/>
+        <path d="M14 15h4v5h-4z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+      </symbol>
+      <symbol id="i-note" viewBox="0 0 32 32">
+        <path d="M3 3h26v18l-8 8H3z" fill="#ececec" stroke="#000" stroke-width="2"/>
+        <path d="M21 29v-8h8" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M7 9h17v2H7zM7 14h14v2H7z" fill="#000"/>
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 32 32">
+        <path d="M13 3h6v3h-6z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M5 6h22v4H5z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M7 10h18l-2 20H9z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M12 13h2v14h-2zM18 13h2v14h-2z" fill="#000"/>
+      </symbol>
+      <symbol id="i-trash-full" viewBox="0 0 32 32">
+        <path d="M6 1h6v5H6zM16 2l6 2-2 4-5-2zM10 3h7v4h-7z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+        <path d="M4 7h24v4H4z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M7 11h18l-2 19H9z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M12 14h2v13h-2zM18 14h2v13h-2z" fill="#000"/>
+      </symbol>
+      <symbol id="i-app" viewBox="0 0 32 32">
+        <path d="M16 2l14 14-14 14L2 16z" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="bevel"/>
+        <path d="M10 14h12v6H10z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+        <path d="M13 9h6v5h-6z" fill="#000"/>
+      </symbol>
+      <symbol id="i-chart" viewBox="0 0 32 32">
+        <path d="M2 3h28v26H2z" fill="#fff" stroke="#000" stroke-width="2"/>
+        <path d="M2 8h28" stroke="#000" stroke-width="2"/>
+        <path d="M7 18h4v8H7zM14 13h4v13h-4zM21 20h4v6h-4z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+      </symbol>
+      <symbol id="i-flag" viewBox="0 0 32 32">
+        <path d="M6 2v28" stroke="#000" stroke-width="2"/>
+        <path d="M7 4h20l-4 6 4 6H7z" fill="#c4c4c4" stroke="#000" stroke-width="2"/>
+        <path d="M2 29h10" stroke="#000" stroke-width="2"/>
+      </symbol>
+      <symbol id="i-alert" viewBox="0 0 32 32">
+        <path d="M16 2l14 26H2z" fill="#c4c4c4" stroke="#000" stroke-width="2" stroke-linejoin="bevel"/>
+        <path d="M15 10h2v10h-2zM15 22h2v3h-2z" fill="#000"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div id="boot" hidden>
     <div class="boot-card">
-      <svg viewBox="0 0 128 128" width="78" height="78" aria-hidden="true">
-        <rect x="14" y="10" width="100" height="108" fill="#ffffff" stroke="#111111" stroke-width="6"></rect>
-        <rect x="32" y="28" width="64" height="42" fill="#d8d8d8" stroke="#111111" stroke-width="4"></rect>
-        <circle cx="52" cy="47" r="4" fill="#111111"></circle>
-        <circle cx="76" cy="47" r="4" fill="#111111"></circle>
-        <path d="M48 59 Q64 73 80 59" stroke="#111111" stroke-width="4" fill="none"></path>
-        <rect x="44" y="84" width="40" height="8" fill="#111111"></rect>
-      </svg>
-      <p>Starting allrize.tech…</p>
+      <svg width="64" height="64" style="shape-rendering:crispEdges" aria-hidden="true"><use href="#i-mac"/></svg>
+      <p>Welcome to allrize</p>
+      <div class="boot-bar"><span></span></div>
     </div>
   </div>
 
-  <header class="menu-wrapper" aria-label="Menu bar">
-    <ul role="menu-bar" class="menu-bar">
-      <li role="menu-item" tabindex="0" aria-haspopup="true">
-        🍎 allrize.tech
-        <ul role="menu">
-          <li role="menu-item"><button type="button" data-action="about-mac">About allrize.tech...</button></li>
-          <li role="menu-item"><button type="button" data-action="restore-all">Restore All Windows</button></li>
-        </ul>
-      </li>
-      <li role="menu-item" tabindex="0" aria-haspopup="true">
-        File
-        <ul role="menu">
-          <li role="menu-item"><a href="assets/resume.pdf" download="resume-rizaldy.pdf">Download Resume</a></li>
-          <li role="menu-item"><a href="https://github.com/rzrizaldy/rzrizaldy.github.io" target="_blank" rel="noreferrer">View Source</a></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-about">Restore About Window</button></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-projects">Restore Projects Window</button></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-manifesto">Restore Manifesto Window</button></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-hire">Restore Hire Me Window</button></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-geo">Restore Geo Proxy Window</button></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-widgets">Restore Clock & Weather Window</button></li>
-          <li role="menu-item"><button type="button" data-restore-window="win-browser">Restore Web Window</button></li>
-        </ul>
-      </li>
-      <li role="menu-item" tabindex="0" aria-haspopup="true">
-        About
-        <ul role="menu">
-          <li role="menu-item"><button type="button" data-focus-window="win-about">Open About_Rizaldy.txt</button></li>
-          <li role="menu-item"><button type="button" data-focus-window="win-manifesto">Open Manifesto.txt</button></li>
-          <li role="menu-item"><button type="button" data-action="about-mac">About allrize.tech...</button></li>
-        </ul>
-      </li>
-      <li role="menu-item" tabindex="0" aria-haspopup="true">
-        Projects
-        <ul role="menu">
-          <li role="menu-item"><button type="button" data-focus-window="win-projects">Open Projects Window</button></li>
-          <li role="menu-item"><button type="button" data-focus-window="win-geo">Open Geo_Proxy.map</button></li>
-          <li role="menu-item"><a href="https://bukugambar-ai.vercel.app" target="_blank" rel="noreferrer">BukuGambar.AI ↗</a></li>
-          <li role="menu-item"><a href="https://lpdp-find.vercel.app" target="_blank" rel="noreferrer">LPDP CTRL+F ↗</a></li>
-          <li role="menu-item"><a href="https://iqrava.vercel.app" target="_blank" rel="noreferrer">Iqrava ↗</a></li>
-          <li role="menu-item"><a href="https://nyc-transit-intel.netlify.app" target="_blank" rel="noreferrer">NYC Transit Intel ↗</a></li>
-          <li role="menu-item"><a href="https://allrize.tech/pgh-transit-atlas/" target="_blank" rel="noreferrer">PGH Transit Atlas ↗</a></li>
-          <li role="menu-item"><a href="https://allrize.tech/chicago_crash_dashboard/" target="_blank" rel="noreferrer">Chicago Crash Intel ↗</a></li>
-          <li role="menu-item"><a href="https://allrize.tech/twin_md/" target="_blank" rel="noreferrer">twin.md ↗</a></li>
-        </ul>
-      </li>
-      <li role="menu-item" tabindex="0" aria-haspopup="true">
-        Contact
-        <ul role="menu">
-          <li role="menu-item"><button type="button" data-focus-window="win-hire">Open Hire Me Window</button></li>
-          <li role="menu-item"><a href="mailto:rutomo@andrew.cmu.edu">Email Me</a></li>
-          <li role="menu-item"><a href="assets/resume.pdf" data-open-desktop data-web-title="Resume - Rizaldy" data-web-download="resume-rizaldy.pdf">Resume (Desktop View)</a></li>
-          <li role="menu-item"><a href="https://linkedin.com/in/rizaldykautsar" data-open-desktop data-web-title="LinkedIn - Rizaldy" data-web-preview="assets/linkedin-about.png">LinkedIn (Desktop View)</a></li>
-          <li role="menu-item"><a href="https://github.com/rzrizaldy" target="_blank" rel="noreferrer">GitHub ↗</a></li>
-        </ul>
-      </li>
-      <li role="menu-item" class="clock-item" aria-label="Current time"><span id="menu-clock">--:--</span></li>
-    </ul>
+  <header class="menubar" id="menubar">
+    <div class="menu">
+      <button class="menu-title" type="button" aria-haspopup="true" aria-expanded="false" aria-label="allrize menu">
+        <svg aria-hidden="true" style="shape-rendering:crispEdges"><use href="#i-mac"/></svg>
+      </button>
+      <ul class="menu-list" role="menu">
+        <li><button type="button" data-action="about-os">About allrize…</button></li>
+        <li><hr></li>
+        <li><button type="button" data-open="quest">Desktop quest</button></li>
+        <li><button type="button" data-open="manifesto">Manifesto</button></li>
+      </ul>
+    </div>
+    <div class="menu">
+      <button class="menu-title" type="button" aria-haspopup="true" aria-expanded="false">File</button>
+      <ul class="menu-list" role="menu">
+        <li><a href="assets/resume.pdf" download="Resume_Rizaldy_Al_Kautsar_Utomo.pdf" data-quest="resume">Download resume (PDF)</a></li>
+        <li><a href="mailto:rutomo@andrew.cmu.edu">Email Rizaldy</a></li>
+        <li><hr></li>
+        <li><button type="button" data-action="close-front">Close window <kbd>Esc</kbd></button></li>
+        <li><a href="https://github.com/rzrizaldy/rzrizaldy.github.io" target="_blank" rel="noreferrer">View source on GitHub</a></li>
+      </ul>
+    </div>
+    <div class="menu">
+      <button class="menu-title" type="button" aria-haspopup="true" aria-expanded="false">Go</button>
+      <ul class="menu-list" role="menu">
+        <li><button type="button" data-open="hello">Rizaldy Info <kbd>1</kbd></button></li>
+        <li><button type="button" data-open="resume">Resume <kbd>2</kbd></button></li>
+        <li><button type="button" data-open="projects">Projects <kbd>3</kbd></button></li>
+        <li><button type="button" data-open="map">Map <kbd>4</kbd></button></li>
+        <li><button type="button" data-open="hire">Hire me <kbd>5</kbd></button></li>
+        <li><button type="button" data-open="trash">Trash</button></li>
+        <li><hr></li>
+        <li><a href="https://linkedin.com/in/rizaldykautsar" target="_blank" rel="noreferrer">LinkedIn</a></li>
+        <li><a href="https://github.com/rzrizaldy" target="_blank" rel="noreferrer">GitHub</a></li>
+      </ul>
+    </div>
+    <div class="menu">
+      <button class="menu-title" type="button" aria-haspopup="true" aria-expanded="false">Special</button>
+      <ul class="menu-list" role="menu">
+        <li class="hide-phone"><button type="button" data-action="clean-up">Clean up windows</button></li>
+        <li><button type="button" data-action="close-all">Close all windows</button></li>
+        <li><button type="button" data-action="empty-trash">Empty Trash…</button></li>
+        <li><hr></li>
+        <li><button type="button" data-action="restart">Restart…</button></li>
+      </ul>
+    </div>
+    <div class="menubar-right chi">
+      <span id="menu-weather" title="Current weather in Pittsburgh, PA"></span>
+      <span id="menu-clock">--:--</span>
+    </div>
   </header>
 
-  <main class="desktop-shell" id="desktop">
-    <aside class="desktop-icons" aria-label="Desktop icons">
-      <button class="desktop-icon" type="button" data-desktop-icon="win-about" data-focus-window="win-about">
-        <span class="icon-glyph" aria-hidden="true">📄</span>
-        <span class="icon-label">About</span>
-      </button>
-      <button class="desktop-icon" type="button" data-desktop-icon="win-projects" data-focus-window="win-projects">
-        <span class="icon-glyph" aria-hidden="true">📁</span>
-        <span class="icon-label">Projects</span>
-      </button>
-      <button class="desktop-icon" type="button" data-desktop-icon="win-geo" data-focus-window="win-geo">
-        <span class="icon-glyph" aria-hidden="true">🌍</span>
-        <span class="icon-label">Geo Proxy</span>
-      </button>
-      <button class="desktop-icon" type="button" data-desktop-icon="win-manifesto" data-focus-window="win-manifesto">
-        <span class="icon-glyph" aria-hidden="true">🗒️</span>
-        <span class="icon-label">Manifesto</span>
-      </button>
-      <button class="desktop-icon" type="button" data-desktop-icon="win-hire" data-focus-window="win-hire">
-        <span class="icon-glyph" aria-hidden="true">💼</span>
-        <span class="icon-label">Hire Me</span>
-      </button>
-    </aside>
-    <section class="desktop-grid" id="desktop-grid" aria-label="Desktop windows">
-      <article class="window" id="win-about" data-window="about">
-        <div class="title-bar">
-          <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">About_Rizaldy.txt</h1>
-          <button aria-label="Resize" class="resize"></button>
-        </div>
-        <div class="separator"></div>
-        <div class="window-pane">
-          <p>I architect responsible AI solutions for developing markets — ensuring technology helps people thrive, not just survive.</p>
-          <p>My professional journey began at Indonesia's telecommunications sector. During 7 years at Telkomsel, I deployed credit-scoring models that expanded financial inclusion, designed campaign algorithms that significantly lifted revenue, and led mobility data pipelines at national scale.</p>
-          <p>A full-ride LPDP scholarship brought me from Bandung to Pittsburgh. At Carnegie Mellon's Heinz College, I study Data Analytics with an AI Management concentration — bringing an underrepresented international perspective to conversations on AI and public policy.</p>
+  <main class="desktop" id="desktop">
+    <svg class="wallpaper" id="wallpaper" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <pattern id="dith" width="4" height="4" patternUnits="userSpaceOnUse">
+          <rect width="4" height="4" fill="#000"/>
+          <rect width="1" height="1" fill="#fff" opacity=".06"/>
+          <rect x="2" y="2" width="1" height="1" fill="#fff" opacity=".06"/>
+        </pattern>
+        <pattern id="water" width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect width="6" height="6" fill="#141414"/>
+          <rect y="3" width="3" height="1" fill="#fff" opacity=".18"/>
+        </pattern>
+        <path id="p-ohio" d="M526 470 C430 430 340 340 210 302 S50 250 -60 262"/>
+        <path id="p-alle" d="M526 470 C640 430 760 362 880 332 S1080 250 1200 204 S1450 112 1680 92"/>
+        <path id="p-mon" d="M526 470 C640 520 760 522 880 542 S1060 640 1180 652 S1380 702 1460 820 S1560 960 1680 1010"/>
+      </defs>
+      <rect width="1600" height="1000" fill="url(#dith)"/>
+      <g id="contours" fill="none" stroke="#8c8c8c"></g>
+      <g fill="none" stroke-linecap="round">
+        <use href="#p-ohio" stroke="#9a9a9a" stroke-width="62"/>
+        <use href="#p-alle" stroke="#9a9a9a" stroke-width="44"/>
+        <use href="#p-mon" stroke="#9a9a9a" stroke-width="48"/>
+        <use href="#p-ohio" stroke="url(#water)" stroke-width="58"/>
+        <use href="#p-alle" stroke="url(#water)" stroke-width="40"/>
+        <use href="#p-mon" stroke="url(#water)" stroke-width="44"/>
+        <use href="#p-ohio" stroke="#ffb81c" stroke-width="2" stroke-dasharray="14 10"/>
+        <use href="#p-alle" stroke="#ffb81c" stroke-width="2" stroke-dasharray="14 10"/>
+        <use href="#p-mon" stroke="#ffb81c" stroke-width="2" stroke-dasharray="14 10"/>
+      </g>
+      <text dy="6"><textPath href="#p-ohio" startOffset="22%">Ohio River</textPath></text>
+      <text dy="6"><textPath href="#p-alle" startOffset="32%">Allegheny River</textPath></text>
+      <text dy="6"><textPath href="#p-mon" startOffset="40%">Monongahela River</textPath></text>
+      <g class="tag" transform="translate(526 470)">
+        <circle r="9" fill="#ffb81c" stroke="#000" stroke-width="3"/>
+        <rect x="-44" y="18" width="88" height="24" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="0" y="36" text-anchor="middle">The Point</text>
+      </g>
+      <g class="tag" transform="translate(1034 520)">
+        <rect x="-10" y="-10" width="20" height="20" fill="#000" stroke="#ffb81c" stroke-width="2"/>
+        <rect x="-5" y="-5" width="10" height="10" fill="#ffb81c"/>
+        <rect x="16" y="-14" width="120" height="28" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="76" y="6" text-anchor="middle">CMU, Oakland</text>
+      </g>
+    </svg>
 
-          <h2>Education</h2>
-          <ul>
-            <li>Carnegie Mellon University, Heinz College — MS Public Policy &amp; Management, Data Analytics (AI Management). Expected May 2027</li>
-            <li>Institut Teknologi Bandung (ITB) — BS Information Systems &amp; Technology. 2014–2018</li>
-          </ul>
+    <nav class="icons" aria-label="Desktop">
+      <button class="icon" type="button" data-open="hello"><svg aria-hidden="true"><use href="#i-me"/></svg><span class="icon-label">Rizaldy Info</span></button>
+      <button class="icon" type="button" data-open="resume"><svg aria-hidden="true"><use href="#i-resume"/></svg><span class="icon-label">Resume</span></button>
+      <button class="icon" type="button" data-open="projects"><svg aria-hidden="true"><use href="#i-folder"/></svg><span class="icon-label">Projects</span></button>
+      <button class="icon" type="button" data-open="map"><svg aria-hidden="true"><use href="#i-map"/></svg><span class="icon-label">Map</span></button>
+      <button class="icon" type="button" data-open="hire"><svg aria-hidden="true"><use href="#i-case"/></svg><span class="icon-label">Hire me</span></button>
+      <button class="icon" type="button" data-open="manifesto"><svg aria-hidden="true"><use href="#i-note"/></svg><span class="icon-label">Manifesto</span></button>
+      <button class="icon" type="button" data-open="quest"><svg aria-hidden="true"><use href="#i-flag"/></svg><span class="icon-label">Quest</span></button>
+      <button class="icon icon-trash" type="button" data-open="trash"><svg aria-hidden="true"><use id="trash-icon-use" href="#i-trash-full"/></svg><span class="icon-label">Trash</span></button>
+    </nav>
 
-          <h2>Telkomsel Experience</h2>
-          <ul>
-            <li>Data Scientist II (March 2020 – July 2025): Deployed econometric models for Telco Service Loan (Telkomsel Emergency Package) and delivered 6% revenue increase; built an e-commerce install predictor with telco features using CatBoost with 2.5x lift over random.</li>
-            <li>Transformed Telco Location Data (Mobility) pipeline from yearly to monthly runs, reducing delivery time from 4 days to 16 hours; led a multinational Singtel Group team to win Action for Change 2024 with EcoFlow.</li>
-            <li>Associate Data Strategist (August 2018 – February 2020): Initiated the Consultative Insight data team for aggregated data monetization and generated USD 11M annual revenue; delivered 51-interest segmentation features for programmatic advertising.</li>
-          </ul>
-
-          <h2>Awards</h2>
-          <ul>
-            <li>Selected, Claude Build with Opus 4.7 — 500 of 20,000 applicants, $500 credit (Anthropic, 2026)</li>
-            <li>2nd Place, Pittsburgh AI Policy Hackathon — AI governance for public institutions (CMU, 2026)</li>
-            <li>1st Place, Prompt-a-Thon — agentic AI ideation (Microsoft Indonesia, 2025)</li>
-            <li>LPDP Scholarship Awardee — full-ride to CMU (Indonesian Endowment Fund, 2024)</li>
-            <li>1st Place, AWS PRFAQ Challenge — company-wide innovation (Amazon x Telkomsel, 2023)</li>
-            <li>Ganesha Karsa — highest university distinction (ITB, 2018)</li>
-          </ul>
-
-          <h2>Skills</h2>
-          <div class="skills" aria-label="Skills tags">
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">SQL</span>
-            <span class="skill-tag">PySpark</span>
-            <span class="skill-tag">JavaScript</span>
-            <span class="skill-tag">HTML</span>
-            <span class="skill-tag">Hadoop</span>
-            <span class="skill-tag">PostgreSQL</span>
-            <span class="skill-tag">MySQL</span>
-            <span class="skill-tag">MongoDB</span>
-            <span class="skill-tag">Tableau</span>
-            <span class="skill-tag">PowerBI</span>
-            <span class="skill-tag">Looker</span>
-            <span class="skill-tag">Streamlit</span>
-            <span class="skill-tag">Plotly</span>
-            <span class="skill-tag">Machine Learning</span>
-            <span class="skill-tag">Generative AI</span>
-            <span class="skill-tag">GCP</span>
-            <span class="skill-tag">AWS</span>
+    <!-- Rizaldy Info -->
+    <section class="win" id="w-hello" data-app="hello" aria-labelledby="t-hello" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Rizaldy Info"></button><h2 id="t-hello">Rizaldy Info</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="pane">
+        <div class="info-head">
+          <svg aria-hidden="true"><use href="#i-me"/></svg>
+          <div>
+            <h1>Rizaldy Al Kautsar Utomo</h1>
+            <p>AI strategist and data scientist. I turn machine learning and maps into products and policy that hold up in the real world.</p>
           </div>
         </div>
-      </article>
-
-      <article class="window" id="win-projects" data-window="projects">
-        <div class="title-bar">
-          <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">allrize.tech / projects</h1>
-          <button aria-label="Resize" class="resize"></button>
+        <dl class="info-grid">
+          <dt>Now</dt>
+          <dd>MS Public Policy &amp; Management, Data Analytics at Carnegie Mellon Heinz College (GPA 3.94), and TA for Generative AI Lab</dd>
+          <dt>Before</dt>
+          <dd>7 years at Telkomsel, Southeast Asia's largest telco with 170M users. Built a data team that earns USD 11M a year.</dd>
+          <dt>This summer</dt>
+          <dd>Built a geospatial monitoring platform for Pittsburgh's Urban Redevelopment Authority, and trained frontier models on GIS work at Handshake AI</dd>
+          <dt>Where</dt>
+          <dd>Pittsburgh, PA, by way of Jakarta and Bandung</dd>
+        </dl>
+        <p class="info-note">Open to AI safety, geospatial intelligence and solution architecture roles. Remote projects now, full-time from 2027.</p>
+        <div class="btn-row">
+          <button class="btn btn-default" type="button" data-open="resume">Open resume</button>
+          <a class="btn" href="mailto:rutomo@andrew.cmu.edu">Email me</a>
+          <button class="btn" type="button" data-open="projects">See projects</button>
         </div>
-        <div class="details-bar"><span>10 items</span><span>∞ possibilities</span></div>
-        <div class="separator"></div>
-        <div class="window-pane">
-          <p class="project-section-label">Personal Projects</p>
-          <div class="project-grid project-grid--2col">
-            <article class="project-card project-bukugambar">
-              <div class="project-icon" aria-hidden="true">🎨<small>CRAYON</small></div>
-              <h3>BukuGambar.AI</h3>
-              <p>AI coloring pages from text &amp; photos.</p>
-              <p><strong>For my sons</strong> 👨‍👦</p>
-              <a class="btn" href="https://bukugambar-ai.vercel.app" target="_blank" rel="noreferrer">Open →</a>
-            </article>
+      </div>
+    </section>
 
-            <article class="project-card project-lpdp">
-              <div class="project-icon" aria-hidden="true">🔍<small>SEARCH</small></div>
-              <h3>LPDP CTRL+F</h3>
-              <p>Find your dream university. 28,007 programs.</p>
-              <p><strong>For fellow scholars</strong> 🎓</p>
-              <a class="btn" href="https://lpdp-find.vercel.app" target="_blank" rel="noreferrer">Open →</a>
-            </article>
+    <!-- Resume -->
+    <section class="win" id="w-resume" data-app="resume" aria-labelledby="t-resume" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Resume"></button><h2 id="t-resume">Resume</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="infobar"><span>Rizaldy Al Kautsar Utomo</span><span class="hide-phone">Updated September 2026</span></div>
+      <div class="resume-body">
+        <ul class="resume-toc" id="resume-toc">
+          <li><a href="#r-exp" class="current">Experience</a></li>
+          <li><a href="#r-edu">Education</a></li>
+          <li><a href="#r-proj">Projects</a></li>
+          <li><a href="#r-awards">Awards</a></li>
+          <li><a href="#r-skills">Skills</a></li>
+          <li><a class="btn" href="assets/resume.pdf" download="Resume_Rizaldy_Al_Kautsar_Utomo.pdf">PDF</a></li>
+        </ul>
+        <div class="pane" id="resume-pane">
+          <p>AI strategist and data scientist with 7+ years of industry experience translating machine learning, geospatial analytics and large-scale data products into measurable business and policy outcomes.</p>
 
-            <article class="project-card project-iqrava">
-              <div class="project-icon" aria-hidden="true">📖<small>STREAK</small></div>
-              <h3>Iqrava</h3>
-              <p>Quran tilawah tracker. Build streaks.</p>
-              <p><strong>For moslems and all kindness</strong> ☪️</p>
-              <a class="btn" href="https://iqrava.vercel.app" target="_blank" rel="noreferrer">Open →</a>
-            </article>
-
-            <article class="project-card project-claude-build">
-              <div class="project-icon" aria-hidden="true">🤖<small>TWIN</small></div>
-              <h3>twin.md</h3>
-              <p>Local-first Obsidian vault companion. Ask notes, save thoughts, approve desktop actions.</p>
-              <p><strong>For vault people</strong> 📓</p>
-              <a class="btn" href="https://allrize.tech/twin_md/" target="_blank" rel="noreferrer">Open →</a>
-            </article>
-          </div>
-
-          <p class="project-section-label">CMU School Projects</p>
-          <div class="project-grid project-grid--2col">
-            <article class="project-card project-nyc">
-              <div class="project-icon" aria-hidden="true">🗺️<small>NYC</small></div>
-              <h3>NYC Transit Access Intelligence</h3>
-              <p>NLP + LLM analysis of 311 complaints &amp; NYPD crime data. Transit Desert Index across 2,327 tracts.</p>
-              <p><strong>CMU ML Final · Spring 2026</strong></p>
-              <a class="btn" href="https://nyc-transit-intel.netlify.app" target="_blank" rel="noreferrer">Open →</a>
-            </article>
-
-            <article class="project-card project-pgh">
-              <div class="project-icon" aria-hidden="true">🚌<small>PGH</small></div>
-              <h3>PGH Transit Atlas</h3>
-              <p>POGOH bikeshare + 7,075 PRT bus stops. K-Means archetypes: Commuter, Last-mile, Errand, Leisure.</p>
-              <p><strong>CMU EDA &amp; DataViz · Fall 2025</strong></p>
-              <a class="btn" href="https://allrize.tech/pgh-transit-atlas/" target="_blank" rel="noreferrer">Open →</a>
-            </article>
-
-            <article class="project-card project-chicago">
-              <div class="project-icon" aria-hidden="true">🚦<small>CHI</small></div>
-              <h3>Chicago Crash Intelligence</h3>
-              <p>Grid-cell crash risk platform. 206 highest-risk city blocks with 5 cluster typologies.</p>
-              <p><strong>CMU ML Final · Spring 2026</strong></p>
-              <a class="btn" href="https://allrize.tech/chicago_crash_dashboard/" target="_blank" rel="noreferrer">Open →</a>
-            </article>
-
-            <article class="project-card project-crypto">
-              <div class="project-icon" aria-hidden="true">₿<small>BTCETH</small></div>
-              <h3>Crypto Volatility Intelligence</h3>
-              <p>Real-time BTC-USD &amp; ETH-USD volatility detection. Coinbase → Kafka → FastAPI + dashboard.</p>
-              <p><strong>CMU Operationalizing AI · Spring 2026</strong></p>
-              <a class="btn" href="https://github.com/rzrizaldy/fundamental_ai_crypto_volatile" target="_blank" rel="noreferrer">Open →</a>
-            </article>
-          </div>
-
-          <p class="project-section-label">Competitions</p>
-          <div class="project-grid">
-            <article class="project-card project-hackathon">
-              <div class="project-icon" aria-hidden="true">🏛️<small>2ND</small></div>
-              <h3>Pittsburgh AI Policy Hackathon</h3>
-              <p>AI governance analysis for public safety use cases. Responsible deployment in public institutions.</p>
-              <p><strong>🥈 2nd Place · CMU, 2026</strong></p>
-              <a class="btn" href="assets/hackathon-ai-policy.pdf" data-open-desktop data-web-title="AI Policy Hackathon Slides" data-web-download="hackathon-ai-policy.pdf">View Slides →</a>
-            </article>
-
-            <article class="project-card project-claude-build">
-              <div class="project-icon" aria-hidden="true">🎯<small>OPUS</small></div>
-              <h3>Claude Build with Opus 4.7</h3>
-              <p>Selected: 500 of 20,000 applicants. $500 credit granted by Anthropic. Built twin.md.</p>
-              <p><strong>Anthropic, 2026</strong></p>
-              <a class="btn" href="https://github.com/rzrizaldy/twin_md" target="_blank" rel="noreferrer">GitHub →</a>
-            </article>
-          </div>
-        </div>
-      </article>
-
-      <article class="window hidden-window" id="win-manifesto" data-window="manifesto" aria-hidden="true">
-        <div class="title-bar">
-          <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">Manifesto.txt</h1>
-          <button aria-label="Resize" class="resize"></button>
-        </div>
-        <div class="separator"></div>
-        <div class="window-pane">
-          <p>"Accessible information is not a feature, it's the whole point. When machines extend what humans can do, something has to steer the direction, let it be kindness, not engagement metrics, not extraction. Build for the person with no second option, question every model, especially your own, make technology that can be explained to the people it affects, ship things that work, let the impact speak."</p>
-          <p style="text-align: right;">— Rizaldy, 2026</p>
-        </div>
-      </article>
-
-      <article class="window" id="win-widgets" data-window="widgets">
-        <div class="title-bar">
-          <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">Desk_Clock_Weather</h1>
-          <button aria-label="Resize" class="resize"></button>
-        </div>
-        <div class="separator"></div>
-        <div class="window-pane widget-pane">
-          <div class="widget-clock-stack">
-            <div class="analog-clock" aria-hidden="true">
-              <span class="analog-marker marker-12"></span>
-              <span class="analog-marker marker-3"></span>
-              <span class="analog-marker marker-6"></span>
-              <span class="analog-marker marker-9"></span>
-              <span class="analog-hand hand-hour" id="hand-hour"></span>
-              <span class="analog-hand hand-minute" id="hand-minute"></span>
-              <span class="analog-hand hand-second" id="hand-second"></span>
-              <span class="analog-center"></span>
-            </div>
-            <div class="widget-clock" id="desk-clock-time">--:--:--</div>
-          </div>
-          <p class="widget-date" id="desk-clock-date">---</p>
-          <section class="weather-card" aria-live="polite">
-            <p class="weather-title">Weather</p>
-            <div class="weather-icon" aria-hidden="true"><span class="weather-icon-glyph" id="weather-icon">⌛</span></div>
-            <p id="weather-location">Pittsburgh, PA</p>
-            <p id="weather-main">Loading weather data...</p>
-            <p id="weather-extra"></p>
-            <button class="btn" id="weather-refresh" type="button">Refresh Weather</button>
-          </section>
-          <section class="todo-card" aria-live="polite">
-            <p class="todo-title">Desktop Quest</p>
-            <ul class="todo-list" id="desktop-todo">
-              <li class="todo-item" data-todo-task="resume">
-                <span class="todo-box" aria-hidden="true"></span>
-                <span class="todo-text">Open resume</span>
-              </li>
-              <li class="todo-item" data-todo-task="project">
-                <span class="todo-box" aria-hidden="true"></span>
-                <span class="todo-text">Open a project</span>
-              </li>
-              <li class="todo-item" data-todo-task="linkedin">
-                <span class="todo-box" aria-hidden="true"></span>
-                <span class="todo-text">Open LinkedIn</span>
-              </li>
-              <li class="todo-item" data-todo-task="aboutOs">
-                <span class="todo-box" aria-hidden="true"></span>
-                <span class="todo-text">Find About OS easter egg</span>
-              </li>
-              <li class="todo-item" data-todo-task="geoLocation">
-                <span class="todo-box" aria-hidden="true"></span>
-                <span class="todo-text">Open Geo Proxy + use location</span>
-              </li>
+          <h3 id="r-exp">Experience</h3>
+          <article class="job">
+            <div class="job-head"><h4>Graduate Teaching Assistant</h4><time>Aug 2026 – now</time></div>
+            <p class="job-org">Carnegie Mellon University, Pittsburgh</p>
+            <ul><li>TA for 90-710 Applied Economic Analysis and 94-844 Generative AI Lab</li></ul>
+          </article>
+          <article class="job">
+            <div class="job-head"><h4>Geospatial Intelligence Intern</h4><time>Jun – Aug 2026</time></div>
+            <p class="job-org">Urban Redevelopment Authority, Pittsburgh</p>
+            <ul>
+              <li>Engineered an in-house geospatial monitoring platform to replace a paid survey subscription, cutting <strong>$15,000</strong> in annual licensing and bringing contractor field reporting under URA control</li>
+              <li>Shipped an executive KPI dashboard, map and contractor portal on ArcGIS</li>
+              <li>Pioneered agentic development end to end and handed over an agent-ready repository so the GIS team can keep shipping without a dedicated engineer</li>
             </ul>
-          </section>
-        </div>
-      </article>
+          </article>
+          <article class="job">
+            <div class="job-head"><h4>AI Fellow, GIS Platform</h4><time>May – Aug 2026</time></div>
+            <p class="job-org">Handshake AI, remote</p>
+            <ul><li>Partnered with a leading frontier AI lab to improve long-context computer use on specialized GIS workflows, lifting model performance on geospatial reasoning and spatial tool use</li></ul>
+          </article>
+          <article class="job">
+            <div class="job-head"><h4>Data Scientist II</h4><time>Mar 2020 – Jul 2025</time></div>
+            <p class="job-org">Telkomsel, Jakarta</p>
+            <ul>
+              <li>Deployed econometric models for the Telkomsel Emergency Package loan product, achieving a <strong>6% revenue increase</strong> and contributing to an all-time-high revenue milestone</li>
+              <li>Built an e-commerce install predictor from telco features with CatBoost, yielding <strong>2.5x lift</strong> over a random baseline</li>
+              <li>Led data engineers to move the Mobility Data Pipeline from yearly to monthly, cutting delivery from <strong>4 days to 16 hours</strong></li>
+              <li>Led a multinational Singtel Group team to win Action for Change 2024 with EcoFlow, a geospatial-data venture</li>
+            </ul>
+          </article>
+          <article class="job">
+            <div class="job-head"><h4>Associate Data Strategist</h4><time>Aug 2018 – Feb 2020</time></div>
+            <p class="job-org">Telkomsel management trainee, Jakarta</p>
+            <ul>
+              <li>Built the data team for Consultative Insight, a new line selling aggregated data to ride-hailing clients, generating <strong>USD 11M</strong> in annual revenue</li>
+              <li>Rebuilt programmatic advertising segmentation from browsing-interest data, across 51 interest segments aligned with international standards</li>
+            </ul>
+          </article>
+          <article class="job">
+            <div class="job-head"><h4>Market Intelligence Analyst</h4><time>May – Aug 2017</time></div>
+            <p class="job-org">Lazada Indonesia, Jakarta</p>
+            <ul>
+              <li>Ran a data-driven promo campaign for younger shoppers, lifting CTR from <strong>0.5% to 4%</strong></li>
+              <li>Replaced formula lookups with SQL inside Google Sheets for faster SKU search and inventory management</li>
+            </ul>
+          </article>
 
-      <article class="window" id="win-geo" data-window="geo">
-        <div class="title-bar">
-          <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">Geo_Proxy.map</h1>
-          <button aria-label="Resize" class="resize"></button>
-        </div>
-        <div class="separator"></div>
-        <div class="window-pane geo-pane">
-          <div class="geo-toolbar">
-            <button class="btn btn-default" id="geo-use-location" type="button">Use My Location</button>
-            <button class="btn" id="geo-focus-pittsburgh" type="button">Focus Pittsburgh</button>
-            <button class="btn" id="geo-focus-user" type="button" disabled>Focus My Location</button>
+          <h3 id="r-edu">Education</h3>
+          <article class="job">
+            <div class="job-head"><h4>Carnegie Mellon University, Heinz College</h4><time>Expected May 2027</time></div>
+            <p class="job-org">MS Public Policy &amp; Management, Data Analytics. Concentration in AI Management. GPA 3.94.</p>
+            <ul><li>Generative AI Lab, Machine Learning for Public Policy, Responsible AI</li></ul>
+          </article>
+          <article class="job">
+            <div class="job-head"><h4>Institut Teknologi Bandung</h4><time>July 2018</time></div>
+            <p class="job-org">BS Information Systems &amp; Technology. GPA 3.55.</p>
+            <ul><li>Probability and Statistics, Enterprise Architecture, Database Modelling</li></ul>
+          </article>
+
+          <h3 id="r-proj">Projects</h3>
+          <article class="job">
+            <div class="job-head"><h4>BukuGambar.AI</h4><time>Apr 2025 – now</time></div>
+            <p class="job-org"><a href="https://colorize.allrize.tech/" target="_blank" rel="noreferrer">colorize.allrize.tech</a></p>
+            <ul><li>A web app that turns text or photos into coloring-page outlines with the OpenAI API</li></ul>
+          </article>
+          <article class="job">
+            <div class="job-head"><h4>EcoFlow, founder and team lead</h4><time>Aug 2024 – Jul 2025</time></div>
+            <ul><li>AI-powered sustainable tourism venture that uses telco data to plan crowd-aware itineraries. Incubated by Telkomsel's innovation unit and now live as Telkomsel Travel Assistant.</li></ul>
+          </article>
+          <article class="job">
+            <div class="job-head"><h4>tSurvey, research and insight</h4><time>Mar 2022 – Dec 2023</time></div>
+            <p class="job-org"><a href="https://tsurvey.id" target="_blank" rel="noreferrer">tsurvey.id</a></p>
+            <ul>
+              <li>Built an audience-sizing engine and stratified sampling framework over <strong>158M</strong> respondents</li>
+              <li>Engineered an AWS OCR pipeline that turns paper surveys into structured data</li>
+            </ul>
+          </article>
+
+          <h3 id="r-awards">Awards and certifications</h3>
+          <ul class="plain-list">
+            <li>Global participant, Build with Opus 4.7 Hackathon, invite-only (Anthropic, 2026)</li>
+            <li>2nd place, Pittsburgh AI Safety Hackathon, policy analysis of AI-enabled mass surveillance (Carnegie Mellon, 2026)</li>
+            <li>1st place, Prompt-a-Thon, agentic AI ideation (Microsoft Indonesia, 2025)</li>
+            <li>LPDP Scholarship, full ride for a master's degree (Indonesia Endowment Fund, 2024)</li>
+            <li>1st place, AWS PRFAQ Challenge (Amazon and Telkomsel, 2023)</li>
+            <li>Ganesha Karsa, ITB's highest distinction for multiple competition wins (2018)</li>
+            <li>Generative AI, Google Cloud (2024); AWS Technical Essentials (2018)</li>
+          </ul>
+
+          <h3 id="r-skills">Skills</h3>
+          <dl class="skill-rows">
+            <dt>Programming</dt><dd>Python, SQL, PySpark, HTML, JavaScript</dd>
+            <dt>Agentic development</dt><dd>Multi-agent orchestration, harness design, MCP, Claude Code, Codex, CI/CD, RAG, model fine-tuning</dd>
+            <dt>GIS</dt><dd>ArcGIS Pro, QGIS</dd>
+            <dt>Data visualization</dt><dd>Tableau, Power BI, Looker, Streamlit, Plotly, Seaborn, Matplotlib</dd>
+            <dt>Databases</dt><dd>PostgreSQL, MySQL, Hadoop (Cloudera), MongoDB</dd>
+          </dl>
+          <div class="btn-row">
+            <a class="btn btn-default" href="assets/resume.pdf" download="Resume_Rizaldy_Al_Kautsar_Utomo.pdf">Download PDF</a>
+            <button class="btn" type="button" data-open="hire">Get in touch</button>
           </div>
-          <div class="geo-stats">
-            <section class="geo-card" aria-live="polite">
-              <p class="geo-card-title">Carnegie Mellon University</p>
-              <p class="geo-card-value">Pittsburgh, Pennsylvania</p>
-              <p class="geo-card-meta">40.4438, -79.9426</p>
-            </section>
-            <section class="geo-card" aria-live="polite">
-              <p class="geo-card-title">Distance To CMU</p>
-              <p class="geo-card-value" id="geo-distance">Waiting for location</p>
-              <p class="geo-card-meta" id="geo-status">World view loaded. Use My Location to draw the line.</p>
-            </section>
-          </div>
-          <div id="geo-map" class="geo-map" aria-label="Map showing Carnegie Mellon University and your location"></div>
-          <p class="geo-footnote">This site uses your browser location to show distance to Carnegie Mellon University. It is not stored.</p>
         </div>
-      </article>
+      </div>
+    </section>
 
-      <article class="window" id="win-hire" data-window="hire">
-        <div class="title-bar">
-          <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">Hire Me</h1>
-          <button aria-label="Resize" class="resize"></button>
-        </div>
-        <div class="separator"></div>
-        <div class="window-pane">
-          <div class="modal-dialog outer-border hire-dialog">
-            <div class="inner-border center">
-              <div class="modal-contents">
-                <h1 class="modal-text">🔭 OPEN TO NEW OPPORTUNITIES</h1>
-                <section class="field-row">I'm looking for:</section>
-                <section class="field-row"><strong>AI Safety · Geospatial Intelligence · Solution Architecture</strong></section>
-                <section class="field-row">🗓️ Remote Project or Full-time 2027</section>
-                <section class="field-row">📍 Based in Pittsburgh, PA</section>
-                <section class="field-row">🌐 Open to Remote &amp; US opportunities</section>
+    <!-- Projects -->
+    <section class="win" id="w-projects" data-app="projects" aria-labelledby="t-projects" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Projects"></button><h2 id="t-projects">Projects</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="infobar"><span id="proj-count">0 items</span><span class="hide-phone">Tap an item to see what it is</span></div>
+      <div class="pane" id="proj-pane"></div>
+      <div class="finder-detail" id="proj-detail" aria-live="polite">
+        <h4 id="pd-name"></h4>
+        <p class="meta" id="pd-meta"></p>
+        <a class="btn btn-default" id="pd-open" href="#" target="_blank" rel="noreferrer">Open</a>
+        <p class="desc" id="pd-desc"></p>
+      </div>
+    </section>
 
-                <div class="hire-cta-grid">
-                  <a class="btn btn-default" href="mailto:rutomo@andrew.cmu.edu">📧 Email Me</a>
-                  <a class="btn" href="assets/resume.pdf" data-open-desktop data-web-title="Resume - Rizaldy" data-web-download="resume-rizaldy.pdf">💾 Resume</a>
-                  <a class="btn" href="https://linkedin.com/in/rizaldykautsar" data-open-desktop data-web-title="LinkedIn - Rizaldy" data-web-preview="assets/linkedin-about.png">🔗 LinkedIn</a>
-                  <a class="btn" href="https://github.com/rzrizaldy" target="_blank" rel="noreferrer">🐙 GitHub</a>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Map -->
+    <section class="win" id="w-map" data-app="map" aria-labelledby="t-map" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Map"></button><h2 id="t-map">How far is CMU?</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="pane map-pane">
+        <div class="btn-row" style="margin-top:0">
+          <button class="btn btn-default" id="geo-locate" type="button">Use my location</button>
+          <button class="btn" id="geo-cmu" type="button">Center on CMU</button>
         </div>
-      </article>
+        <div class="map-readout">
+          <div><b>Distance to CMU</b><span id="geo-distance">Share your location to measure</span></div>
+          <div><b>Status</b><span id="geo-status">Showing Pittsburgh</span></div>
+        </div>
+        <div id="geo-map" role="img" aria-label="Map of Carnegie Mellon University and, if shared, your location"></div>
+        <p class="map-note">Your location stays in your browser. Nothing is stored or sent anywhere.</p>
+      </div>
+    </section>
 
-      <article class="window hidden-window" id="win-browser" data-window="browser" aria-hidden="true">
-        <div class="title-bar">
-          <button aria-label="Close" class="close window-close"></button>
-          <h1 class="title">Web Viewer</h1>
-          <button aria-label="Resize" class="resize"></button>
+    <!-- Hire -->
+    <section class="win" id="w-hire" data-app="hire" aria-labelledby="t-hire" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Hire me"></button><h2 id="t-hire">Hire me</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="pane hire-pane">
+        <p class="big">Looking for someone who can ship the model and explain it to the people it affects?</p>
+        <p>I'm open to:</p>
+        <ul class="hire-roles">
+          <li>AI safety and responsible AI</li>
+          <li>Geospatial intelligence</li>
+          <li>Solution architecture</li>
+        </ul>
+        <p>Remote projects now, full-time from 2027. Based in Pittsburgh, happy to work anywhere in the US.</p>
+        <div class="btn-row">
+          <a class="btn btn-default" href="mailto:rutomo@andrew.cmu.edu">Email me</a>
+          <button class="btn" type="button" data-action="copy-email">Copy email</button>
+          <a class="btn" href="https://linkedin.com/in/rizaldykautsar" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="btn" href="https://github.com/rzrizaldy" target="_blank" rel="noreferrer">GitHub</a>
         </div>
-        <div class="details-bar"><span id="browser-url">No page open</span><span>Embedded View</span></div>
-        <div class="separator"></div>
-        <div class="window-pane browser-pane">
-          <div class="browser-toolbar">
-            <a class="btn" id="browser-open-new" href="#" target="_blank" rel="noreferrer">Open in New Tab ↗</a>
-            <a class="btn" id="browser-download" href="assets/resume.pdf" download="resume-rizaldy.pdf" hidden>Download Resume 💾</a>
-          </div>
-          <p class="browser-note" id="browser-note">Preview mode.</p>
-          <img id="browser-preview-image" alt="Website preview" hidden>
-          <iframe id="browser-frame" title="Embedded webpage" src="about:blank" loading="lazy"></iframe>
-        </div>
-      </article>
+      </div>
+    </section>
 
+    <!-- Manifesto -->
+    <section class="win sticky" id="w-manifesto" data-app="manifesto" aria-labelledby="t-manifesto" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Manifesto"></button><h2 id="t-manifesto">Manifesto</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="pane manifesto-pane">
+        <p>Accessible information is not a feature, it's the whole point. When machines extend what humans can do, something has to steer. Let it be kindness, not engagement metrics, not extraction.</p>
+        <p>Build for the person with no second option. Question every model, especially your own. Make technology that can be explained to the people it affects. Ship things that work, and let the impact speak.</p>
+        <p class="sig">Rizaldy, 2026</p>
+      </div>
+    </section>
+
+    <!-- Quest -->
+    <section class="win sticky" id="w-quest" data-app="quest" aria-labelledby="t-quest" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Desktop quest"></button><h2 id="t-quest">Desktop quest</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="pane">
+        <ul class="quest" id="quest-list">
+          <li data-task="resume"><span class="box" aria-hidden="true"></span><span class="txt">Read the resume</span></li>
+          <li data-task="project"><span class="box" aria-hidden="true"></span><span class="txt">Open a project</span></li>
+          <li data-task="map"><span class="box" aria-hidden="true"></span><span class="txt">Measure your distance to CMU</span></li>
+          <li data-task="trash"><span class="box" aria-hidden="true"></span><span class="txt">Look in the Trash</span></li>
+          <li data-task="about"><span class="box" aria-hidden="true"></span><span class="txt">Find "About allrize…"</span></li>
+        </ul>
+        <p class="quest-meter" id="quest-meter">0 of 5 done</p>
+      </div>
+    </section>
+
+    <!-- Tuyul -->
+    <section class="win" id="w-tuyul" data-app="tuyul" aria-labelledby="t-tuyul" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Tuyul diagram"></button><h2 id="t-tuyul">Tuyul: how the agents trade</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="infobar"><span>Simplified system diagram</span><span class="hide-phone">Private repo</span></div>
+      <div class="pane">
+        <p>Named after the tuyul, a small spirit from Javanese folklore that quietly collects money for its keeper. Here, the spirit is a team of agents.</p>
+        <ol class="flow" aria-label="How one trading session flows">
+          <li><div class="node"><b>1. Scheduler wakes the desk</b><p>A few timed sessions each market day, plus a Monday deep scan and a Friday retro.</p></div></li>
+          <li><div class="node"><b>2. Load memory</b><p>A context pack pulls from the second brain before anyone acts.</p>
+            <div class="node-row"><span><em>Obsidian vault</em>notes and research</span><span><em>Strategy + decisions</em>the constitution, every change of mind</span><span><em>Journals</em>what happened last time</span></div></div></li>
+          <li><div class="node"><b>3. Agents deliberate</b><p>Each agent has one job, and they check each other.</p>
+            <div class="node-row"><span><em>Lead agent</em>Claude runs the session as investor and operator</span><span><em>Council</em>a second model does research and pushes back</span><span><em>Scorer</em>typed scores for regime, momentum and risk</span></div></div></li>
+          <li><div class="node gate"><b>4. Guardrails decide what's allowed</b><p>Kill switch, per-trade dollar cap, take-profit and stop-loss on every order, exposure caps by market regime. Rebalances and sells wait for a human yes.</p></div></li>
+          <li><div class="node"><b>5. Act through MCP</b><p>The lead agent calls broker and market-data tools over MCP: preview first, then place.</p></div></li>
+          <li><div class="node loop"><b>6. Write it all down</b><p>Every decision lands in the repo as a journal entry, and CI audits it. The Friday retro feeds lessons back into memory, then the loop starts again at step 1.</p></div></li>
+        </ol>
+        <p class="flow-note">Why it matters: it's the same pattern I bring to work. Agents with narrow roles, shared memory, hard limits and a paper trail a human can audit.</p>
+      </div>
+    </section>
+
+    <!-- Trash -->
+    <section class="win" id="w-trash" data-app="trash" aria-labelledby="t-trash" hidden>
+      <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Trash"></button><h2 id="t-trash">Trash</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
+      <div class="infobar"><span id="trash-count">5 items</span><span>Things I replaced with something better</span></div>
+      <div class="pane">
+        <ul class="trash-list" id="trash-list">
+          <li><svg aria-hidden="true"><use href="#i-doc"/></svg><div><b>Yearly mobility pipeline</b><p>Rebuilt to run monthly. Delivery went from 4 days to 16 hours. Telkomsel.</p></div></li>
+          <li><svg aria-hidden="true"><use href="#i-app"/></svg><div><b>$15,000/yr survey subscription</b><p>Replaced by an in-house geospatial monitoring platform. Pittsburgh URA, 2026.</p></div></li>
+          <li><svg aria-hidden="true"><use href="#i-chart"/></svg><div><b>0.5% click-through rate</b><p>Retargeted the promo to younger shoppers. It hit 4%. Lazada, 2017.</p></div></li>
+          <li><svg aria-hidden="true"><use href="#i-doc"/></svg><div><b>Stacks of paper surveys</b><p>An AWS OCR pipeline turned them into structured data. tSurvey.</p></div></li>
+          <li><svg aria-hidden="true"><use href="#i-doc"/></svg><div><b>VLOOKUP spaghetti</b><p>Swapped for SQL inside Google Sheets, so SKU search got fast. Lazada, 2017.</p></div></li>
+        </ul>
+        <div class="btn-row">
+          <button class="btn" type="button" data-action="empty-trash">Empty Trash</button>
+        </div>
+      </div>
     </section>
   </main>
 
-  <div id="about-mac-dialog" class="dialog-overlay" hidden>
-    <div class="modal-dialog outer-border about-mac" role="dialog" aria-modal="true" aria-labelledby="about-mac-title">
-      <div class="inner-border center">
-        <div class="modal-contents">
-          <h1 id="about-mac-title" class="modal-text">About allrize.tech</h1>
-          <p>All rise. Everyone deserves a shot at upward mobility. I build data-driven technology and shape AI policy to make sure the ladder reaches further down. From Jakarta to Pittsburgh, the mission stays the same: elevate access, not just algorithms.</p>
-          <section class="field-row" style="justify-content: center;">
-            <button class="btn btn-default" id="close-about-mac" type="button">OK</button>
-          </section>
+  <div class="dialog-veil" id="dialog" hidden>
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dlg-title" aria-describedby="dlg-text">
+      <div class="dialog-inner">
+        <svg aria-hidden="true"><use id="dlg-icon" href="#i-mac"/></svg>
+        <div>
+          <h2 class="dialog-title" id="dlg-title"></h2>
+          <p class="dialog-text" id="dlg-text"></p>
         </div>
+        <div class="dialog-actions" id="dlg-actions"></div>
       </div>
     </div>
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <div class="toast-live" id="live" aria-live="polite"></div>
+
   <script>
-    (function () {
-      var desktopQuery = window.matchMedia("(min-width: 1025px)");
-      var windows = Array.prototype.slice.call(document.querySelectorAll(".window"));
-      var desktopGrid = document.getElementById("desktop-grid");
-      var aboutMacDialog = document.getElementById("about-mac-dialog");
-      var browserWindow = document.getElementById("win-browser");
-      var browserFrame = document.getElementById("browser-frame");
-      var browserPreviewImage = document.getElementById("browser-preview-image");
-      var browserUrl = document.getElementById("browser-url");
-      var browserNote = document.getElementById("browser-note");
-      var browserOpenNew = document.getElementById("browser-open-new");
-      var browserDownload = document.getElementById("browser-download");
-      var deskClockTime = document.getElementById("desk-clock-time");
-      var deskClockDate = document.getElementById("desk-clock-date");
-      var deskClockHourHand = document.getElementById("hand-hour");
-      var deskClockMinuteHand = document.getElementById("hand-minute");
-      var deskClockSecondHand = document.getElementById("hand-second");
-      var weatherLocation = document.getElementById("weather-location");
-      var weatherMain = document.getElementById("weather-main");
-      var weatherExtra = document.getElementById("weather-extra");
-      var weatherIcon = document.getElementById("weather-icon");
-      var weatherRefresh = document.getElementById("weather-refresh");
-      var geoMapElement = document.getElementById("geo-map");
-      var geoUseLocationButton = document.getElementById("geo-use-location");
-      var geoFocusPittsburghButton = document.getElementById("geo-focus-pittsburgh");
-      var geoFocusUserButton = document.getElementById("geo-focus-user");
-      var geoDistanceValue = document.getElementById("geo-distance");
-      var geoStatusValue = document.getElementById("geo-status");
-      var todoItems = Array.prototype.slice.call(document.querySelectorAll("[data-todo-task]"));
-      var desktopIcons = Array.prototype.slice.call(document.querySelectorAll("[data-desktop-icon]"));
-      var highestZ = 10 + windows.length;
-      var cmuState = {
-        latitude: 40.4438387,
-        longitude: -79.942583,
-        label: "Carnegie Mellon University"
-      };
-      var weatherState = {
-        latitude: 40.4406,
-        longitude: -79.9959,
-        label: "Pittsburgh, PA"
-      };
-      var geoState = {
-        map: null,
-        cmuMarker: null,
-        userMarker: null,
-        routeLine: null,
-        userLatitude: null,
-        userLongitude: null,
-        hasUserLocation: false,
-        fittedOnce: false
-      };
-      var todoStorageKey = "allrize.desktop.todo.v1";
-      var todoState = {
-        resume: false,
-        project: false,
-        linkedin: false,
-        aboutOs: false,
-        geoLocation: false
-      };
+  (function () {
+    "use strict";
 
-      function bringToFront(win) {
-        highestZ += 1;
-        win.style.zIndex = String(highestZ);
-      }
+    var EMAIL = "rutomo@andrew.cmu.edu";
+    var CMU = [40.4433, -79.9436];
+    var deskQuery = window.matchMedia("(min-width: 768px)");
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var desktop = document.getElementById("desktop");
+    var wins = {};
+    var zTop = 20;
 
-      function restoreWindow(id) {
-        var win = document.getElementById(id);
-        if (!win) {
-          return null;
-        }
-        win.classList.remove("hidden-window");
-        win.setAttribute("aria-hidden", "false");
-        bringToFront(win);
-        syncDesktopIcons();
-        if (id === "win-geo") {
-          invalidateGeoMap();
-        }
-        return win;
-      }
+    Array.prototype.forEach.call(document.querySelectorAll(".win"), function (w) {
+      wins[w.dataset.app] = w;
+    });
 
-      function focusWindow(id) {
-        var win = restoreWindow(id);
-        if (!win) {
-          return;
-        }
-        if (!desktopQuery.matches) {
-          win.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
+    function isDesk() { return deskQuery.matches; }
 
-      function syncDesktopIcons() {
-        desktopIcons.forEach(function (icon) {
-          var windowId = icon.getAttribute("data-desktop-icon");
-          var targetWindow = document.getElementById(windowId);
-          var isOpen = !!(targetWindow && !targetWindow.classList.contains("hidden-window"));
-          var labelNode = icon.querySelector(".icon-label");
+    function store(key, value) {
+      try {
+        if (value === undefined) return window.localStorage.getItem(key);
+        window.localStorage.setItem(key, value);
+      } catch (e) { return null; }
+    }
 
-          icon.classList.toggle("window-open", isOpen);
-          icon.classList.toggle("window-closed", !isOpen);
-          icon.setAttribute("aria-label", labelNode ? labelNode.textContent : "Window");
-        });
-      }
+    function announce(text) {
+      var live = document.getElementById("live");
+      live.textContent = "";
+      window.setTimeout(function () { live.textContent = text; }, 30);
+    }
 
-      function loadTodoState() {
-        try {
-          var rawState = window.localStorage.getItem(todoStorageKey);
-          if (!rawState) {
-            return;
+    /* ---------- Wallpaper contours ---------- */
+    (function drawContours() {
+      var g = document.getElementById("contours");
+      var hills = [
+        { x: 640, y: 700, rings: 7, step: 26, seed: 1.1 },
+        { x: 1180, y: 380, rings: 5, step: 24, seed: 2.4 },
+        { x: 250, y: 770, rings: 8, step: 28, seed: 4.2 },
+        { x: 1390, y: 820, rings: 6, step: 26, seed: 5.5 },
+        { x: 860, y: 150, rings: 5, step: 30, seed: 0.3 },
+        { x: 180, y: 110, rings: 4, step: 26, seed: 3.3 },
+        { x: 1500, y: 360, rings: 5, step: 24, seed: 6.1 }
+      ];
+      var out = "";
+      hills.forEach(function (h) {
+        for (var r = 1; r <= h.rings; r++) {
+          var radius = r * h.step;
+          var d = "";
+          for (var i = 0; i <= 72; i++) {
+            var a = i / 72 * Math.PI * 2;
+            var k = 1 + 0.16 * Math.sin(3 * a + h.seed) + 0.08 * Math.sin(5 * a + h.seed * 2.3) + 0.04 * Math.sin(9 * a + r);
+            var x = h.x + radius * k * Math.cos(a) * 1.45;
+            var y = h.y + radius * k * Math.sin(a);
+            d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
           }
-          var parsed = JSON.parse(rawState);
-          Object.keys(todoState).forEach(function (taskKey) {
-            todoState[taskKey] = !!parsed[taskKey];
-          });
-        } catch (error) {
-          // Ignore malformed localStorage data and keep defaults.
-        }
-      }
-
-      function saveTodoState() {
-        try {
-          window.localStorage.setItem(todoStorageKey, JSON.stringify(todoState));
-        } catch (error) {
-          // Ignore write failures in private browsing or blocked storage modes.
-        }
-      }
-
-      function renderTodoState() {
-        todoItems.forEach(function (item) {
-          var taskKey = item.getAttribute("data-todo-task");
-          var isDone = !!todoState[taskKey];
-          var box = item.querySelector(".todo-box");
-
-          item.classList.toggle("done", isDone);
-          if (box) {
-            box.textContent = isDone ? "✓" : "";
-          }
-        });
-      }
-
-      function completeTodoTask(taskKey) {
-        if (!Object.prototype.hasOwnProperty.call(todoState, taskKey) || todoState[taskKey]) {
-          return;
-        }
-        todoState[taskKey] = true;
-        saveTodoState();
-        renderTodoState();
-      }
-
-      function trackTodoFromUrl(urlValue) {
-        var normalized = String(urlValue || "").toLowerCase();
-        if (normalized.indexOf("resume.pdf") !== -1) {
-          completeTodoTask("resume");
-        }
-        if (normalized.indexOf("linkedin.com") !== -1) {
-          completeTodoTask("linkedin");
-        }
-      }
-
-      function openBrowserWindow(url, title, downloadName, previewImage) {
-        if (!browserWindow || !browserFrame) {
-          return;
-        }
-        var safeUrl = url || "about:blank";
-        var absoluteUrl = new URL(safeUrl, window.location.href);
-        trackTodoFromUrl(absoluteUrl.href);
-        var isExternal = /^https?:/i.test(absoluteUrl.protocol) && absoluteUrl.origin !== window.location.origin;
-        var screenshotUrl = previewImage ? new URL(previewImage, window.location.href).href : "https://image.thum.io/get/width/1400/noanimate/" + absoluteUrl.href;
-
-        restoreWindow("win-browser");
-        var titleNode = browserWindow.querySelector(".title");
-        if (titleNode) {
-          titleNode.textContent = title || "Web Viewer";
-        }
-        if (browserUrl) {
-          browserUrl.textContent = absoluteUrl.href;
-        }
-        if (isExternal) {
-          browserFrame.hidden = true;
-          browserFrame.src = "about:blank";
-          if (browserPreviewImage) {
-            browserPreviewImage.hidden = false;
-            browserPreviewImage.src = screenshotUrl;
-            browserPreviewImage.onerror = function () {
-              browserPreviewImage.hidden = true;
-              if (browserNote) {
-                browserNote.textContent = "Preview not available. Use Open in New Tab for live interaction.";
-              }
-            };
-          }
-          if (browserNote) {
-            browserNote.textContent = "Static preview mode for external site. Use Open in New Tab for live interaction.";
-          }
-        } else {
-          browserFrame.hidden = false;
-          browserFrame.src = absoluteUrl.href;
-          if (browserPreviewImage) {
-            browserPreviewImage.hidden = true;
-            browserPreviewImage.removeAttribute("src");
-            browserPreviewImage.onerror = null;
-          }
-          if (browserNote) {
-            browserNote.textContent = "Embedded view mode.";
-          }
-        }
-        if (browserOpenNew) {
-          browserOpenNew.href = absoluteUrl.href;
-        }
-        if (browserDownload) {
-          if (downloadName) {
-            browserDownload.hidden = false;
-            browserDownload.href = absoluteUrl.href;
-            browserDownload.setAttribute("download", downloadName);
-          } else {
-            browserDownload.hidden = true;
-            browserDownload.removeAttribute("href");
-          }
-        }
-        if (!desktopQuery.matches) {
-          browserWindow.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
-
-      function weatherCodeToLabel(code) {
-        var weatherMap = {
-          0: "Clear sky",
-          1: "Mostly clear",
-          2: "Partly cloudy",
-          3: "Overcast",
-          45: "Fog",
-          48: "Rime fog",
-          51: "Light drizzle",
-          53: "Drizzle",
-          55: "Heavy drizzle",
-          56: "Freezing drizzle",
-          57: "Dense freezing drizzle",
-          61: "Light rain",
-          63: "Rain",
-          65: "Heavy rain",
-          66: "Freezing rain",
-          67: "Heavy freezing rain",
-          71: "Light snow",
-          73: "Snow",
-          75: "Heavy snow",
-          77: "Snow grains",
-          80: "Rain showers",
-          81: "Heavy rain showers",
-          82: "Violent rain showers",
-          85: "Snow showers",
-          86: "Heavy snow showers",
-          95: "Thunderstorm",
-          96: "Thunderstorm + hail",
-          99: "Severe thunderstorm + hail"
-        };
-        return Object.prototype.hasOwnProperty.call(weatherMap, code) ? weatherMap[code] : "Unknown conditions";
-      }
-
-      function weatherCodeToIconEmoji(code) {
-        if (code === 0) {
-          return "☀️";
-        }
-        if (code === 1 || code === 2) {
-          return "⛅";
-        }
-        if (code === 3) {
-          return "☁️";
-        }
-        if (code === 45 || code === 48) {
-          return "🌫️";
-        }
-        if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
-          return "🌧️";
-        }
-        if ((code >= 71 && code <= 77) || code === 85 || code === 86) {
-          return "❄️";
-        }
-        if (code === 95 || code === 96 || code === 99) {
-          return "⛈️";
-        }
-        return "🌀";
-      }
-
-      function setWeatherIcon(iconEmoji) {
-        if (!weatherIcon) {
-          return;
-        }
-        weatherIcon.textContent = iconEmoji || "🌀";
-      }
-
-      function setAnalogHandAngle(hand, angle) {
-        if (!hand) {
-          return;
-        }
-        hand.style.transform = "translateX(-50%) rotate(" + angle + "deg)";
-      }
-
-      function formatClockTime(now) {
-        var hours24 = now.getHours();
-        var hours12 = hours24 % 12 || 12;
-        var period = hours24 >= 12 ? "PM" : "AM";
-        return String(hours12).padStart(2, "0") + ":" +
-          String(now.getMinutes()).padStart(2, "0") + ":" +
-          String(now.getSeconds()).padStart(2, "0") + " " + period;
-      }
-
-      function updateDeskClockWidget() {
-        var now = new Date();
-        if (deskClockTime) {
-          deskClockTime.textContent = formatClockTime(now);
-        }
-        if (deskClockDate) {
-          deskClockDate.textContent = new Intl.DateTimeFormat([], {
-            weekday: "short",
-            month: "short",
-            day: "numeric",
-            year: "numeric"
-          }).format(now);
-        }
-        var seconds = now.getSeconds();
-        var minutes = now.getMinutes();
-        var hours = now.getHours() % 12;
-
-        setAnalogHandAngle(deskClockHourHand, (hours + minutes / 60 + seconds / 3600) * 30);
-        setAnalogHandAngle(deskClockMinuteHand, (minutes + seconds / 60) * 6);
-        setAnalogHandAngle(deskClockSecondHand, seconds * 6);
-      }
-
-      function toRadians(value) {
-        return value * Math.PI / 180;
-      }
-
-      function computeDistanceKm(lat1, lng1, lat2, lng2) {
-        var earthRadiusKm = 6371.0088;
-        var deltaLat = toRadians(lat2 - lat1);
-        var deltaLng = toRadians(lng2 - lng1);
-        var a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-          Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
-          Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
-        return 2 * earthRadiusKm * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      }
-
-      function formatDistance(kilometers) {
-        if (!isFinite(kilometers)) {
-          return "Waiting for location";
-        }
-        var miles = kilometers * 0.621371;
-        var kmText = kilometers >= 100 ? Math.round(kilometers).toLocaleString() + " km" : kilometers.toFixed(1) + " km";
-        var miText = miles >= 100 ? Math.round(miles).toLocaleString() + " mi" : miles.toFixed(1) + " mi";
-        return kmText + " / " + miText;
-      }
-
-      function updateGeoReadout(message) {
-        if (!geoDistanceValue || !geoStatusValue) {
-          return;
-        }
-        if (!geoState.hasUserLocation) {
-          geoDistanceValue.textContent = "Waiting for location";
-          geoStatusValue.textContent = message || "World view loaded. Use My Location to draw the line.";
-          return;
-        }
-        geoDistanceValue.textContent = formatDistance(
-          computeDistanceKm(cmuState.latitude, cmuState.longitude, geoState.userLatitude, geoState.userLongitude)
-        );
-        geoStatusValue.textContent = message || "Line drawn from your browser location to Carnegie Mellon University.";
-      }
-
-      function invalidateGeoMap() {
-        if (!geoState.map) {
-          return;
-        }
-        window.setTimeout(function () {
-          geoState.map.invalidateSize();
-        }, 120);
-      }
-
-      function focusPittsburgh() {
-        if (!geoState.map) {
-          return;
-        }
-        geoState.map.flyTo([cmuState.latitude, cmuState.longitude], 13, {
-          duration: 1.1
-        });
-      }
-
-      function focusUserLocation() {
-        if (!geoState.map || !geoState.hasUserLocation) {
-          return;
-        }
-        geoState.map.flyTo([geoState.userLatitude, geoState.userLongitude], 13, {
-          duration: 1.1
-        });
-      }
-
-      function fitGeoBounds() {
-        if (!geoState.map || !geoState.hasUserLocation) {
-          return;
-        }
-        var bounds = L.latLngBounds(
-          [cmuState.latitude, cmuState.longitude],
-          [geoState.userLatitude, geoState.userLongitude]
-        );
-        geoState.map.fitBounds(bounds.pad(0.18), {
-          animate: true,
-          duration: 1.1,
-          maxZoom: 13
-        });
-      }
-
-      function ensureGeoMap() {
-        if (geoState.map || !geoMapElement || typeof L === "undefined") {
-          return;
-        }
-
-        geoState.map = L.map("geo-map", {
-          zoomControl: true,
-          worldCopyJump: true,
-          minZoom: 2
-        }).setView([20, 0], 2);
-
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          maxZoom: 19
-        }).addTo(geoState.map);
-
-        var cmuIcon = L.divIcon({
-          className: "",
-          html: '<div class="geo-pin geo-pin-cmu"></div>',
-          iconSize: [16, 16],
-          iconAnchor: [8, 8]
-        });
-
-        geoState.userIcon = L.divIcon({
-          className: "",
-          html: '<div class="geo-pin geo-pin-user"></div>',
-          iconSize: [16, 16],
-          iconAnchor: [8, 8]
-        });
-
-        geoState.cmuMarker = L.marker([cmuState.latitude, cmuState.longitude], {
-          icon: cmuIcon
-        }).addTo(geoState.map).bindPopup("<strong>Carnegie Mellon University</strong><br>Pittsburgh, Pennsylvania");
-
-        var legend = L.control({ position: "bottomright" });
-        legend.onAdd = function () {
-          var div = L.DomUtil.create("div", "geo-legend");
-          div.innerHTML = [
-            '<div class="geo-legend-title">Map Key</div>',
-            '<div class="geo-legend-row"><span class="geo-legend-chip cmu"></span><span>CMU anchor</span></div>',
-            '<div class="geo-legend-row"><span class="geo-legend-chip user"></span><span>Your location</span></div>',
-            '<div class="geo-legend-row"><span class="geo-legend-chip line"></span><span>Distance line</span></div>'
-          ].join("");
-          return div;
-        };
-        legend.addTo(geoState.map);
-
-        updateGeoReadout();
-        invalidateGeoMap();
-      }
-
-      function applyUserLocation(position) {
-        if (!geoState.map) {
-          return;
-        }
-
-        geoState.userLatitude = position.coords.latitude;
-        geoState.userLongitude = position.coords.longitude;
-        geoState.hasUserLocation = true;
-
-        if (!geoState.userMarker) {
-          geoState.userMarker = L.marker([geoState.userLatitude, geoState.userLongitude], {
-            icon: geoState.userIcon
-          }).addTo(geoState.map);
-        } else {
-          geoState.userMarker.setLatLng([geoState.userLatitude, geoState.userLongitude]);
-        }
-
-        geoState.userMarker.bindPopup("<strong>Your browser location</strong><br>" +
-          geoState.userLatitude.toFixed(4) + ", " + geoState.userLongitude.toFixed(4));
-
-        if (!geoState.routeLine) {
-          geoState.routeLine = L.polyline([
-            [cmuState.latitude, cmuState.longitude],
-            [geoState.userLatitude, geoState.userLongitude]
-          ], {
-            color: "#2b4cff",
-            weight: 3,
-            opacity: 0.95,
-            dashArray: "7 6"
-          }).addTo(geoState.map);
-        } else {
-          geoState.routeLine.setLatLngs([
-            [cmuState.latitude, cmuState.longitude],
-            [geoState.userLatitude, geoState.userLongitude]
-          ]);
-        }
-
-        if (geoFocusUserButton) {
-          geoFocusUserButton.disabled = false;
-        }
-
-        completeTodoTask("geoLocation");
-        updateGeoReadout();
-
-        if (!geoState.fittedOnce) {
-          fitGeoBounds();
-          geoState.fittedOnce = true;
-        } else {
-          focusUserLocation();
-        }
-      }
-
-      function requestUserLocation() {
-        ensureGeoMap();
-
-        if (!navigator.geolocation) {
-          updateGeoReadout("Browser geolocation is unavailable on this device.");
-          return;
-        }
-
-        if (geoUseLocationButton) {
-          geoUseLocationButton.disabled = true;
-          geoUseLocationButton.textContent = "Locating...";
-        }
-        updateGeoReadout("Waiting for browser permission...");
-
-        navigator.geolocation.getCurrentPosition(function (position) {
-          if (geoUseLocationButton) {
-            geoUseLocationButton.disabled = false;
-            geoUseLocationButton.textContent = "Update My Location";
-          }
-          applyUserLocation(position);
-        }, function () {
-          if (geoUseLocationButton) {
-            geoUseLocationButton.disabled = false;
-            geoUseLocationButton.textContent = geoState.hasUserLocation ? "Update My Location" : "Use My Location";
-          }
-          updateGeoReadout("Location access was denied. The CMU anchor remains available.");
-        }, {
-          enableHighAccuracy: false,
-          timeout: 10000,
-          maximumAge: 300000
-        });
-      }
-
-      function initializeGeoWidget() {
-        ensureGeoMap();
-        updateGeoReadout();
-
-        if (geoUseLocationButton) {
-          geoUseLocationButton.addEventListener("click", function () {
-            requestUserLocation();
-          });
-        }
-
-        if (geoFocusPittsburghButton) {
-          geoFocusPittsburghButton.addEventListener("click", function () {
-            focusPittsburgh();
-          });
-        }
-
-        if (geoFocusUserButton) {
-          geoFocusUserButton.addEventListener("click", function () {
-            focusUserLocation();
-          });
-        }
-      }
-
-      async function loadWeather() {
-        if (!weatherMain || !weatherLocation) {
-          return;
-        }
-
-        weatherLocation.textContent = weatherState.label;
-        weatherMain.textContent = "Loading weather data...";
-        setWeatherIcon("⌛");
-        if (weatherExtra) {
-          weatherExtra.textContent = "Fetching current conditions...";
-        }
-
-        var url = "https://api.open-meteo.com/v1/forecast?latitude=" +
-          encodeURIComponent(weatherState.latitude) +
-          "&longitude=" +
-          encodeURIComponent(weatherState.longitude) +
-          "&current=temperature_2m,weather_code,wind_speed_10m&temperature_unit=celsius&wind_speed_unit=kmh&timezone=auto";
-
-        try {
-          var response = await fetch(url, { cache: "no-store" });
-          if (!response.ok) {
-            throw new Error("weather-request-failed");
-          }
-          var data = await response.json();
-          if (!data.current) {
-            throw new Error("weather-payload-missing");
-          }
-
-          var current = data.current;
-          var currentUnits = data.current_units || {};
-          var tempUnit = currentUnits.temperature_2m || "°C";
-          var windUnit = currentUnits.wind_speed_10m || "km/h";
-          var weatherLabel = weatherCodeToLabel(current.weather_code);
-          var weatherIconEmoji = weatherCodeToIconEmoji(current.weather_code);
-          var tempRounded = Math.round(current.temperature_2m);
-          var windRounded = Math.round(current.wind_speed_10m);
-
-          weatherLocation.textContent = weatherState.label;
-          weatherMain.textContent = tempRounded + tempUnit + " · " + weatherLabel;
-          setWeatherIcon(weatherIconEmoji);
-          if (weatherExtra) {
-            weatherExtra.textContent = "Wind " + windRounded + " " + windUnit;
-          }
-        } catch (error) {
-          weatherMain.textContent = "Weather unavailable right now";
-          setWeatherIcon("⚠️");
-          if (weatherExtra) {
-            weatherExtra.textContent = "Check connection and refresh.";
-          }
-        }
-      }
-
-      function initializeWeather() {
-        loadWeather();
-
-        if (weatherRefresh) {
-          weatherRefresh.addEventListener("click", function () {
-            loadWeather();
-          });
-        }
-
-        window.setInterval(function () {
-          loadWeather();
-        }, 900000);
-      }
-
-      windows.forEach(function (win, index) {
-        win.style.zIndex = String(11 + index);
-        win.addEventListener("mousedown", function () {
-          bringToFront(win);
-        });
-        win.addEventListener("touchstart", function () {
-          bringToFront(win);
-        }, { passive: true });
-
-        var closeButton = win.querySelector(".window-close");
-        if (closeButton) {
-          closeButton.addEventListener("click", function (event) {
-            event.stopPropagation();
-            win.classList.add("hidden-window");
-            win.setAttribute("aria-hidden", "true");
-            syncDesktopIcons();
-          });
-        }
-
-        var grip = document.createElement("div");
-        grip.className = "window-resize-grip";
-        grip.setAttribute("aria-hidden", "true");
-        win.appendChild(grip);
-      });
-
-      document.querySelectorAll("[data-focus-window]").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-          event.preventDefault();
-          focusWindow(button.getAttribute("data-focus-window"));
-        });
-      });
-
-      document.querySelectorAll("[data-restore-window]").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-          event.preventDefault();
-          restoreWindow(button.getAttribute("data-restore-window"));
-        });
-      });
-
-      document.querySelectorAll("[data-action='restore-all']").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-          event.preventDefault();
-          windows.forEach(function (win) {
-            win.classList.remove("hidden-window");
-            win.setAttribute("aria-hidden", "false");
-            bringToFront(win);
-          });
-          syncDesktopIcons();
-        });
-      });
-
-      document.querySelectorAll("#win-projects .project-card .btn").forEach(function (link) {
-        link.addEventListener("click", function () {
-          completeTodoTask("project");
-        });
-      });
-
-      document.querySelectorAll("[data-action='about-mac']").forEach(function (button) {
-        button.addEventListener("click", function (event) {
-          event.preventDefault();
-          completeTodoTask("aboutOs");
-          aboutMacDialog.hidden = false;
-        });
-      });
-
-      document.querySelectorAll("[data-open-desktop]").forEach(function (link) {
-        link.addEventListener("click", function (event) {
-          event.preventDefault();
-          openBrowserWindow(
-            link.getAttribute("href"),
-            link.getAttribute("data-web-title") || "Web Viewer",
-            link.getAttribute("data-web-download"),
-            link.getAttribute("data-web-preview")
-          );
-        });
-      });
-
-      var closeAboutButton = document.getElementById("close-about-mac");
-      if (closeAboutButton) {
-        closeAboutButton.addEventListener("click", function () {
-          aboutMacDialog.hidden = true;
-        });
-      }
-
-      aboutMacDialog.addEventListener("click", function (event) {
-        if (event.target === aboutMacDialog) {
-          aboutMacDialog.hidden = true;
+          var index = r % 3 === 0;
+          out += index
+            ? '<path d="' + d + 'Z" stroke="#ffb81c" stroke-width="3"/>'
+            : '<path d="' + d + 'Z" stroke-width="1.2" opacity="0.5"/>';
         }
       });
-
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape" && !aboutMacDialog.hidden) {
-          aboutMacDialog.hidden = true;
-        }
-      });
-
-      var dragState = null;
-      var resizeState = null;
-
-      document.addEventListener("mousedown", function (event) {
-        if (!desktopQuery.matches) {
-          return;
-        }
-
-        var titleBar = event.target.closest(".title-bar");
-        var win = event.target.closest(".window");
-
-        if (!titleBar || !win || event.target.closest("button")) {
-          return;
-        }
-
-        if (window.getComputedStyle(win).position !== "absolute") {
-          return;
-        }
-
-        bringToFront(win);
-
-        var winRect = win.getBoundingClientRect();
-        var desktopRect = desktopGrid.getBoundingClientRect();
-
-        dragState = {
-          win: win,
-          desktopRect: desktopRect,
-          offsetX: event.clientX - winRect.left,
-          offsetY: event.clientY - winRect.top,
-          width: winRect.width,
-          height: winRect.height
-        };
-
-        win.classList.add("dragging");
-        event.preventDefault();
-      });
-
-      document.addEventListener("mousemove", function (event) {
-        if (!dragState) {
-          return;
-        }
-
-        var left = event.clientX - dragState.desktopRect.left - dragState.offsetX;
-        var top = event.clientY - dragState.desktopRect.top - dragState.offsetY;
-
-        left = Math.max(0, Math.min(left, dragState.desktopRect.width - dragState.width));
-        top = Math.max(0, Math.min(top, dragState.desktopRect.height - dragState.height));
-
-        dragState.win.style.left = left + "px";
-        dragState.win.style.top = top + "px";
-        dragState.win.style.right = "auto";
-        dragState.win.style.bottom = "auto";
-      });
-
-      document.addEventListener("mouseup", function () {
-        if (dragState) {
-          dragState.win.classList.remove("dragging");
-          dragState = null;
-        }
-        if (resizeState) {
-          resizeState.win.classList.remove("resizing");
-          resizeState = null;
-        }
-      });
-
-      document.addEventListener("mousedown", function (event) {
-        if (!desktopQuery.matches) {
-          return;
-        }
-        var grip = event.target.closest(".window-resize-grip");
-        if (!grip) {
-          return;
-        }
-        var win = grip.closest(".window");
-        if (!win || window.getComputedStyle(win).position !== "absolute") {
-          return;
-        }
-        bringToFront(win);
-        var pane = win.querySelector(".window-pane");
-        var nonPaneHeight = pane ? win.offsetHeight - pane.offsetHeight : 0;
-        resizeState = {
-          win: win,
-          pane: pane,
-          startX: event.clientX,
-          startY: event.clientY,
-          startWidth: win.offsetWidth,
-          startHeight: win.offsetHeight,
-          nonPaneHeight: nonPaneHeight
-        };
-        win.classList.add("resizing");
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      });
-
-      document.addEventListener("mousemove", function (event) {
-        if (!resizeState) {
-          return;
-        }
-        var newWidth = Math.max(260, resizeState.startWidth + event.clientX - resizeState.startX);
-        var newHeight = Math.max(120, resizeState.startHeight + event.clientY - resizeState.startY);
-        resizeState.win.style.width = newWidth + "px";
-        resizeState.win.style.height = newHeight + "px";
-        if (resizeState.pane) {
-          resizeState.pane.style.maxHeight = Math.max(60, newHeight - resizeState.nonPaneHeight) + "px";
-        }
-      });
-
-      var clockElement = document.getElementById("menu-clock");
-      var clockFormatter = new Intl.DateTimeFormat([], {
-        hour: "numeric",
-        minute: "2-digit"
-      });
-
-      function updateClock() {
-        if (!clockElement) {
-          return;
-        }
-        clockElement.textContent = clockFormatter.format(new Date());
-      }
-
-      loadTodoState();
-      renderTodoState();
-      syncDesktopIcons();
-      updateClock();
-      window.setInterval(updateClock, 60000);
-      updateDeskClockWidget();
-      window.setInterval(updateDeskClockWidget, 1000);
-      initializeWeather();
-      initializeGeoWidget();
-
-      window.addEventListener("load", function () {
-        window.setTimeout(function () {
-          var bootScreen = document.getElementById("boot-screen");
-          bootScreen.classList.add("hidden");
-          document.body.classList.remove("booting");
-          invalidateGeoMap();
-        }, 1500);
-      });
+      g.innerHTML = out;
     })();
+
+    /* ---------- Window manager ---------- */
+    var layout = {
+      hello: function (W) { return { x: 28, y: 22 }; },
+      projects: function (W) { return W > 1180 ? { x: 500, y: 56 } : { x: 70, y: 150 }; },
+      quest: function (W, H) { return { x: 28, y: Math.max(380, H - 230) }; },
+      resume: function (W) { return { x: Math.max(20, (W - 700) / 2 - 40), y: 16 }; },
+      map: function (W) { return { x: Math.max(20, W - 820), y: 40 }; },
+      hire: function (W) { return { x: Math.max(40, W / 2 - 120), y: 110 }; },
+      manifesto: function (W) { return { x: Math.max(40, W - 560), y: 260 }; },
+      tuyul: function (W) { return { x: Math.max(20, W / 2 - 300), y: 14 }; },
+      trash: function (W, H) { return { x: Math.max(20, W - 600), y: Math.max(20, H - 480) }; }
+    };
+
+    function place(w, force) {
+      if (!isDesk()) return;
+      if (w.dataset.placed && !force) return;
+      var W = desktop.clientWidth, H = desktop.clientHeight;
+      var pos = (layout[w.dataset.app] || function () { return { x: 60, y: 60 }; })(W, H);
+      var width = Math.min(w.offsetWidth || 400, W - 130);
+      w.style.width = width + "px";
+      var height = w.offsetHeight;
+      if (height > H - 12) { w.style.height = (H - 12) + "px"; height = H - 12; }
+      var x = Math.min(Math.max(8, pos.x), W - width - 116);
+      var y = Math.min(Math.max(6, pos.y), H - height - 6);
+      w.style.left = Math.max(6, x) + "px";
+      w.style.top = Math.max(6, y) + "px";
+      w.dataset.placed = "1";
+    }
+
+    function activate(w) {
+      Object.keys(wins).forEach(function (k) { wins[k].classList.remove("active"); });
+      if (!w) return;
+      zTop += 1;
+      w.style.zIndex = zTop;
+      w.classList.add("active");
+    }
+
+    function frontmost() {
+      var best = null, bestZ = -1;
+      Object.keys(wins).forEach(function (k) {
+        var w = wins[k];
+        if (w.hidden) return;
+        if (!isDesk() && k === "hello") return;
+        var z = parseInt(w.style.zIndex || "0", 10);
+        if (z > bestZ) { bestZ = z; best = w; }
+      });
+      return best;
+    }
+
+    function zoomRects(fromEl, w) {
+      if (!fromEl || reduceMotion.matches || !isDesk()) return;
+      var a = fromEl.getBoundingClientRect();
+      var b = w.getBoundingClientRect();
+      var steps = 7;
+      for (var i = 1; i <= steps; i++) {
+        (function (i) {
+          var t = i / steps;
+          var r = document.createElement("div");
+          r.className = "zoomrect";
+          r.style.left = (a.left + (b.left - a.left) * t) + "px";
+          r.style.top = (a.top + (b.top - a.top) * t) + "px";
+          r.style.width = (a.width + (b.width - a.width) * t) + "px";
+          r.style.height = (a.height + (b.height - a.height) * t) + "px";
+          window.setTimeout(function () {
+            document.body.appendChild(r);
+            window.setTimeout(function () { r.remove(); }, 70);
+          }, i * 22);
+        })(i);
+      }
+    }
+
+    var hooks = {};
+
+    function openApp(app, fromEl, opts) {
+      var w = wins[app];
+      if (!w) return;
+      var wasHidden = w.hidden;
+      w.hidden = false;
+      place(w);
+      activate(w);
+      if (wasHidden) {
+        if (!isDesk() && app !== "hello") {
+          w.classList.remove("sheet-in");
+          void w.offsetWidth;
+          w.classList.add("sheet-in");
+          if (!(opts && opts.noHistory)) history.pushState({ app: app }, "", "#" + app);
+        } else {
+          w.style.visibility = "hidden";
+          window.requestAnimationFrame(function () {
+            zoomRects(fromEl, w);
+            window.setTimeout(function () { w.style.visibility = ""; }, reduceMotion.matches || !fromEl ? 0 : 150);
+          });
+        }
+      }
+      if (!isDesk() && app === "hello" && !(opts && opts.noHistory)) {
+        w.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+      }
+      if (hooks[app]) hooks[app]();
+      var closeBtn = w.querySelector(".tb-close");
+      if (!isDesk() && app !== "hello" && closeBtn) closeBtn.focus({ preventScroll: true });
+    }
+
+    function closeApp(app, fromPop) {
+      var w = wins[app];
+      if (!w || w.hidden) return;
+      if (!isDesk() && app === "hello") return;
+      if (!isDesk() && !fromPop && history.state && history.state.app === app) {
+        history.back();
+        return;
+      }
+      w.hidden = true;
+      w.classList.remove("active", "zoomed");
+      activate(frontmost());
+    }
+
+    window.addEventListener("popstate", function () {
+      if (isDesk()) return;
+      var top = frontmost();
+      if (top) closeApp(top.dataset.app, true);
+    });
+
+    Object.keys(wins).forEach(function (k) {
+      var w = wins[k];
+      w.addEventListener("pointerdown", function () { if (!w.classList.contains("active")) activate(w); });
+      w.querySelector(".tb-close").addEventListener("click", function (e) { e.stopPropagation(); closeApp(k); });
+      w.querySelector(".tb-zoom").addEventListener("click", function (e) {
+        e.stopPropagation();
+        w.classList.toggle("zoomed");
+        if (k === "map") refreshMap();
+      });
+      var grip = document.createElement("div");
+      grip.className = "grip";
+      grip.setAttribute("aria-hidden", "true");
+      w.appendChild(grip);
+    });
+
+    // Drag and resize
+    var drag = null;
+    document.addEventListener("pointerdown", function (e) {
+      if (!isDesk() || e.button !== 0) return;
+      var w = e.target.closest(".win");
+      if (!w) return;
+      var grip = e.target.closest(".grip");
+      var bar = e.target.closest(".titlebar");
+      if ((!bar && !grip) || e.target.closest(".tb-btn")) return;
+      if (w.classList.contains("zoomed")) return;
+      activate(w);
+      drag = {
+        w: w,
+        mode: grip ? "resize" : "move",
+        sx: e.clientX,
+        sy: e.clientY,
+        x: w.offsetLeft,
+        y: w.offsetTop,
+        width: w.offsetWidth,
+        height: w.offsetHeight
+      };
+      w.classList.add("dragging");
+      (grip || bar).setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    document.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+      var W = desktop.clientWidth, H = desktop.clientHeight;
+      if (drag.mode === "move") {
+        var x = Math.min(Math.max(drag.x + dx, 60 - drag.width), W - 60);
+        var y = Math.min(Math.max(drag.y + dy, 0), H - 24);
+        drag.w.style.left = x + "px";
+        drag.w.style.top = y + "px";
+      } else {
+        drag.w.style.width = Math.max(240, drag.width + dx) + "px";
+        drag.w.style.height = Math.max(140, Math.min(drag.height + dy, H - drag.y - 4)) + "px";
+      }
+    });
+
+    document.addEventListener("pointerup", function () {
+      if (!drag) return;
+      drag.w.classList.remove("dragging");
+      if (drag.w.dataset.app === "map") refreshMap();
+      drag = null;
+    });
+
+    /* ---------- Openers + menus ---------- */
+    document.addEventListener("click", function (e) {
+      var opener = e.target.closest("[data-open]");
+      if (opener) {
+        e.preventDefault();
+        closeMenus();
+        if (opener.classList.contains("icon")) {
+          Array.prototype.forEach.call(document.querySelectorAll(".icon.selected"), function (i) { i.classList.remove("selected"); });
+          opener.classList.add("selected");
+        }
+        openApp(opener.dataset.open, opener);
+        return;
+      }
+      var act = e.target.closest("[data-action]");
+      if (act) {
+        e.preventDefault();
+        closeMenus();
+        actions[act.dataset.action] && actions[act.dataset.action](act);
+        return;
+      }
+      if (!e.target.closest(".icon")) {
+        Array.prototype.forEach.call(document.querySelectorAll(".icon.selected"), function (i) { i.classList.remove("selected"); });
+      }
+      var q = e.target.closest("[data-quest]");
+      if (q) completeQuest(q.dataset.quest);
+    });
+
+    var menus = Array.prototype.slice.call(document.querySelectorAll(".menu"));
+    var menuOpen = false;
+
+    function closeMenus() {
+      menus.forEach(function (m) {
+        m.classList.remove("open");
+        m.querySelector(".menu-title").setAttribute("aria-expanded", "false");
+      });
+      menuOpen = false;
+    }
+
+    function openMenu(m) {
+      closeMenus();
+      m.classList.add("open");
+      m.querySelector(".menu-title").setAttribute("aria-expanded", "true");
+      menuOpen = true;
+    }
+
+    menus.forEach(function (m) {
+      var title = m.querySelector(".menu-title");
+      title.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (m.classList.contains("open")) closeMenus(); else openMenu(m);
+      });
+      title.addEventListener("pointerenter", function (e) {
+        if (menuOpen && e.pointerType === "mouse" && !m.classList.contains("open")) openMenu(m);
+      });
+      title.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          openMenu(m);
+          var first = m.querySelector(".menu-list button, .menu-list a");
+          if (first) first.focus();
+        }
+      });
+      m.querySelector(".menu-list").addEventListener("keydown", function (e) {
+        var items = Array.prototype.slice.call(m.querySelectorAll(".menu-list button, .menu-list a"));
+        var i = items.indexOf(document.activeElement);
+        if (e.key === "ArrowDown") { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+        if (e.key === "ArrowUp") { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+      });
+    });
+
+    document.addEventListener("pointerdown", function (e) {
+      if (menuOpen && !e.target.closest(".menu")) closeMenus();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        if (!dialogVeil.hidden) { closeDialog(); return; }
+        if (menuOpen) { closeMenus(); return; }
+        var top = frontmost();
+        if (top) closeApp(top.dataset.app);
+        return;
+      }
+      if (e.target.closest("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+      var keyMap = { "1": "hello", "2": "resume", "3": "projects", "4": "map", "5": "hire" };
+      if (keyMap[e.key] && isDesk() && dialogVeil.hidden) openApp(keyMap[e.key]);
+    });
+
+    /* ---------- Dialog ---------- */
+    var dialogVeil = document.getElementById("dialog");
+    var lastFocus = null;
+
+    function showDialog(opts) {
+      lastFocus = document.activeElement;
+      document.getElementById("dlg-title").textContent = opts.title;
+      document.getElementById("dlg-text").textContent = opts.text;
+      document.getElementById("dlg-icon").setAttribute("href", opts.icon || "#i-mac");
+      var box = document.getElementById("dlg-actions");
+      box.innerHTML = "";
+      (opts.buttons || [{ label: "OK" }]).forEach(function (b, i, all) {
+        var el = document.createElement(b.href ? "a" : "button");
+        el.className = "btn" + (i === all.length - 1 ? " btn-default" : "");
+        el.textContent = b.label;
+        if (b.href) el.href = b.href; else el.type = "button";
+        el.addEventListener("click", function () { closeDialog(); if (b.run) b.run(); });
+        box.appendChild(el);
+      });
+      dialogVeil.hidden = false;
+      box.lastChild.focus();
+    }
+
+    function closeDialog() {
+      dialogVeil.hidden = true;
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    }
+
+    dialogVeil.addEventListener("click", function (e) { if (e.target === dialogVeil) closeDialog(); });
+
+    /* ---------- Actions ---------- */
+    var trashEmptied = false;
+
+    var actions = {
+      "about-os": function () {
+        completeQuest("about");
+        showDialog({
+          title: "About allrize",
+          text: "All rise. Everyone deserves a shot at upward mobility. I build data-driven technology and shape AI policy so the ladder reaches further down. From Jakarta to Pittsburgh, the mission stays the same: widen access, not just algorithms. Version 2026.9, built by hand with Claude Code.",
+          icon: "#i-mac"
+        });
+      },
+      "close-front": function () {
+        var top = frontmost();
+        if (top) closeApp(top.dataset.app);
+      },
+      "close-all": function () {
+        Object.keys(wins).forEach(function (k) {
+          if (!isDesk() && k === "hello") return;
+          wins[k].hidden = true;
+          wins[k].classList.remove("active", "zoomed");
+        });
+        if (!isDesk() && history.state && history.state.app) history.replaceState(null, "", location.pathname);
+      },
+      "clean-up": function () {
+        Object.keys(wins).forEach(function (k) {
+          var w = wins[k];
+          w.classList.remove("zoomed");
+          w.style.width = "";
+          w.style.height = "";
+          if (!w.hidden) place(w, true); else delete w.dataset.placed;
+        });
+        refreshMap();
+      },
+      "empty-trash": function () {
+        if (trashEmptied) {
+          showDialog({ title: "The Trash is already empty", text: "Everything in it was replaced by something better. Reload the page to fill it again.", icon: "#i-trash" });
+          return;
+        }
+        showDialog({
+          title: "Empty the Trash?",
+          text: "It holds 5 old processes Rizaldy replaced. They won't be missed.",
+          icon: "#i-alert",
+          buttons: [{ label: "Cancel" }, { label: "Empty Trash", run: emptyTrash }]
+        });
+      },
+      "restart": function () { boot(true); },
+      "copy-email": function (btn) {
+        var done = function () {
+          btn.textContent = "Copied";
+          announce("Email address copied");
+          window.setTimeout(function () { btn.textContent = "Copy email"; }, 1600);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(EMAIL).then(done, function () { window.prompt("Copy this email address:", EMAIL); });
+        } else {
+          window.prompt("Copy this email address:", EMAIL);
+        }
+      }
+    };
+
+    function emptyTrash() {
+      trashEmptied = true;
+      openApp("trash");
+      var items = Array.prototype.slice.call(document.querySelectorAll("#trash-list li"));
+      items.forEach(function (li, i) {
+        window.setTimeout(function () { li.classList.add("crumple"); }, i * 90);
+      });
+      window.setTimeout(function () {
+        var list = document.getElementById("trash-list");
+        list.innerHTML = '<li class="trash-empty" style="display:block">The Trash is empty.<br>Old habits, gone.</li>';
+        document.getElementById("trash-count").textContent = "0 items";
+        document.getElementById("trash-icon-use").setAttribute("href", "#i-trash");
+        announce("Trash emptied");
+      }, items.length * 90 + 450);
+    }
+
+    /* ---------- Quest ---------- */
+    var questKey = "allrize.quest.v2";
+    var quest = {};
+    try { quest = JSON.parse(store(questKey) || "{}") || {}; } catch (e) { quest = {}; }
+    var questItems = Array.prototype.slice.call(document.querySelectorAll("#quest-list li"));
+
+    function renderQuest() {
+      var n = 0;
+      questItems.forEach(function (li) {
+        var done = !!quest[li.dataset.task];
+        li.classList.toggle("done", done);
+        if (done) n += 1;
+      });
+      document.getElementById("quest-meter").textContent = n === questItems.length ? "All done. Nice exploring." : n + " of " + questItems.length + " done";
+      return n;
+    }
+
+    function completeQuest(task) {
+      if (quest[task]) return;
+      quest[task] = true;
+      store(questKey, JSON.stringify(quest));
+      var n = renderQuest();
+      if (n === questItems.length) {
+        window.setTimeout(function () {
+          showDialog({
+            title: "Quest complete",
+            text: "You found everything on this desktop. If you liked the tour, I'd like to hear from you.",
+            icon: "#i-flag",
+            buttons: [{ label: "Not now" }, { label: "Email Rizaldy", href: "mailto:" + EMAIL }]
+          });
+        }, 400);
+      }
+    }
+
+    hooks.resume = function () { completeQuest("resume"); };
+    hooks.trash = function () { completeQuest("trash"); };
+
+    /* ---------- Resume contents tracking ---------- */
+    (function () {
+      var pane = document.getElementById("resume-pane");
+      var links = Array.prototype.slice.call(document.querySelectorAll("#resume-toc a[href^='#r-']"));
+      links.forEach(function (a) {
+        a.addEventListener("click", function (e) {
+          e.preventDefault();
+          var target = document.getElementById(a.getAttribute("href").slice(1));
+          pane.scrollTo({ top: target.offsetTop - pane.offsetTop - 8, behavior: reduceMotion.matches ? "auto" : "smooth" });
+        });
+      });
+      pane.addEventListener("scroll", function () {
+        var current = links[0];
+        links.forEach(function (a) {
+          var t = document.getElementById(a.getAttribute("href").slice(1));
+          if (t.offsetTop - pane.offsetTop - 40 <= pane.scrollTop) current = a;
+        });
+        if (pane.scrollTop + pane.clientHeight >= pane.scrollHeight - 4) current = links[links.length - 1];
+        links.forEach(function (a) { a.classList.toggle("current", a === current); });
+      }, { passive: true });
+    })();
+
+    /* ---------- Projects ---------- */
+    var projects = [
+      { group: "Things I built for people I care about", items: [
+        { name: "BukuGambar.AI", icon: "i-app", meta: "Personal, 2025 to now", desc: "Turns text or a photo into a coloring page. Built for my sons, used by other parents too.", url: "https://colorize.allrize.tech/" },
+        { name: "LPDP CTRL+F", icon: "i-app", meta: "Personal", desc: "Search 28,007 programs to find the university that fits your LPDP scholarship.", url: "https://lpdp-find.vercel.app" },
+        { name: "Quran Turn", icon: "i-app", meta: "Claude Code and Codex plugin, 2026", desc: "Opens a quiet, offline Qur'an reader while your coding agent works on a prompt. Exact Tanzil text, no account, no tracking.", url: "https://quran.allrize.tech" },
+        { name: "Iqrava", icon: "i-app", meta: "Personal", desc: "A Quran reading tracker that helps you build a daily streak.", url: "https://iqrava.vercel.app" },
+        { name: "Tuyul agentic trading", icon: "i-chart", meta: "Private multi-agent system, 2026", desc: "A small autonomous trading desk run by a team of AI agents over MCP, with hard guardrails, a second-brain memory and a full audit trail. The code is private, so here is how it works.", app: "tuyul" },
+        { name: "twin.md", icon: "i-app", meta: "Anthropic Build with Opus 4.7, 2026", desc: "A local-first companion for your Obsidian vault. Ask your notes, save thoughts, approve desktop actions.", url: "https://allrize.tech/twin_md/" }
+      ]},
+      { group: "Ventures", items: [
+        { name: "Gelitik", icon: "i-chart", meta: "Founder, 2026", desc: "Gelora Analitik: traffic-to-revenue attribution for Indonesian builders. Tracks traffic per channel and tags checkouts, with Midtrans payment matching in progress.", url: "https://gelitik.allrize.tech" },
+        { name: "EcoFlow", icon: "i-map", meta: "Founder, 2024 to 2025", desc: "Crowd-aware travel itineraries from telco data. Won Singtel Group's Action for Change 2024 and now lives on as Telkomsel Travel Assistant.", url: null },
+        { name: "tSurvey", icon: "i-chart", meta: "Research and insight, 2022 to 2023", desc: "Audience sizing and stratified sampling over 158M respondents, plus an OCR pipeline for paper surveys.", url: "https://tsurvey.id" }
+      ]},
+      { group: "Carnegie Mellon coursework", items: [
+        { name: "NYC Transit Access", icon: "i-map", meta: "Machine Learning, Spring 2026", desc: "NLP and LLM analysis of 311 complaints and NYPD crime data, rolled into a Transit Desert Index across 2,327 census tracts.", url: "https://nyc-transit-intel.netlify.app" },
+        { name: "PGH Transit Atlas", icon: "i-map", meta: "EDA and Data Viz, Fall 2025", desc: "POGOH bikeshare meets 7,075 bus stops. K-means finds four rider types: commuter, last mile, errand and leisure.", url: "https://allrize.tech/pgh-transit-atlas/" },
+        { name: "Chicago Crash Intel", icon: "i-chart", meta: "Machine Learning, Spring 2026", desc: "A grid-cell crash risk platform that flags Chicago's 206 riskiest blocks and sorts them into 5 types.", url: "https://allrize.tech/chicago_crash_dashboard/" },
+        { name: "Crypto Volatility", icon: "i-chart", meta: "Operationalizing AI, Spring 2026", desc: "Real-time BTC and ETH volatility detection: Coinbase feed into Kafka, served by FastAPI with a live dashboard.", url: "https://github.com/rzrizaldy/fundamental_ai_crypto_volatile" }
+      ]},
+      { group: "Competitions", items: [
+        { name: "AI Safety Hackathon", icon: "i-doc", meta: "2nd place, Carnegie Mellon, 2026", desc: "Policy analysis of AI-enabled mass surveillance and how public institutions can deploy AI responsibly. Opens the slide deck (PDF).", url: "assets/hackathon-ai-policy.pdf" },
+        { name: "twin.md source", icon: "i-flag", meta: "Anthropic Build with Opus 4.7, 2026", desc: "Invite-only, one-week global hackathon. This is the code I shipped.", url: "https://github.com/rzrizaldy/twin_md" }
+      ]}
+    ];
+
+    (function renderProjects() {
+      var pane = document.getElementById("proj-pane");
+      var html = "", count = 0;
+      projects.forEach(function (g, gi) {
+        html += '<p class="finder-group">' + g.group + '</p><ul class="finder-grid">';
+        g.items.forEach(function (p, pi) {
+          count += 1;
+          html += '<li><button class="f-item" type="button" aria-pressed="false" data-p="' + gi + "." + pi + '"><svg aria-hidden="true"><use href="#' + p.icon + '"/></svg><span>' + p.name + "</span></button></li>";
+        });
+        html += "</ul>";
+      });
+      pane.innerHTML = html;
+      document.getElementById("proj-count").textContent = count + " items";
+
+      var openBtn = document.getElementById("pd-open");
+      function select(btn) {
+        Array.prototype.forEach.call(pane.querySelectorAll(".f-item"), function (b) { b.setAttribute("aria-pressed", "false"); });
+        btn.setAttribute("aria-pressed", "true");
+        var idx = btn.dataset.p.split(".");
+        var p = projects[+idx[0]].items[+idx[1]];
+        document.getElementById("pd-name").textContent = p.name;
+        document.getElementById("pd-meta").textContent = p.meta;
+        document.getElementById("pd-desc").textContent = p.desc;
+        openBtn.removeAttribute("data-open");
+        if (p.app) {
+          openBtn.removeAttribute("href");
+          openBtn.setAttribute("data-open", p.app);
+          openBtn.textContent = "See how it works";
+          openBtn.removeAttribute("aria-disabled");
+        } else if (p.url) {
+          openBtn.href = p.url;
+          openBtn.textContent = /\.pdf$/.test(p.url) ? "Open slides" : "Open";
+          openBtn.removeAttribute("aria-disabled");
+        } else {
+          openBtn.removeAttribute("href");
+          openBtn.textContent = "No public link";
+          openBtn.setAttribute("aria-disabled", "true");
+        }
+        return p;
+      }
+      pane.addEventListener("click", function (e) {
+        var btn = e.target.closest(".f-item");
+        if (btn) select(btn);
+      });
+      pane.addEventListener("dblclick", function (e) {
+        var btn = e.target.closest(".f-item");
+        if (!btn) return;
+        var p = select(btn);
+        if (p.app) { completeQuest("project"); openApp(p.app, btn); }
+        else if (p.url) { completeQuest("project"); window.open(p.url, "_blank", "noopener"); }
+      });
+      openBtn.addEventListener("click", function () { if (openBtn.href || openBtn.dataset.open) completeQuest("project"); });
+      select(pane.querySelector(".f-item"));
+    })();
+
+    /* ---------- Map ---------- */
+    var geo = { map: null, you: null, line: null };
+
+    function loadLeaflet(cb) {
+      if (window.L) { cb(); return; }
+      var css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      document.head.appendChild(css);
+      var s = document.createElement("script");
+      s.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      s.onload = cb;
+      s.onerror = function () { document.getElementById("geo-status").textContent = "The map couldn't load. Check your connection and reopen this window."; };
+      document.head.appendChild(s);
+    }
+
+    function refreshMap() {
+      if (geo.map) window.setTimeout(function () { geo.map.invalidateSize(); }, 60);
+    }
+
+    hooks.map = function () {
+      loadLeaflet(function () {
+        if (!geo.map) {
+          geo.map = L.map("geo-map", { zoomControl: true, worldCopyJump: true }).setView(CMU, 12);
+          L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}", {
+            attribution: "Tiles &copy; Esri, National Geographic, Garmin, HERE, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, increment P Corp.",
+            maxZoom: 16
+          }).addTo(geo.map);
+          L.marker(CMU, { icon: L.divIcon({ className: "", html: '<div class="pin"></div>', iconSize: [16, 16], iconAnchor: [8, 8] }) })
+            .addTo(geo.map).bindPopup("<b>Carnegie Mellon University</b><br>Where Rizaldy studies");
+        }
+        refreshMap();
+      });
+    };
+
+    function haversine(a, b) {
+      var R = 6371.0088, rad = Math.PI / 180;
+      var dLat = (b[0] - a[0]) * rad, dLng = (b[1] - a[1]) * rad;
+      var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[0] * rad) * Math.cos(b[0] * rad) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+    }
+
+    function fmt(km) {
+      var mi = km * 0.621371;
+      var f = function (v) { return v >= 100 ? Math.round(v).toLocaleString() : v.toFixed(1); };
+      return f(mi) + " mi (" + f(km) + " km)";
+    }
+
+    document.getElementById("geo-cmu").addEventListener("click", function () {
+      if (geo.map) geo.map.flyTo(CMU, 15, { duration: reduceMotion.matches ? 0 : 1 });
+    });
+
+    document.getElementById("geo-locate").addEventListener("click", function () {
+      var btn = this;
+      var status = document.getElementById("geo-status");
+      if (!navigator.geolocation) { status.textContent = "This browser can't share location."; return; }
+      btn.textContent = "Locating…";
+      btn.setAttribute("aria-disabled", "true");
+      status.textContent = "Waiting for your permission";
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        btn.textContent = "Update my location";
+        btn.removeAttribute("aria-disabled");
+        var you = [pos.coords.latitude, pos.coords.longitude];
+        var km = haversine(CMU, you);
+        document.getElementById("geo-distance").textContent = fmt(km);
+        status.textContent = km < 1 ? "You're basically on campus" : km < 30 ? "Close enough for coffee" : km < 1000 ? "A road trip away" : "A flight away, or a video call";
+        completeQuest("map");
+        loadLeaflet(function () {
+          if (!geo.map) hooks.map();
+          var icon = L.divIcon({ className: "", html: '<div class="pin pin-you"></div>', iconSize: [16, 16], iconAnchor: [8, 8] });
+          if (!geo.you) geo.you = L.marker(you, { icon: icon }).addTo(geo.map).bindPopup("You");
+          else geo.you.setLatLng(you);
+          if (!geo.line) geo.line = L.polyline([CMU, you], { color: "#000", weight: 3, dashArray: "6 6" }).addTo(geo.map);
+          else geo.line.setLatLngs([CMU, you]);
+          geo.map.fitBounds(L.latLngBounds([CMU, you]).pad(0.25), { maxZoom: 15 });
+        });
+      }, function () {
+        btn.textContent = "Use my location";
+        btn.removeAttribute("aria-disabled");
+        status.textContent = "Location is off. Allow it in your browser to measure.";
+      }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+    });
+
+    /* ---------- Menu bar clock + weather ---------- */
+    var clockEl = document.getElementById("menu-clock");
+    var clockFmt = new Intl.DateTimeFormat([], { hour: "numeric", minute: "2-digit" });
+    function tick() { clockEl.textContent = clockFmt.format(new Date()); }
+    tick();
+    window.setInterval(tick, 15000);
+
+    (function weather() {
+      var el = document.getElementById("menu-weather");
+      function glyph(c) {
+        if (c === 0) return "☀︎";
+        if (c <= 3) return "☁︎";
+        if (c === 45 || c === 48) return "≋";
+        if ((c >= 51 && c <= 67) || (c >= 80 && c <= 82)) return "☂︎";
+        if ((c >= 71 && c <= 77) || c === 85 || c === 86) return "❄︎";
+        if (c >= 95) return "⚡︎";
+        return "";
+      }
+      function load() {
+        fetch("https://api.open-meteo.com/v1/forecast?latitude=40.4406&longitude=-79.9959&current=temperature_2m,weather_code&temperature_unit=fahrenheit")
+          .then(function (r) { if (!r.ok) throw new Error("weather"); return r.json(); })
+          .then(function (d) {
+            var t = Math.round(d.current.temperature_2m);
+            var c = Math.round((t - 32) * 5 / 9);
+            el.textContent = glyph(d.current.weather_code) + " Pittsburgh " + t + "°F";
+            el.title = "Pittsburgh, PA: " + t + "°F / " + c + "°C";
+          })
+          .catch(function () { el.textContent = ""; });
+      }
+      load();
+      window.setInterval(load, 900000);
+    })();
+
+    /* ---------- Boot + initial layout ---------- */
+    function initialWindows() {
+      var hash = location.hash.replace("#", "");
+      openApp("hello", null, { noHistory: true });
+      if (isDesk()) {
+        openApp("quest", null);
+        if (desktop.clientWidth > 1180) openApp("projects", null);
+        activate(wins.hello);
+      }
+      if (wins[hash] && hash !== "hello") {
+        if (!isDesk()) history.replaceState(null, "", location.pathname);
+        openApp(hash, null);
+      }
+    }
+
+    function boot(force) {
+      var el = document.getElementById("boot");
+      var seen = false;
+      try { seen = window.sessionStorage.getItem("allrize.booted") === "1"; } catch (e) { seen = false; }
+      if ((seen && !force) || (reduceMotion.matches && !force)) return;
+      el.hidden = false;
+      var bar = el.querySelector(".boot-bar span");
+      bar.style.animation = "none";
+      void bar.offsetWidth;
+      bar.style.animation = "";
+      var done = function () {
+        el.hidden = true;
+        el.removeEventListener("click", done);
+        try { window.sessionStorage.setItem("allrize.booted", "1"); } catch (e) {}
+      };
+      el.addEventListener("click", done);
+      window.setTimeout(done, 1250);
+    }
+
+    renderQuest();
+    boot(false);
+    initialWindows();
+
+    deskQuery.addEventListener("change", function () {
+      Object.keys(wins).forEach(function (k) { delete wins[k].dataset.placed; wins[k].classList.remove("zoomed"); });
+      if (isDesk()) {
+        openApp("hello", null);
+        Object.keys(wins).forEach(function (k) { if (!wins[k].hidden) place(wins[k], true); });
+      }
+      refreshMap();
+    });
+  })();
   </script>
 </body>
 </html>
