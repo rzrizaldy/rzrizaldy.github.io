@@ -10,9 +10,10 @@ alerts:
   - rule: DOMAIN_FAILED
 static_sites:
   - name: web
-    git:
-      repo_clone_url: https://github.com/rzrizaldy/rzrizaldy.github.io.git
+    github:
+      repo: rzrizaldy/rzrizaldy.github.io
       branch: master
+      deploy_on_push: true
     source_dir: /
     output_dir: /
     index_document: index.html

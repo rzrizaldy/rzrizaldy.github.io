@@ -877,6 +877,14 @@
 
     .flow-note { margin: 14px 0 0; font-size: 14px; color: var(--shade); }
 
+    .score { width: 100%; border-collapse: collapse; margin: 6px 0 0; border: 1px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); }
+    .score caption { text-align: left; font-family: var(--chicago); font-size: 13px; padding-bottom: 6px; }
+    .score th, .score td { padding: 6px 10px; border-bottom: 1px solid var(--ink); text-align: right; font-size: 15px; font-variant-numeric: tabular-nums; }
+    .score th[scope="row"], .score thead th:first-child { text-align: left; font-weight: 400; }
+    .score thead th { font-family: var(--chicago); font-weight: 400; font-size: 13px; background: var(--chrome); }
+    .score .win-row { background: var(--ink); color: var(--paper); }
+    .score .win-row td:nth-child(2) { color: var(--gold); font-family: var(--chicago); }
+
     @media (max-width: 767px) {
       .node-row { grid-template-columns: 1fr; }
     }
@@ -1522,6 +1530,16 @@
       <div class="infobar"><span>Simplified system diagram</span><span class="hide-phone">Private repo</span></div>
       <div class="pane">
         <p>Named after the tuyul, a small spirit from Javanese folklore that quietly collects money for its keeper. Here, the spirit is a team of agents.</p>
+        <table class="score" aria-label="Returns since the desk went live on June 10, 2026">
+          <caption>Since go-live, June 10 to September 28, 2026</caption>
+          <thead><tr><th scope="col">Book</th><th scope="col">Return</th><th scope="col">Tuyul's lead</th></tr></thead>
+          <tbody>
+            <tr class="win-row"><th scope="row">Tuyul agentic desk</th><td>+14.51%</td><td>—</td></tr>
+            <tr><th scope="row">S&amp;P 500 (SPY)</th><td>+5.53%</td><td>+8.98 pts</td></tr>
+            <tr><th scope="row">IHSG (Jakarta Composite)</th><td>+4.16%</td><td>+10.35 pts</td></tr>
+          </tbody>
+        </table>
+        <p class="flow-note" style="margin:6px 0 16px">Real money, small book. Tuyul's return is time-weighted in USD, so deposits don't count as gains; IHSG is in rupiah. Past results say nothing about the future, and this isn't investment advice.</p>
         <ol class="flow" aria-label="How one trading session flows">
           <li><div class="node"><b>1. Scheduler wakes the desk</b><p>A few timed sessions each market day, plus a Monday deep scan and a Friday retro.</p></div></li>
           <li><div class="node"><b>2. Load memory</b><p>A context pack pulls from the second brain before anyone acts.</p>
@@ -2078,7 +2096,7 @@
         { name: "LPDP CTRL+F", icon: "i-app", meta: "Personal", desc: "Search 28,007 programs to find the university that fits your LPDP scholarship.", url: "https://lpdp-find.vercel.app" },
         { name: "Quran Turn", icon: "i-app", meta: "Claude Code and Codex plugin, 2026", desc: "Opens a quiet, offline Qur'an reader while your coding agent works on a prompt. Exact Tanzil text, no account, no tracking.", url: "https://quran.allrize.tech" },
         { name: "Iqrava", icon: "i-app", meta: "Personal", desc: "A Quran reading tracker that helps you build a daily streak.", url: "https://iqrava.vercel.app" },
-        { name: "Tuyul agentic trading", icon: "i-chart", meta: "Private multi-agent system, 2026", desc: "A small autonomous trading desk run by a team of AI agents over MCP, with hard guardrails, a second-brain memory and a full audit trail. The code is private, so here is how it works.", app: "tuyul" },
+        { name: "Tuyul agentic trading", icon: "i-chart", meta: "Private multi-agent system, 2026", desc: "A small autonomous trading desk run by a team of AI agents over MCP. Up 14.5% since June, against 5.5% for the S&P 500 and 4.2% for IHSG. The code is private, so here is how it works.", app: "tuyul" },
         { name: "twin.md", icon: "i-app", meta: "Anthropic Build with Opus 4.7, 2026", desc: "A local-first companion for your Obsidian vault. Ask your notes, save thoughts, approve desktop actions.", url: "https://allrize.tech/twin_md/" }
       ]},
       { group: "Ventures", items: [
