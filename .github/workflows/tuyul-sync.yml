@@ -1,0 +1,42 @@
+name: Weekly Tuyul scoreboard sync
+
+on:
+  schedule:
+    - cron: "0 14 * * 6" # Saturdays 14:00 UTC, after Friday's US close and retro
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out private tuyul-md (read-only token)
+        uses: actions/checkout@v4
+        with:
+          repository: rzrizaldy/tuyul-md
+          token: ${{ secrets.TUYUL_READ_TOKEN }}
+          path: tuyul-md
+          sparse-checkout: data/equity.json
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Export percentages
+        run: python3 scripts/sync_tuyul.py --tuyul tuyul-md
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- assets/tuyul.json; then
+            echo "No change"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add assets/tuyul.json
+          git commit -m "Sync Tuyul scoreboard ($(python3 -c 'import json;print(json.load(open("assets/tuyul.json"))["as_of"])'))"
+          git push

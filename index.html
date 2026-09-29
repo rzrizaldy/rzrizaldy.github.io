@@ -225,12 +225,13 @@
       width: 100%;
       height: 100%;
       display: block;
+      object-fit: cover;
     }
 
     .wallpaper text {
       font-family: var(--chicago);
-      font-size: 17px;
-      fill: #cfcfcf;
+      font-size: 20px;
+      fill: #d6d6d6;
     }
 
     .wallpaper .tag text { fill: var(--ink); }
@@ -877,6 +878,33 @@
 
     .flow-note { margin: 14px 0 0; font-size: 14px; color: var(--shade); }
 
+    .chart { margin: 14px 0 0; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-family: var(--chicago); font-size: 13px; margin-bottom: 6px; }
+    .chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .sw { display: inline-block; width: 20px; height: 0; border-top: 3px solid; }
+    .sw-tuyul { border-color: #a86f00; }
+    .sw-spy { border-color: #2f6fb0; border-top-style: dashed; }
+    .sw-ihsg { border-color: #2e8b57; border-top-style: dotted; }
+    .chart-plot { position: relative; }
+    .chart-plot svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .chart-plot text { font-family: var(--body); font-size: 12px; fill: var(--shade); }
+    .chart-plot .end-label { font-family: var(--chicago); font-size: 12px; fill: var(--ink); }
+    .chart-tip {
+      position: absolute;
+      top: 0;
+      pointer-events: none;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      padding: 4px 8px;
+      font-size: 13px;
+      line-height: 1.4;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .chart-tip b { font-family: var(--chicago); font-weight: 400; }
+    .chart figcaption { margin-top: 4px; font-size: 13px; color: var(--shade); }
+
     .score { width: 100%; border-collapse: collapse; margin: 6px 0 0; border: 1px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); }
     .score caption { text-align: left; font-family: var(--chicago); font-size: 13px; padding-bottom: 6px; }
     .score th, .score td { padding: 6px 10px; border-bottom: 1px solid var(--ink); text-align: right; font-size: 15px; font-variant-numeric: tabular-nums; }
@@ -1242,47 +1270,21 @@
   </header>
 
   <main class="desktop" id="desktop">
-    <svg class="wallpaper" id="wallpaper" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <pattern id="dith" width="4" height="4" patternUnits="userSpaceOnUse">
-          <rect width="4" height="4" fill="#000"/>
-          <rect width="1" height="1" fill="#fff" opacity=".06"/>
-          <rect x="2" y="2" width="1" height="1" fill="#fff" opacity=".06"/>
-        </pattern>
-        <pattern id="water" width="6" height="6" patternUnits="userSpaceOnUse">
-          <rect width="6" height="6" fill="#141414"/>
-          <rect y="3" width="3" height="1" fill="#fff" opacity=".18"/>
-        </pattern>
-        <path id="p-ohio" d="M526 470 C430 430 340 340 210 302 S50 250 -60 262"/>
-        <path id="p-alle" d="M526 470 C640 430 760 362 880 332 S1080 250 1200 204 S1450 112 1680 92"/>
-        <path id="p-mon" d="M526 470 C640 520 760 522 880 542 S1060 640 1180 652 S1380 702 1460 820 S1560 960 1680 1010"/>
-      </defs>
-      <rect width="1600" height="1000" fill="url(#dith)"/>
-      <g id="contours" fill="none" stroke="#8c8c8c"></g>
-      <g fill="none" stroke-linecap="round">
-        <use href="#p-ohio" stroke="#9a9a9a" stroke-width="62"/>
-        <use href="#p-alle" stroke="#9a9a9a" stroke-width="44"/>
-        <use href="#p-mon" stroke="#9a9a9a" stroke-width="48"/>
-        <use href="#p-ohio" stroke="url(#water)" stroke-width="58"/>
-        <use href="#p-alle" stroke="url(#water)" stroke-width="40"/>
-        <use href="#p-mon" stroke="url(#water)" stroke-width="44"/>
-        <use href="#p-ohio" stroke="#ffb81c" stroke-width="2" stroke-dasharray="14 10"/>
-        <use href="#p-alle" stroke="#ffb81c" stroke-width="2" stroke-dasharray="14 10"/>
-        <use href="#p-mon" stroke="#ffb81c" stroke-width="2" stroke-dasharray="14 10"/>
-      </g>
-      <text dy="6"><textPath href="#p-ohio" startOffset="22%">Ohio River</textPath></text>
-      <text dy="6"><textPath href="#p-alle" startOffset="32%">Allegheny River</textPath></text>
-      <text dy="6"><textPath href="#p-mon" startOffset="40%">Monongahela River</textPath></text>
-      <g class="tag" transform="translate(526 470)">
+    <img class="wallpaper" src="assets/topo.svg" alt="" aria-hidden="true">
+    <svg class="wallpaper" viewBox="0 0 2048 1280" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <text x="561" y="530" transform="rotate(32 561 530)" text-anchor="middle">Ohio River</text>
+      <text x="1056" y="645" transform="rotate(-18 1056 645)" text-anchor="middle">Allegheny River</text>
+      <text x="1172" y="990" transform="rotate(28 1172 990)" text-anchor="middle">Monongahela River</text>
+      <g class="tag" transform="translate(846 808)">
         <circle r="9" fill="#ffb81c" stroke="#000" stroke-width="3"/>
-        <rect x="-44" y="18" width="88" height="24" fill="#fff" stroke="#000" stroke-width="2"/>
-        <text x="0" y="36" text-anchor="middle">The Point</text>
+        <rect x="-50" y="16" width="100" height="26" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="0" y="35" text-anchor="middle">The Point</text>
       </g>
-      <g class="tag" transform="translate(1034 520)">
+      <g class="tag" transform="translate(1239 796)">
         <rect x="-10" y="-10" width="20" height="20" fill="#000" stroke="#ffb81c" stroke-width="2"/>
         <rect x="-5" y="-5" width="10" height="10" fill="#ffb81c"/>
-        <rect x="16" y="-14" width="120" height="28" fill="#fff" stroke="#000" stroke-width="2"/>
-        <text x="76" y="6" text-anchor="middle">CMU, Oakland</text>
+        <rect x="16" y="-14" width="132" height="28" fill="#fff" stroke="#000" stroke-width="2"/>
+        <text x="82" y="6" text-anchor="middle">CMU, Oakland</text>
       </g>
     </svg>
 
@@ -1446,13 +1448,41 @@
     <!-- Projects -->
     <section class="win" id="w-projects" data-app="projects" aria-labelledby="t-projects" hidden>
       <div class="titlebar"><button class="tb-btn tb-close" type="button" aria-label="Close Projects"></button><h2 id="t-projects">Projects</h2><button class="tb-btn tb-zoom" type="button" aria-label="Zoom window"></button></div>
-      <div class="infobar"><span id="proj-count">0 items</span><span class="hide-phone">Tap an item to see what it is</span></div>
-      <div class="pane" id="proj-pane"></div>
+      <div class="infobar"><span id="proj-count">15 items</span><span class="hide-phone">Tap an item to see what it is</span></div>
+      <div class="pane" id="proj-pane">
+        <p class="finder-group">Things I built for people I care about</p>
+        <ul class="finder-grid">
+          <li><button class="f-item" type="button" aria-pressed="true" data-meta="Personal, 2025 to now" data-desc="Turns text or a photo into a coloring page. Built for my sons, used by other parents too." data-url="https://colorize.allrize.tech/"><svg aria-hidden="true"><use href="#i-app"/></svg><span>BukuGambar.AI</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Personal" data-desc="Search 28,007 programs to find the university that fits your LPDP scholarship." data-url="https://lpdpfind.allrize.tech"><svg aria-hidden="true"><use href="#i-app"/></svg><span>LPDP CTRL+F</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Claude Code and Codex plugin, 2026" data-desc="Opens a quiet, offline Qur&#x27;an reader while your coding agent works on a prompt. Exact Tanzil text, no account, no tracking." data-url="https://quran.allrize.tech"><svg aria-hidden="true"><use href="#i-app"/></svg><span>Quran Turn</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Personal" data-desc="A Quran reading tracker that helps you build a daily streak." data-url="https://iqrava.vercel.app"><svg aria-hidden="true"><use href="#i-app"/></svg><span>Iqrava</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Private multi-agent system, 2026" data-desc="A small autonomous trading desk run by a team of AI agents over MCP. Up 14.5% since June, against 5.5% for the S&amp;P 500 and 4.2% for IHSG. The code is private, so here is how it works." data-app-link="tuyul"><svg aria-hidden="true"><use href="#i-chart"/></svg><span>Tuyul agentic trading</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Anthropic Build with Opus 4.7, 2026" data-desc="A local-first companion for your Obsidian vault. Ask your notes, save thoughts, approve desktop actions." data-url="https://allrize.tech/twin_md/"><svg aria-hidden="true"><use href="#i-app"/></svg><span>twin.md</span></button></li>
+        </ul>
+        <p class="finder-group">Ventures</p>
+        <ul class="finder-grid">
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Founder, 2026" data-desc="Gelora Analitik: traffic-to-revenue attribution for Indonesian builders. Tracks traffic per channel and tags checkouts, with Midtrans payment matching in progress." data-url="https://gelitik.allrize.tech"><svg aria-hidden="true"><use href="#i-chart"/></svg><span>Gelitik</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Founder, 2024 to 2025" data-desc="Crowd-aware travel itineraries from telco data. Won Singtel Group&#x27;s Action for Change 2024 and now lives on as Telkomsel Travel Assistant."><svg aria-hidden="true"><use href="#i-map"/></svg><span>EcoFlow</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Research and insight, 2022 to 2023" data-desc="Audience sizing and stratified sampling over 158M respondents, plus an OCR pipeline for paper surveys." data-url="https://tsurvey.id"><svg aria-hidden="true"><use href="#i-chart"/></svg><span>tSurvey</span></button></li>
+        </ul>
+        <p class="finder-group">Carnegie Mellon coursework</p>
+        <ul class="finder-grid">
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Machine Learning, Spring 2026" data-desc="NLP and LLM analysis of 311 complaints and NYPD crime data, rolled into a Transit Desert Index across 2,327 census tracts." data-url="https://nyc-transit-intel.netlify.app"><svg aria-hidden="true"><use href="#i-map"/></svg><span>NYC Transit Access</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="EDA and Data Viz, Fall 2025" data-desc="POGOH bikeshare meets 7,075 bus stops. K-means finds four rider types: commuter, last mile, errand and leisure." data-url="https://allrize.tech/pgh-transit-atlas/"><svg aria-hidden="true"><use href="#i-map"/></svg><span>PGH Transit Atlas</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Machine Learning, Spring 2026" data-desc="A grid-cell crash risk platform that flags Chicago&#x27;s 206 riskiest blocks and sorts them into 5 types." data-url="https://allrize.tech/chicago_crash_dashboard/"><svg aria-hidden="true"><use href="#i-chart"/></svg><span>Chicago Crash Intel</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Operationalizing AI, Spring 2026" data-desc="Real-time BTC and ETH volatility detection: Coinbase feed into Kafka, served by FastAPI with a live dashboard." data-url="https://github.com/rzrizaldy/fundamental_ai_crypto_volatile"><svg aria-hidden="true"><use href="#i-chart"/></svg><span>Crypto Volatility</span></button></li>
+        </ul>
+        <p class="finder-group">Competitions</p>
+        <ul class="finder-grid">
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="2nd place, Carnegie Mellon, 2026" data-desc="Policy analysis of AI-enabled mass surveillance and how public institutions can deploy AI responsibly. Opens the slide deck (PDF)." data-url="assets/hackathon-ai-policy.pdf"><svg aria-hidden="true"><use href="#i-doc"/></svg><span>AI Safety Hackathon</span></button></li>
+          <li><button class="f-item" type="button" aria-pressed="false" data-meta="Anthropic Build with Opus 4.7, 2026" data-desc="Invite-only, one-week global hackathon. This is the code I shipped." data-url="https://github.com/rzrizaldy/twin_md"><svg aria-hidden="true"><use href="#i-flag"/></svg><span>twin.md source</span></button></li>
+        </ul>
+      </div>
       <div class="finder-detail" id="proj-detail" aria-live="polite">
-        <h4 id="pd-name"></h4>
-        <p class="meta" id="pd-meta"></p>
-        <a class="btn btn-default" id="pd-open" href="#" target="_blank" rel="noreferrer">Open</a>
-        <p class="desc" id="pd-desc"></p>
+        <h4 id="pd-name">BukuGambar.AI</h4>
+        <p class="meta" id="pd-meta">Personal, 2025 to now</p>
+        <a class="btn btn-default" id="pd-open" href="https://colorize.allrize.tech/" target="_blank" rel="noreferrer">Open</a>
+        <p class="desc" id="pd-desc">Turns text or a photo into a coloring page. Built for my sons, used by other parents too.</p>
       </div>
     </section>
 
@@ -1526,14 +1556,21 @@
       <div class="pane">
         <p>Named after the tuyul, a small spirit from Javanese folklore that quietly collects money for its keeper. Here, the spirit is a team of agents.</p>
         <table class="score" aria-label="Returns since the desk went live on June 10, 2026">
-          <caption>Since go-live, June 10 to September 28, 2026</caption>
+          <caption id="score-cap">Since go-live, June 10 to September 28, 2026</caption>
           <thead><tr><th scope="col">Book</th><th scope="col">Return</th><th scope="col">Tuyul's lead</th></tr></thead>
           <tbody>
-            <tr class="win-row"><th scope="row">Tuyul agentic desk</th><td>+14.51%</td><td>—</td></tr>
-            <tr><th scope="row">S&amp;P 500 (SPY)</th><td>+5.53%</td><td>+8.98 pts</td></tr>
-            <tr><th scope="row">IHSG (Jakarta Composite)</th><td>+4.16%</td><td>+10.35 pts</td></tr>
+            <tr class="win-row"><th scope="row">Tuyul agentic desk</th><td id="sc-tuyul">+14.51%</td><td>—</td></tr>
+            <tr><th scope="row">S&amp;P 500 (SPY)</th><td id="sc-spy">+5.53%</td><td id="sc-spy-lead">+8.98 pts</td></tr>
+            <tr><th scope="row">IHSG (Jakarta Composite)</th><td id="sc-ihsg">+4.16%</td><td id="sc-ihsg-lead">+10.35 pts</td></tr>
           </tbody>
         </table>
+        <figure class="chart" id="tuyul-chart" aria-label="Cumulative return since June 10: Tuyul versus S&amp;P 500 and IHSG">
+          <div class="chart-legend" aria-hidden="true">
+            <span><i class="sw sw-tuyul"></i>Tuyul</span><span><i class="sw sw-spy"></i>S&amp;P 500</span><span><i class="sw sw-ihsg"></i>IHSG</span>
+          </div>
+          <div class="chart-plot" id="tuyul-plot"></div>
+          <figcaption id="tuyul-updated">Updated weekly from the desk's own journal.</figcaption>
+        </figure>
         <p class="flow-note" style="margin:6px 0 16px">Real money, small book. Tuyul's return is time-weighted in USD, so deposits don't count as gains; IHSG is in rupiah. Past results say nothing about the future, and this isn't investment advice.</p>
         <ol class="flow" aria-label="How one trading session flows">
           <li><div class="node"><b>1. Scheduler wakes the desk</b><p>A few timed sessions each market day, plus a Monday deep scan and a Friday retro.</p></div></li>
@@ -1613,39 +1650,6 @@
       live.textContent = "";
       window.setTimeout(function () { live.textContent = text; }, 30);
     }
-
-    /* ---------- Wallpaper contours ---------- */
-    (function drawContours() {
-      var g = document.getElementById("contours");
-      var hills = [
-        { x: 640, y: 700, rings: 7, step: 26, seed: 1.1 },
-        { x: 1180, y: 380, rings: 5, step: 24, seed: 2.4 },
-        { x: 250, y: 770, rings: 8, step: 28, seed: 4.2 },
-        { x: 1390, y: 820, rings: 6, step: 26, seed: 5.5 },
-        { x: 860, y: 150, rings: 5, step: 30, seed: 0.3 },
-        { x: 180, y: 110, rings: 4, step: 26, seed: 3.3 },
-        { x: 1500, y: 360, rings: 5, step: 24, seed: 6.1 }
-      ];
-      var out = "";
-      hills.forEach(function (h) {
-        for (var r = 1; r <= h.rings; r++) {
-          var radius = r * h.step;
-          var d = "";
-          for (var i = 0; i <= 72; i++) {
-            var a = i / 72 * Math.PI * 2;
-            var k = 1 + 0.16 * Math.sin(3 * a + h.seed) + 0.08 * Math.sin(5 * a + h.seed * 2.3) + 0.04 * Math.sin(9 * a + r);
-            var x = h.x + radius * k * Math.cos(a) * 1.45;
-            var y = h.y + radius * k * Math.sin(a);
-            d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
-          }
-          var index = r % 3 === 0;
-          out += index
-            ? '<path d="' + d + 'Z" stroke="#ffb81c" stroke-width="3"/>'
-            : '<path d="' + d + 'Z" stroke-width="1.2" opacity="0.5"/>';
-        }
-      });
-      g.innerHTML = out;
-    })();
 
     /* ---------- Window manager ---------- */
     var layout = {
@@ -2085,52 +2089,21 @@
     })();
 
     /* ---------- Projects ---------- */
-    var projects = [
-      { group: "Things I built for people I care about", items: [
-        { name: "BukuGambar.AI", icon: "i-app", meta: "Personal, 2025 to now", desc: "Turns text or a photo into a coloring page. Built for my sons, used by other parents too.", url: "https://colorize.allrize.tech/" },
-        { name: "LPDP CTRL+F", icon: "i-app", meta: "Personal", desc: "Search 28,007 programs to find the university that fits your LPDP scholarship.", url: "https://lpdpfind.allrize.tech" },
-        { name: "Quran Turn", icon: "i-app", meta: "Claude Code and Codex plugin, 2026", desc: "Opens a quiet, offline Qur'an reader while your coding agent works on a prompt. Exact Tanzil text, no account, no tracking.", url: "https://quran.allrize.tech" },
-        { name: "Iqrava", icon: "i-app", meta: "Personal", desc: "A Quran reading tracker that helps you build a daily streak.", url: "https://iqrava.vercel.app" },
-        { name: "Tuyul agentic trading", icon: "i-chart", meta: "Private multi-agent system, 2026", desc: "A small autonomous trading desk run by a team of AI agents over MCP. Up 14.5% since June, against 5.5% for the S&P 500 and 4.2% for IHSG. The code is private, so here is how it works.", app: "tuyul" },
-        { name: "twin.md", icon: "i-app", meta: "Anthropic Build with Opus 4.7, 2026", desc: "A local-first companion for your Obsidian vault. Ask your notes, save thoughts, approve desktop actions.", url: "https://allrize.tech/twin_md/" }
-      ]},
-      { group: "Ventures", items: [
-        { name: "Gelitik", icon: "i-chart", meta: "Founder, 2026", desc: "Gelora Analitik: traffic-to-revenue attribution for Indonesian builders. Tracks traffic per channel and tags checkouts, with Midtrans payment matching in progress.", url: "https://gelitik.allrize.tech" },
-        { name: "EcoFlow", icon: "i-map", meta: "Founder, 2024 to 2025", desc: "Crowd-aware travel itineraries from telco data. Won Singtel Group's Action for Change 2024 and now lives on as Telkomsel Travel Assistant.", url: null },
-        { name: "tSurvey", icon: "i-chart", meta: "Research and insight, 2022 to 2023", desc: "Audience sizing and stratified sampling over 158M respondents, plus an OCR pipeline for paper surveys.", url: "https://tsurvey.id" }
-      ]},
-      { group: "Carnegie Mellon coursework", items: [
-        { name: "NYC Transit Access", icon: "i-map", meta: "Machine Learning, Spring 2026", desc: "NLP and LLM analysis of 311 complaints and NYPD crime data, rolled into a Transit Desert Index across 2,327 census tracts.", url: "https://nyc-transit-intel.netlify.app" },
-        { name: "PGH Transit Atlas", icon: "i-map", meta: "EDA and Data Viz, Fall 2025", desc: "POGOH bikeshare meets 7,075 bus stops. K-means finds four rider types: commuter, last mile, errand and leisure.", url: "https://allrize.tech/pgh-transit-atlas/" },
-        { name: "Chicago Crash Intel", icon: "i-chart", meta: "Machine Learning, Spring 2026", desc: "A grid-cell crash risk platform that flags Chicago's 206 riskiest blocks and sorts them into 5 types.", url: "https://allrize.tech/chicago_crash_dashboard/" },
-        { name: "Crypto Volatility", icon: "i-chart", meta: "Operationalizing AI, Spring 2026", desc: "Real-time BTC and ETH volatility detection: Coinbase feed into Kafka, served by FastAPI with a live dashboard.", url: "https://github.com/rzrizaldy/fundamental_ai_crypto_volatile" }
-      ]},
-      { group: "Competitions", items: [
-        { name: "AI Safety Hackathon", icon: "i-doc", meta: "2nd place, Carnegie Mellon, 2026", desc: "Policy analysis of AI-enabled mass surveillance and how public institutions can deploy AI responsibly. Opens the slide deck (PDF).", url: "assets/hackathon-ai-policy.pdf" },
-        { name: "twin.md source", icon: "i-flag", meta: "Anthropic Build with Opus 4.7, 2026", desc: "Invite-only, one-week global hackathon. This is the code I shipped.", url: "https://github.com/rzrizaldy/twin_md" }
-      ]}
-    ];
-
-    (function renderProjects() {
+    (function initProjects() {
       var pane = document.getElementById("proj-pane");
-      var html = "", count = 0;
-      projects.forEach(function (g, gi) {
-        html += '<p class="finder-group">' + g.group + '</p><ul class="finder-grid">';
-        g.items.forEach(function (p, pi) {
-          count += 1;
-          html += '<li><button class="f-item" type="button" aria-pressed="false" data-p="' + gi + "." + pi + '"><svg aria-hidden="true"><use href="#' + p.icon + '"/></svg><span>' + p.name + "</span></button></li>";
-        });
-        html += "</ul>";
-      });
-      pane.innerHTML = html;
-      document.getElementById("proj-count").textContent = count + " items";
+      document.getElementById("proj-count").textContent = pane.querySelectorAll(".f-item").length + " items";
 
       var openBtn = document.getElementById("pd-open");
       function select(btn) {
         Array.prototype.forEach.call(pane.querySelectorAll(".f-item"), function (b) { b.setAttribute("aria-pressed", "false"); });
         btn.setAttribute("aria-pressed", "true");
-        var idx = btn.dataset.p.split(".");
-        var p = projects[+idx[0]].items[+idx[1]];
+        var p = {
+          name: btn.querySelector("span").textContent,
+          meta: btn.dataset.meta,
+          desc: btn.dataset.desc,
+          url: btn.dataset.url || null,
+          app: btn.dataset.appLink || null
+        };
         document.getElementById("pd-name").textContent = p.name;
         document.getElementById("pd-meta").textContent = p.meta;
         document.getElementById("pd-desc").textContent = p.desc;
@@ -2165,6 +2138,107 @@
       openBtn.addEventListener("click", function () { if (openBtn.href || openBtn.dataset.open) completeQuest("project"); });
       select(pane.querySelector(".f-item"));
     })();
+
+    /* ---------- Tuyul scoreboard + chart ---------- */
+    var tuyulLoaded = false;
+    var SERIES = [
+      { key: "tuyul", label: "Tuyul", color: "#a86f00", dash: "", width: 3 },
+      { key: "spy", label: "S&P 500", color: "#2f6fb0", dash: "6 4", width: 2 },
+      { key: "ihsg", label: "IHSG", color: "#2e8b57", dash: "2 3", width: 2 }
+    ];
+
+    function pct(v) { return (v >= 0 ? "+" : "") + v.toFixed(2) + "%"; }
+    function lead(a, b) { var d = a - b; return (d >= 0 ? "+" : "") + d.toFixed(2) + " pts"; }
+    function niceDate(iso, style) {
+      var opts = style === "long" ? { month: "long", day: "numeric", year: "numeric" } : style === "md" ? { month: "long", day: "numeric" } : { month: "short" };
+      return new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", opts);
+    }
+
+    function drawTuyul(data) {
+      var L = data.latest;
+      document.getElementById("score-cap").textContent = "Since go-live, " + niceDate(data.since, "md") + " to " + niceDate(data.as_of, "long");
+      document.getElementById("sc-tuyul").textContent = pct(L.tuyul);
+      document.getElementById("sc-spy").textContent = pct(L.spy);
+      document.getElementById("sc-ihsg").textContent = pct(L.ihsg);
+      document.getElementById("sc-spy-lead").textContent = lead(L.tuyul, L.spy);
+      document.getElementById("sc-ihsg-lead").textContent = lead(L.tuyul, L.ihsg);
+      document.getElementById("tuyul-updated").textContent = "Cumulative return since go-live. Synced weekly from the desk's journal; latest data " + niceDate(data.as_of, "long") + ".";
+
+      var pts = data.series;
+      var W = 540, H = 220, m = { l: 40, r: 64, t: 10, b: 24 };
+      var lo = 0, hi = 0;
+      pts.forEach(function (p) { SERIES.forEach(function (s) { if (p[s.key] != null) { lo = Math.min(lo, p[s.key]); hi = Math.max(hi, p[s.key]); } }); });
+      var step = hi - lo > 12 ? 5 : 2;
+      lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
+      var x = function (i) { return m.l + i / (pts.length - 1) * (W - m.l - m.r); };
+      var y = function (v) { return m.t + (hi - v) / (hi - lo) * (H - m.t - m.b); };
+      var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Line chart of cumulative return since go-live">';
+      for (var g = lo; g <= hi; g += step) {
+        svg += '<line x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + y(g) + '" y2="' + y(g) + '" stroke="' + (g === 0 ? "#000" : "#dcdcdc") + '" stroke-width="1"/>';
+        svg += '<text x="' + (m.l - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + (g > 0 ? "+" : "") + g + "%</text>";
+      }
+      var seen = {};
+      pts.forEach(function (p, i) {
+        var mo = p.date.slice(0, 7);
+        if (seen[mo]) return;
+        seen[mo] = 1;
+        if (i > 0 && p.date.slice(8) > "07") return;
+        svg += '<text x="' + x(i) + '" y="' + (H - 6) + '" text-anchor="middle">' + niceDate(p.date) + "</text>";
+      });
+      var ends = [];
+      SERIES.slice().reverse().forEach(function (s) {
+        var d = "";
+        pts.forEach(function (p, i) { if (p[s.key] != null) d += (d ? "L" : "M") + x(i).toFixed(1) + " " + y(p[s.key]).toFixed(1); });
+        svg += '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="' + s.width + '" stroke-dasharray="' + s.dash + '" stroke-linejoin="round" stroke-linecap="round"/>';
+        ends.push({ s: s, y: y(L[s.key]) });
+      });
+      ends.sort(function (a, b) { return a.y - b.y; });
+      for (var k = 1; k < ends.length; k++) if (ends[k].y - ends[k - 1].y < 14) ends[k].y = ends[k - 1].y + 14;
+      ends.forEach(function (e) { svg += '<text class="end-label" x="' + (W - m.r + 6) + '" y="' + (e.y + 4) + '">' + e.s.label + "</text>"; });
+      svg += '<line id="tc-x" y1="' + m.t + '" y2="' + (H - m.b) + '" stroke="#000" stroke-width="1" stroke-dasharray="2 2" visibility="hidden"/>';
+      SERIES.forEach(function (s) { svg += '<circle id="tc-' + s.key + '" r="4" fill="' + s.color + '" stroke="#fff" stroke-width="2" visibility="hidden"/>'; });
+      svg += '<rect x="' + (m.l - 10) + '" y="0" width="' + (W - m.l - m.r + 20) + '" height="' + H + '" fill="transparent" id="tc-hit"/></svg>';
+
+      var plot = document.getElementById("tuyul-plot");
+      plot.innerHTML = svg + '<div class="chart-tip" id="tc-tip" hidden></div>';
+      var el = plot.querySelector("svg"), tip = document.getElementById("tc-tip"), cross = document.getElementById("tc-x");
+      function show(clientX) {
+        var r = el.getBoundingClientRect();
+        var vx = (clientX - r.left) / r.width * W;
+        var i = Math.max(0, Math.min(pts.length - 1, Math.round((vx - m.l) / (W - m.l - m.r) * (pts.length - 1))));
+        var p = pts[i];
+        cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
+        SERIES.forEach(function (s) {
+          var c = document.getElementById("tc-" + s.key);
+          if (p[s.key] == null) { c.setAttribute("visibility", "hidden"); return; }
+          c.setAttribute("cx", x(i)); c.setAttribute("cy", y(p[s.key])); c.setAttribute("visibility", "visible");
+        });
+        tip.innerHTML = "<b>" + niceDate(p.date, "long") + "</b><br>" + SERIES.map(function (s) { return s.label + " " + (p[s.key] == null ? "n/a" : pct(p[s.key])); }).join("<br>");
+        tip.hidden = false;
+        var px = x(i) / W * r.width;
+        tip.style.left = (px + 12 + tip.offsetWidth > r.width ? px - 12 - tip.offsetWidth : px + 12) + "px";
+      }
+      function hide() {
+        tip.hidden = true; cross.setAttribute("visibility", "hidden");
+        SERIES.forEach(function (s) { document.getElementById("tc-" + s.key).setAttribute("visibility", "hidden"); });
+      }
+      var hit = document.getElementById("tc-hit");
+      hit.addEventListener("pointermove", function (e) { show(e.clientX); });
+      hit.addEventListener("pointerdown", function (e) { show(e.clientX); });
+      hit.addEventListener("pointerleave", hide);
+    }
+
+    hooks.tuyul = function () {
+      if (tuyulLoaded) return;
+      tuyulLoaded = true;
+      fetch("assets/tuyul.json", { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) throw new Error("tuyul"); return r.json(); })
+        .then(drawTuyul)
+        .catch(function () {
+          tuyulLoaded = false;
+          document.getElementById("tuyul-updated").textContent = "The chart couldn't load. The table shows the last published numbers.";
+        });
+    };
 
     /* ---------- Map ---------- */
     var geo = { map: null, you: null, line: null };
