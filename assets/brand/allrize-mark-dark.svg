@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 17" width="28" height="17"><defs>
+<clipPath id="adU"><path d="M0 0H28V3H26.5C22 7 18.5 9 13 9H0Z"/></clipPath>
+<clipPath id="adD"><path d="M0 17H28V3H26.5C22 7 18.5 9 13 9H0Z"/></clipPath>
+<linearGradient id="adF" gradientUnits="userSpaceOnUse" x1="14" y1="0" x2="22.5" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+</defs>
+<g fill="none" stroke-width="2.2" stroke-linecap="butt" stroke-linejoin="round">
+<path d="M1.5 2.5C6.5 2.5 8 9 13 9C18.5 9 22 7 26.5 3" stroke="#E0374A" clip-path="url(#adU)"/>
+<path d="M1.5 15.5C6.5 15.5 8 9 13 9C18.5 9 22 7 26.5 3" stroke="#189D9C" clip-path="url(#adD)"/>
+<path d="M13 9C18.5 9 22 7 26.5 3" stroke="url(#adF)" stroke-width="2.3"/>
+</g>
+<circle cx="1.5" cy="2.5" r="1.1" fill="#E0374A"/><circle cx="1.5" cy="15.5" r="1.1" fill="#189D9C"/><circle cx="26.5" cy="3" r="1.15" fill="#FFFFFF"/></svg>
