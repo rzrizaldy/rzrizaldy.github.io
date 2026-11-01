@@ -1,0 +1,100 @@
+{
+  "updated": "2026-11-01",
+  "note": "Snapshot prices for trip estimates. ID: Pertamina Jabodetabek (MyPertamina / press, Nov 2026). US: AAA national avg 2026-10-31.",
+  "ID": {
+    "currency": "IDR",
+    "unit": "liter",
+    "items": [
+      {
+        "brand": "Pertamina",
+        "name": "Pertalite",
+        "grade": "RON 90",
+        "price": 10000,
+        "fuelType": "Gasoline"
+      },
+      {
+        "brand": "Pertamina",
+        "name": "Pertamax",
+        "grade": "RON 92",
+        "price": 15950,
+        "fuelType": "Gasoline"
+      },
+      {
+        "brand": "Pertamina",
+        "name": "Pertamax Green 95",
+        "grade": "RON 95",
+        "price": 19150,
+        "fuelType": "Gasoline"
+      },
+      {
+        "brand": "Pertamina",
+        "name": "Pertamax Turbo",
+        "grade": "RON 98",
+        "price": 19600,
+        "fuelType": "Gasoline"
+      },
+      {
+        "brand": "Pertamina",
+        "name": "Biosolar",
+        "grade": "CN 48",
+        "price": 6800,
+        "fuelType": "Diesel"
+      },
+      {
+        "brand": "Pertamina",
+        "name": "Dexlite",
+        "grade": "CN 51",
+        "price": 23700,
+        "fuelType": "Diesel"
+      },
+      {
+        "brand": "Pertamina",
+        "name": "Pertamina Dex",
+        "grade": "CN 53",
+        "price": 25200,
+        "fuelType": "Diesel"
+      }
+    ]
+  },
+  "US": {
+    "currency": "USD",
+    "unit": "gallon",
+    "items": [
+      {
+        "brand": "AAA National",
+        "name": "Regular",
+        "grade": "87 AKI",
+        "price": 4.184,
+        "fuelType": "Gasoline"
+      },
+      {
+        "brand": "AAA National",
+        "name": "Mid-Grade",
+        "grade": "89 AKI",
+        "price": 4.703,
+        "fuelType": "Gasoline"
+      },
+      {
+        "brand": "AAA National",
+        "name": "Premium",
+        "grade": "91+ AKI",
+        "price": 5.097,
+        "fuelType": "Gasoline"
+      },
+      {
+        "brand": "AAA National",
+        "name": "Diesel",
+        "grade": "ULSD",
+        "price": 6.31,
+        "fuelType": "Diesel"
+      },
+      {
+        "brand": "AAA National",
+        "name": "E85",
+        "grade": "Flex",
+        "price": 3.273,
+        "fuelType": "Gasoline"
+      }
+    ]
+  }
+}
