@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OnCost — Kalkulator Ongkos BBM</title>
+  <meta name="description" content="OnCost: hitung ongkos BBM perjalanan berdasarkan jarak rute, konsumsi kendaraan, dan harga bahan bakar. Port statis dari proyek 2016.">
+  <meta name="theme-color" content="#222222">
+  <link rel="icon" href="img/favicon.ico" sizes="any">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten</a>
+
+  <header class="topnav">
+    <div class="topnav-inner">
+      <a class="brand" href="./" aria-label="OnCost beranda">
+        <img src="img/logo.png" width="150" height="51" alt="OnCost">
+      </a>
+      <div class="nav-right">
+        <p class="nav-meta">Legacy 2016 · <a href="../">rzrizaldy</a></p>
+        <a class="nav-cta" href="v2/">OnCost 2.0</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="hero-grid">
+      <div class="banner-panel">
+        <picture>
+          <source srcset="img/banner.webp" type="image/webp">
+          <img src="img/banner.png" width="720" height="411" alt="Ilustrasi OnCost: hitung biaya bahan bakar perjalanan">
+        </picture>
+      </div>
+
+      <section class="form-panel" aria-labelledby="form-title">
+        <h1 id="form-title">OnCost</h1>
+        <p class="lede">Pilih mobil &amp; BBM, masukkan asal–tujuan, lalu lihat jarak, waktu, ongkos, dan perkiraan isi ulang.</p>
+
+        <div class="field">
+          <label for="make">Merek</label>
+          <select id="make" name="make">
+            <option value="">Memuat…</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="model">Model</label>
+          <select id="model" name="model" disabled>
+            <option value="">— Pilih merek dulu —</option>
+          </select>
+          <span class="hint">Konsumsi terisi otomatis dari data EPA (km/l).</span>
+        </div>
+
+        <div class="field">
+          <label for="fuel">Jenis BBM</label>
+          <select id="fuel" name="fuel">
+            <option value="">Memuat…</option>
+          </select>
+          <span class="hint">Harga dari snapshot 2016 (bisa diubah manual).</span>
+        </div>
+
+        <div class="row-2">
+          <div class="field">
+            <label for="bbm">Konsumsi BBM (km/l)</label>
+            <input type="number" id="bbm" name="bbm" min="0.1" step="0.01" placeholder="km/liter" inputmode="decimal">
+          </div>
+          <div class="field">
+            <label for="harga">Harga BBM (Rp/l)</label>
+            <input type="number" id="harga" name="harga" min="1" step="1" placeholder="rupiah" inputmode="numeric">
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <ul class="results" aria-live="polite">
+      <li id="directions-panel1"><strong>Jarak: </strong></li>
+      <li id="directions-panel2"><strong>Waktu Tempuh: </strong></li>
+      <li id="directions-panel3"><strong>Ongkos BBM: </strong></li>
+      <li id="directions-panel4"><strong>Berhenti di SPBU: </strong></li>
+    </ul>
+
+    <section class="map-section" aria-labelledby="route-title">
+      <h2 id="route-title" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Rute</h2>
+
+      <div class="route-panel">
+        <div class="field">
+          <label for="start">Asal</label>
+          <input type="text" id="start" name="start" autocomplete="off" placeholder="Cari alamat atau tempat…" aria-autocomplete="list" aria-controls="start-suggest">
+          <ul id="start-suggest" class="suggest" role="listbox" hidden></ul>
+        </div>
+        <div class="field">
+          <label for="end">Tujuan</label>
+          <input type="text" id="end" name="end" autocomplete="off" value="Jalan Ganesha, Bandung, Indonesia" aria-autocomplete="list" aria-controls="end-suggest">
+          <ul id="end-suggest" class="suggest" role="listbox" hidden></ul>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="calc">Hitung rute</button>
+          <button type="button" class="btn btn-ghost" id="clear-route">Reset</button>
+        </div>
+      </div>
+
+      <div id="map" role="application" aria-label="Peta rute OpenStreetMap"></div>
+      <p id="status" class="status" role="status"></p>
+      <p class="note">Peta: OpenStreetMap (tile.openstreetmap.org) · Geocode: Nominatim · Rute: OSRM public demo — semua tanpa API key. Tangki diasumsikan 50 liter, sama seperti versi 2016.</p>
+    </section>
+
+    <p class="credit">
+      <strong>2016 → 2026</strong> —
+      <a href="https://rzrizaldy.github.io/" target="_blank" rel="noopener">Rizaldy Al Kautsar Utomo</a>
+      · sumber asli <a href="https://github.com/rzrizaldy/OnCost-Github" target="_blank" rel="noopener">OnCost-Github</a>
+    </p>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
